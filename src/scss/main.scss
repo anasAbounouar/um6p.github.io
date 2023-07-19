@@ -1,0 +1,5 @@
+@use './layout/global-rules';
+@use './layout/navbar';
+@use './pages/home';
+@use './layout/footer' ;
+@use './helpers/mixin' as *;

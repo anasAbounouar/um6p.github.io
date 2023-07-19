@@ -1,0 +1,18 @@
+@mixin breakpoint($point) {
+    @if $point == 'lg' {
+      @media (min-width: 992px) {
+        @content; // Specify the mixin or style rules to include
+      }
+    }
+    @if $point == 'md' {
+      @media (min-width: 768px) {
+        @content;
+      }
+    }
+    @if $point == 'sm' {
+      @media (max-width: 767px) {
+        @content;
+      }
+    }
+  }
+  

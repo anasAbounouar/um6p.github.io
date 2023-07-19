@@ -15,5 +15,8 @@
       "dom.iterable",
       "scripthost"
     ]
-  }
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode"
+
+
 }

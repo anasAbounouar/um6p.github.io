@@ -1,0 +1,42 @@
+ @use '../helpers/mixin' as *;
+
+.navbar-fixed {
+    position: sticky !important;
+    top: 0;
+    width: 100%;
+    z-index: 9999;
+
+    nav {
+        background-color: #f3ebdc !important;
+        padding: 0;
+    }
+
+}
+.recherche-generale-hidden {
+    display: none !important;
+}
+.navModification {
+    position: sticky !important;
+    top: 0;
+    width: 100%;
+    z-index: 9999;
+    nav {
+        background-color: #f3ebdc !important;
+        padding: 0;
+        
+        #rechercheGenerale {
+            display: none!important;
+
+        }
+        ul {
+            width: 100%;
+            margin: auto !important;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+        }
+    }
+
+    
+}

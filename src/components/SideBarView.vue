@@ -19,14 +19,30 @@
             </div>
             <div v-if="showIcons" class="user-space-icons">
                 <div class="user-space-icon" @click="goToPage('profile')">
-                    <i class="fa fa-user active"></i>
-                    <span class="active">Mon profil</span>
+                    <i
+                        class="fa fa-user"
+                        :class="{ active: isProfilePageActive }"
+                    ></i>
+                    <span :class="{ active: isProfilePageActive }"
+                        >Mon profil</span
+                    >
                 </div>
-                <div class="user-space-icon" @click="goToPage('password')">
-                    <i class="fa fa-lock"></i>
-                    <span>Mot de passe</span>
+                <div
+                    class="user-space-icon"
+                    @click="goToPage('mypassword-page')"
+                >
+                    <i
+                        class="fa fa-lock"
+                        :class="{ active: isPasswordPageActive }"
+                    ></i>
+                    <span :class="{ active: isPasswordPageActive }"
+                        >Mot de passe</span
+                    >
                 </div>
-                <div class="user-space-icon" @click="goToPage('attendance')">
+                <div
+                    class="user-space-icon"
+                    @click="goToPage('attendance-page')"
+                >
                     <i class="fa fa-clock"></i>
                     <span>Attendance</span>
                 </div>
@@ -48,7 +64,11 @@
                 </div>
             </div>
             <!-- Gestion RH -->
-            <div class="user-space-header" @click="toggleRHIcons">
+            <div
+                v-if="user.poste == 'admin'"
+                class="user-space-header"
+                @click="toggleRHIcons"
+            >
                 <h5 class="m-0" @click="toggleRHIcons">Gestion RH</h5>
                 <i
                     v-if="showRHIcons"
@@ -115,8 +135,40 @@ export default {
             this.showRHIcons = !this.showRHIcons;
         },
         goToPage(page) {
-            // Ajoutez la logique de redirection vers les pages spécifiques en fonction de la valeur de 'page'
-            console.log("Redirection vers la page:", page);
+            const currentRouteName = this.$route.name;
+
+            if (page === "profile" && currentRouteName === "myprofile-page") {
+                // Already on the profile page, no need to navigate again
+                return;
+            } else if (
+                page === "mypassword-page" &&
+                currentRouteName === "mypassword-page"
+            ) {
+                // Already on the password page, no need to navigate again
+                return;
+            } else if (
+                page === "attendance-page" &&
+                currentRouteName === "attendance-page"
+            ) {
+                // Already on the attendance page, no need to navigate again
+                return;
+            }
+            // Add other checks for different pages if needed
+
+            switch (page) {
+                case "profile":
+                    this.$router.push({ name: "myprofile-page" });
+                    break;
+                case "mypassword-page":
+                    this.$router.push({ name: "mypassword-page" });
+                    break;
+                case "attendance-page":
+                    this.$router.push({ name: "attendance-page" });
+                    break;
+                // Add cases for other pages if needed
+                default:
+                    console.warn(`Unknown page: ${page}`);
+            }
         },
         signOut() {
             //clear  local storage
@@ -131,6 +183,14 @@ export default {
         if (user) {
             this.user = JSON.parse(user);
         }
+    },
+    computed: {
+        isProfilePageActive() {
+            return this.$route.name === "myprofile-page";
+        },
+        isPasswordPageActive() {
+            return this.$route.name === "mypassword-page";
+        },
     },
 };
 </script>

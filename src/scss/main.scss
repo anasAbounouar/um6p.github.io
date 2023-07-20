@@ -3,3 +3,30 @@
 @use './pages/home';
 @use './layout/footer' ;
 @use './helpers/mixin' as *;
+// main.scss
+//i want to customize the date picker 
+// Import Vuetify's styles
+@import '~vuetify/dist/vuetify.min.css';
+
+
+.v-application#app {
+    height: 400px;
+    .v-application--wrap {
+        min-height: auto !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .v-picker {
+            border:1px solid #eee
+
+        }
+    }
+    .v-picker__title{
+        width: 290px;
+
+    }
+}
+
+.v-date-picker {
+  background-color: #f0f0f0; /* Changing the date picker background color */
+}

@@ -72,7 +72,7 @@
                         >
                             Informations personnelles
                         </div>
-                        <span class="absolute">
+                        <span class="absolute" v-if="infospersoChosen">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="10"
@@ -94,7 +94,7 @@
                         >
                             Informations professionnelles
                         </div>
-                        <span>
+                        <span class="p-absolute" v-if="infosproChosen">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="10"
@@ -205,53 +205,134 @@
                             </div>
                             <div class="mt-3 d-flex justify-content-end">
                                 Derniere modification :
-                                <span class="c-grey"> 19/07/2023</span>
+                                <span class="c-grey"> 10/07/2023</span>
                             </div>
                         </div>
                         <div
                             v-if="infospersoChosen"
                             class="infosperso-box mt-3"
                         >
+                            <div class="my-3 d-flex justify-content-end">
+                                <i
+                                    v-if="user.poste === 'admin'"
+                                    class="fa fa-pencil"
+                                    @click="toggleEditingPerso"
+                                    v-show="!isEditingPerso"
+                                ></i>
+                                <i
+                                    v-if="user.poste === 'admin'"
+                                    class="fa fa-check"
+                                    @click="saveDataPerso"
+                                    v-show="isEditingPerso"
+                                ></i>
+                            </div>
                             <table>
                                 <tbody>
                                     <tr>
                                         <td>Sexe</td>
-                                        <td>Homme</td>
+                                        <td>
+                                            <input
+                                                type="text"
+                                                :disabled="!isEditingPerso"
+                                                v-model="sexe"
+                                                :class="{
+                                                    'border-none':
+                                                        !isEditingPerso,
+                                                }"
+                                            />
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td>Date de naissance</td>
-                                        <td>09/06/1999</td>
+                                        <td>
+                                            <input
+                                                type="date"
+                                                :disabled="!isEditingPerso"
+                                                v-model="dateNaissance"
+                                                :class="{
+                                                    'border-none':
+                                                        !isEditingPerso,
+                                                }"
+                                            />
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td>CIN</td>
-                                        <td>E1793B</td>
+                                        <td>
+                                            <input
+                                                type="text"
+                                                :disabled="!isEditingPerso"
+                                                v-model="cin"
+                                                :class="{
+                                                    'border-none':
+                                                        !isEditingPerso,
+                                                }"
+                                            />
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td>CNSS</td>
-                                        <td>FM6</td>
+                                        <td>
+                                            <input
+                                                type="text"
+                                                :disabled="!isEditingPerso"
+                                                v-model="cnss"
+                                                :class="{
+                                                    'border-none':
+                                                        !isEditingPerso,
+                                                }"
+                                            />
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td>Etat civil</td>
-                                        <td>marié</td>
+                                        <td>
+                                            <input
+                                                type="text"
+                                                :disabled="!isEditingPerso"
+                                                v-model="etatCivil"
+                                                :class="{
+                                                    'border-none':
+                                                        !isEditingPerso,
+                                                }"
+                                            />
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td>Nb d'enfants</td>
-                                        <td>2</td>
+                                        <td>
+                                            <input
+                                                type="number"
+                                                :disabled="!isEditingPerso"
+                                                v-model="nbEnfants"
+                                                :class="{
+                                                    'border-none': !isEditing,
+                                                }"
+                                            />
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
+                            <div class="mt-3 d-flex justify-content-end">
+                                Derniere modification :
+                                <span class="c-grey">{{
+                                    lastModificationDatePerso
+                                }}</span>
+                            </div>
                         </div>
                         <div v-if="infosproChosen" class="infospro-box mt-3">
                             <div class="my-3 d-flex justify-content-end">
                                 <i
+                                    v-if="user.poste == 'admin'"
                                     class="fa fa-pencil"
-                                    @click="toggleEditing"
-                                    v-show="!isEditing"
+                                    @click="toggleEditingPro"
+                                    v-show="!isEditingPro"
                                 ></i>
                                 <i
+                                    v-if="user.poste == 'admin'"
                                     class="fa fa-check"
-                                    @click="saveData"
-                                    v-show="isEditing"
+                                    @click="saveDataPro"
+                                    v-show="isEditingPro"
                                 ></i>
                             </div>
                             <table>
@@ -261,10 +342,11 @@
                                         <td>
                                             <input
                                                 type="text"
-                                                :disabled="!isEditing"
+                                                :disabled="!isEditingPro"
                                                 v-model="entite"
                                                 :class="{
-                                                    'border-none': !isEditing,
+                                                    'border-none':
+                                                        !isEditingPro,
                                                 }"
                                             />
                                         </td>
@@ -274,10 +356,11 @@
                                         <td>
                                             <input
                                                 type="text"
-                                                :disabled="!isEditing"
+                                                :disabled="!isEditingPro"
                                                 v-model="contrat"
                                                 :class="{
-                                                    'border-none': !isEditing,
+                                                    'border-none':
+                                                        !isEditingPro,
                                                 }"
                                             />
                                         </td>
@@ -287,10 +370,11 @@
                                         <td>
                                             <input
                                                 type="date"
-                                                :disabled="!isEditing"
+                                                :disabled="!isEditingPro"
                                                 v-model="dateEmbauche"
                                                 :class="{
-                                                    'border-none': !isEditing,
+                                                    'border-none':
+                                                        !isEditingPro,
                                                 }"
                                             />
                                         </td>
@@ -300,10 +384,13 @@
                                         <td>
                                             <input
                                                 type="date"
-                                                :disabled="!isEditing"
+                                                :disabled="
+                                                    !isEditingProisEditingPro
+                                                "
                                                 v-model="debutContrat"
                                                 :class="{
-                                                    'border-none': !isEditing,
+                                                    'border-none':
+                                                        !isEditingProisEditingPro,
                                                 }"
                                             />
                                         </td>
@@ -313,10 +400,13 @@
                                         <td>
                                             <input
                                                 type="date"
-                                                :disabled="!isEditing"
+                                                :disabled="
+                                                    !isEditingProisEditingPro
+                                                "
                                                 v-model="finContrat"
                                                 :class="{
-                                                    'border-none': !isEditing,
+                                                    'border-none':
+                                                        !isEditingProisEditingPro,
                                                 }"
                                             />
                                         </td>
@@ -326,10 +416,11 @@
                                         <td>
                                             <input
                                                 type="date"
-                                                :disabled="!isEditing"
+                                                :disabled="!isEditingPro"
                                                 v-model="dateDebauche"
                                                 :class="{
-                                                    'border-none': !isEditing,
+                                                    'border-none':
+                                                        !isEditingPro,
                                                 }"
                                             />
                                         </td>
@@ -339,10 +430,11 @@
                                         <td>
                                             <input
                                                 type="number"
-                                                :disabled="!isEditing"
+                                                :disabled="!isEditingPro"
                                                 v-model="salaireNet"
                                                 :class="{
-                                                    'border-none': !isEditing,
+                                                    'border-none':
+                                                        !isEditingPro,
                                                 }"
                                             />
                                         </td>
@@ -352,16 +444,23 @@
                                         <td>
                                             <input
                                                 type="text"
-                                                :disabled="!isEditing"
+                                                :disabled="!isEditingPro"
                                                 v-model="indemniteTransport"
                                                 :class="{
-                                                    'border-none': !isEditing,
+                                                    'border-none':
+                                                        !isEditingPro,
                                                 }"
                                             />
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
+                            <div class="mt-3 d-flex justify-content-end">
+                                Derniere modification :
+                                <span class="c-grey">
+                                    {{ lastModificationDatePro }}
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -395,7 +494,16 @@ export default {
             dateDebauche: "1999-08-10",
             salaireNet: "1900",
             indemniteTransport: "What is this ?",
-            isEditing: false,
+            isEditingPerso: false,
+            isEditingPro: false,
+            sexe: "Homme",
+            dateNaissance: "1999-06-09",
+            cin: "E1793B",
+            cnss: "FM6",
+            etatCivil: "marié",
+            nbEnfants: 2,
+            lastModificationDatePerso: "1999-06-20",
+            lastModificationDatePro: "1999-06-20",
         };
     },
     created() {
@@ -406,27 +514,51 @@ export default {
     },
     methods: {
         toggleProject() {
-            this.projectChosen = !this.projectChosen;
+            this.projectChosen = true;
             this.infospersoChosen = false;
             this.infosproChosen = false;
         },
         toggleinfosPerso() {
-            this.infospersoChosen = !this.infospersoChosen;
+            this.infospersoChosen = true;
             this.projectChosen = false;
             this.infosproChosen = false;
         },
         toggleinfosPro() {
-            this.infosproChosen = !this.infosproChosen;
+            this.infosproChosen = true;
             this.projectChosen = false;
             this.infospersoChosen = false;
         },
-        toggleEditing() {
-            this.isEditing = !this.isEditing;
+        toggleEditingPerso() {
+            this.isEditingPerso = !this.isEditingPerso;
         },
-        saveData() {
+        saveDataPerso() {
             // Perform any necessary operations to save the data a si che9ron :)
-            this.isEditing = false; // Disable editing mode after saving
+            this.isEditingPerso = false; // Disable editing mode after saving
+            const currentDate = new Date();
+            const formattedDate = `${currentDate.getDate()}/${
+                currentDate.getMonth() + 1
+            }/${currentDate.getFullYear()}`;
+            this.lastModificationDatePerso = formattedDate;
         },
+        toggleEditingPro() {
+            this.isEditingPro = !this.isEditingPro;
+        },
+        saveDataPro() {
+            // Perform any necessary operations to save the data a si che9ron :)
+            this.isEditingPro = false; // Disable editing mode after saving
+            const currentDate = new Date();
+            const formattedDate = `${currentDate.getDate()}/${
+                currentDate.getMonth() + 1
+            }/${currentDate.getFullYear()}`;
+            this.lastModificationDatePro = formattedDate;
+        },
+    },
+    mounted() {
+        document.addEventListener("keyup", (event) => {
+            if (event.key === "Enter" && this.isEditing) {
+                this.saveData();
+            }
+        });
     },
 };
 </script>
@@ -456,6 +588,7 @@ export default {
             background: var(--secondary-grey2-color);
             padding: 2px;
             border-radius: 3px;
+            transition: 0.3s;
             &:hover {
                 background: var(--link-hovered-color);
                 color: white;
@@ -536,9 +669,17 @@ export default {
             }
         }
     }
-    .infospro-box {
+    .infospro-box,
+    .infosperso-box {
         i {
             font-size: 25px;
+            cursor: pointer;
+            &:hover {
+                color: var(--link-hovered-color);
+            }
+            &.fa-check {
+                color: green;
+            }
         }
         table {
             td:first-child {
@@ -551,7 +692,6 @@ export default {
                 min-width: 200px;
                 border-radius: 6px;
                 border: 2px solid #eee;
-                transition: 0.3s;
                 &:focus {
                     border: 2px solid green !important;
                     outline: none;

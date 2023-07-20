@@ -110,7 +110,11 @@ export default {
                 // this.$router.push({ name: "myprofile-page", params: { user } });
                 console.log("the user is logged in", user);
                 localStorage.setItem("user", JSON.stringify(user));
-                this.$router.push({ name: "myprofile-page" });
+                if (user.poste === "admin") {
+                    this.$router.push({ name: "mypassword-page" });
+                } else {
+                    this.$router.push({ name: "myprofile-page" });
+                }
             } else {
                 this.isCorrect = false;
             }

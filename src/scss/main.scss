@@ -30,3 +30,15 @@
 .v-date-picker {
   background-color: #f0f0f0; /* Changing the date picker background color */
 }
+// now lets customize the month picker 
+.month-picker__container{
+    margin: auto;
+}
+.month-picker__year {
+    button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+  
+}

@@ -43,8 +43,13 @@
                     class="user-space-icon"
                     @click="goToPage('attendance-page')"
                 >
-                    <i class="fa fa-clock"></i>
-                    <span>Attendance</span>
+                    <i
+                        class="fa fa-clock"
+                        :class="{ active: isAttendanceActive }"
+                    ></i>
+                    <span :class="{ active: isAttendanceActive }"
+                        >Attendance</span
+                    >
                 </div>
                 <div class="user-space-icon" @click="goToPage('offsite')">
                     <i class="fa fa-map-marker"></i>
@@ -190,6 +195,9 @@ export default {
         },
         isPasswordPageActive() {
             return this.$route.name === "mypassword-page";
+        },
+        isAttendanceActive() {
+            return this.$route.name === "attendance-page";
         },
     },
 };

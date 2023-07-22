@@ -45,12 +45,50 @@ body {
     --sidebar-width: 200px;
     --thead-color: #F5FFFC;
     --nature-color: #8CE2AD;
+    --ferie-box-color: #C2C2C2;
+    --presence-hour-color: #52ACFF;
     
 }
 .c-orange{
     color: var(--orange-color);
 }
+.c-nature {
+    color: var(--nature-color);
+}
 
+.bg-ferie-box-color {
+    background-color: var( --ferie-box-color)!important;
+}
+.bg-presence-hour-color {
+    background-color: var( --presence-hour-color)!important;
+}
+.bg-nature-color {
+    background-color: var( --nature-color)!important;
+}
+.bg-brand{
+    background-color: var(--brand-color);
+}
+.bg-l-h-c {
+    background-color: var(--link-hovered-color)!important;
+}
+.bg-red {
+    background-color: red;
+}
+
+
+
+section{
+    padding-top: 10px;
+    padding-bottom: 50px;
+    position: relative;
+}
+img{
+    max-width: 100%;
+
+}
+ul li{
+    list-style: none;
+}
 h1,h2,h3,h4,h5,h6 {
     
     font-weight: 700;
@@ -61,28 +99,4 @@ a {
     
     transition: all 0.4s ease;
 }
-
-.bg-brand{
-    background-color: var(--brand-color);
-}
-.bg-l-h-c {
-    background-color: var(--link-hovered-color)!important;
-}
-
-
-
-section{
-    padding-top: 50px;
-    padding-bottom: 50px;
- 
-    position: relative;
-}
-img{
-    max-width: 100%;
-
-}
-ul li{
-    list-style: none;
-}
-
 

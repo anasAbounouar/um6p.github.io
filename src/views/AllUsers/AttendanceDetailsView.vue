@@ -19,11 +19,10 @@
                     <table class="m-auto mt-3">
                         <thead>
                             <tr>
-                                <th>Heures de Présence</th>
-                                <th>Heures sups</th>
-                                <th>Total jour ouvré</th>
-                                <th>Total Hs</th>
-                                <th>Total</th>
+                                <th>Total jour ouvré en heure</th>
+                                <th>Total jour ouvré en jour</th>
+                                <th>Total H.S</th>
+                                <th>Total jour ouvré et H.S en jour</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -32,7 +31,6 @@
                                 <td>1</td>
                                 <td>5</td>
                                 <td>7</td>
-                                <td>11</td>
                             </tr>
                         </tbody>
                     </table>
@@ -156,14 +154,17 @@
             </div>
         </section>
         <section id="synthese-m" v-if="isSyntheseM" class="">
-            <v-app class="">
-                <v-date-picker
-                    v-model="selectedDate"
-                    :landscape="landscape"
-                    :min="minDate"
-                    :max="maxDate"
-                ></v-date-picker>
-            </v-app>
+            <h5>Synthese du pointage d'un mois</h5>
+            <div class="p-3">
+                <month-picker
+                    :lang="fr"
+                    :clearable="true"
+                    :editable-year="true"
+                    :show-year="false"
+                    :max-date="new Date()"
+                    id="selectedMonth"
+                />
+            </div>
             <div class="mytable mx-3">
                 <table class="m-auto mt-3">
                     <thead>
@@ -214,7 +215,7 @@
             </div>
         </section>
         <section id="synthese-s" v-if="isSyntheseS">
-            <h5 class="mb-3 c-brand">Synthèse des heures supplémentaire</h5>
+            <h5 class="mb-3 c-brand">Synthèse des heures supplémentaires</h5>
 
             <div>
                 <month-picker
@@ -226,7 +227,7 @@
                     id="selectedMonth"
                 />
             </div>
-            <div class="container mytable my-3">
+            <div class="mytable my-3">
                 <table>
                     <thead>
                         <tr>
@@ -260,9 +261,7 @@
                                             disabled
                                             hidden
                                         >
-                                            Validation<i
-                                                class="fa-solid fa-hourglass-start"
-                                            ></i>
+                                            Validation
                                         </option>
                                         <option
                                             v-for="option in etatValidationOptions"
@@ -286,10 +285,10 @@
                                 {{ projet.hs }}
                             </td>
                             <td>{{ projet.entreeHs }}</td>
-                            <td>{{ projet.hs }}</td>
-                            <td>{{ projet.hs }}</td>
+                            <td>11.51</td>
                             <td>{{ projet.Date }}</td>
                             <td>{{ projet.place }}</td>
+                            <td>{{ projet.nom }}</td>
                             <td>{{ projet.superviseur }}</td>
                             <td>
                                 <i
@@ -624,7 +623,7 @@ section {
 
             select {
                 cursor: pointer;
-                padding: 5px;
+                padding: 15px;
                 &:focus {
                     outline: none;
                     box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);

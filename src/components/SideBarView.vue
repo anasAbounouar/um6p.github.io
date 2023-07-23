@@ -51,9 +51,15 @@
                         >Attendance</span
                     >
                 </div>
-                <div class="user-space-icon" @click="goToPage('offsite')">
-                    <i class="fa fa-map-marker"></i>
-                    <span>Hors site</span>
+                <div
+                    class="user-space-icon"
+                    @click="goToPage('hors-site-page')"
+                >
+                    <i
+                        class="fa fa-map-marker"
+                        :class="{ active: isHorsSiteActive }"
+                    ></i>
+                    <span :class="{ active: isHorsSiteActive }">Hors site</span>
                 </div>
                 <div class="user-space-icon" @click="goToPage('payroll')">
                     <i class="fa fa-file-invoice-dollar"></i>
@@ -157,6 +163,12 @@ export default {
             ) {
                 // Already on the attendance page, no need to navigate again
                 return;
+            } else if (
+                page === "hors-site-page" &&
+                currentRouteName === "hors-site-page"
+            ) {
+                // Already on the attendance page, no need to navigate again
+                return;
             }
             // Add other checks for different pages if needed
 
@@ -171,6 +183,9 @@ export default {
                     this.$router.push({ name: "attendance-page" });
                     break;
                 // Add cases for other pages if needed
+                case "hors-site-page":
+                    this.$router.push({ name: "hors-site-page" });
+                    break;
                 default:
                     console.warn(`Unknown page: ${page}`);
             }
@@ -198,6 +213,9 @@ export default {
         },
         isAttendanceActive() {
             return this.$route.name === "attendance-page";
+        },
+        isHorsSiteActive() {
+            return this.$route.name === "hors-site-page";
         },
     },
 };

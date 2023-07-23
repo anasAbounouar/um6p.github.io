@@ -11,6 +11,7 @@ import MyProfileView from "../views/AllUsers/MyProfileView.vue";
 import MyPasswordChangeView from "../views/AllUsers/MyPasswordChangeView.vue";
 import AttendanceView from "../views/AllUsers/AttendanceView.vue";
 import AttendanceDetailsView from "../views/AllUsers/AttendanceDetailsView.vue";
+import HorsSiteView from "../views/AllUsers/HorsSiteView.vue";
 
 Vue.use(VueRouter);
 
@@ -38,7 +39,6 @@ const routes = [
     },
     {
         path: "/MyProfile",
-
         name: "myprofile-page",
 
         component: MyProfileView,
@@ -63,6 +63,13 @@ const routes = [
 
         component: AttendanceDetailsView,
         name: "attendance-details",
+    },
+    {
+        path: "/HorsSite",
+
+        name: "hors-site-page",
+
+        component: HorsSiteView,
     },
 ];
 

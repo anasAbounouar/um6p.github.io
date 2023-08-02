@@ -3,7 +3,7 @@
         <nav class="navbar navbar-expand-lg bg-body-tertiary">
             <div class="container-fluid">
                 <a class="navbar-brand" href="#"
-                    ><img src="@/assets/ferme2.png" alt=""
+                    ><img src="@/assets/ferme2.png" alt="this is a logo"
                 /></a>
                 <button
                     class="navbar-toggler"
@@ -57,8 +57,9 @@ export default {
 </script>
 <style lang="scss" scoped>
 nav {
+    height: 86px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding-left: calc(var(--sidebar-width) + 25px);
+    // padding-left: calc(var(--sidebar-width) + 25px);
     .navbar-brand {
         img {
             max-height: 60px;

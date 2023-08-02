@@ -12,6 +12,11 @@ import MyPasswordChangeView from "../views/AllUsers/MyPasswordChangeView.vue";
 import AttendanceView from "../views/AllUsers/AttendanceView.vue";
 import AttendanceDetailsView from "../views/AllUsers/AttendanceDetailsView.vue";
 import HorsSiteView from "../views/AllUsers/HorsSiteView.vue";
+import DashboardView from "../views/AdminUser/DashboardView.vue";
+import BulletinsDePaieView from "../views/AllUsers/BulletinsDePaieView.vue";
+import DossiersMutuellesView from "../views/AllUsers/DossiersMutuellesView.vue";
+import DemandesView from "../views/AllUsers/DemandeView.vue";
+import DemandesDetailsView from "../views/AllUsers/DemandesDetailsView";
 
 Vue.use(VueRouter);
 
@@ -45,6 +50,11 @@ const routes = [
         props: true, // i can store the user if i want using params.. easy
     },
     {
+        path: "/Dashboard",
+        name: "dashboard-page",
+        component: DashboardView,
+    },
+    {
         path: "/MyPasswordChange",
 
         name: "mypassword-page",
@@ -70,6 +80,34 @@ const routes = [
         name: "hors-site-page",
 
         component: HorsSiteView,
+    },
+    {
+        path: "/BulletinsDePaie",
+
+        name: "bulletin-de-paie-page",
+
+        component: BulletinsDePaieView,
+    },
+    {
+        path: "/DossiersMutuelles",
+
+        name: "dossiers-mutuelles-page",
+
+        component: DossiersMutuellesView,
+    },
+    {
+        path: "/Demandes",
+
+        name: "demandes-page",
+
+        component: DemandesView,
+    },
+    {
+        path: "/Demandes/:type",
+
+        name: "demande-details",
+
+        component: DemandesDetailsView,
     },
 ];
 

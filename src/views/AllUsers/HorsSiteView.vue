@@ -25,9 +25,6 @@
                                             selected
                                         >
                                             Etat
-                                            <i
-                                                class="fa-solid fa-hourglass-start"
-                                            ></i>
                                         </option>
                                         <option
                                             v-for="option in etatOptions"

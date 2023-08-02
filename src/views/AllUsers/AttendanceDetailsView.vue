@@ -19,18 +19,18 @@
                     <table class="m-auto mt-3">
                         <thead>
                             <tr>
-                                <th>Total jour ouvré en heure</th>
-                                <th>Total jour ouvré en jour</th>
+                                <th>Total jour ouvré en heures</th>
+                                <th>Total jour ouvré en jours</th>
                                 <th>Total H.S</th>
-                                <th>Total jour ouvré et H.S en jour</th>
+                                <th>Total( jour ouvré et H.S) en heures</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td>5</td>
+                                <td>8</td>
                                 <td>1</td>
-                                <td>5</td>
-                                <td>7</td>
+                                <td>2</td>
+                                <td>10</td>
                             </tr>
                         </tbody>
                     </table>
@@ -231,9 +231,7 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>
-                                Hs <i class="fa-solid fa-hourglass-start"></i>
-                            </th>
+                            <th>Date</th>
                             <th>
                                 Entrée Hs
                                 <i class="fa-regular fa-clock c-nature"></i>
@@ -242,11 +240,16 @@
                                 Sortie Hs
                                 <i class="fa-regular fa-clock c-red"></i>
                             </th>
-                            <th>Date</th>
+                            <th>
+                                Hs <i class="fa-solid fa-hourglass-start"></i>
+                            </th>
+
                             <th>
                                 Lieu <i class="fa-solid fa-location-dot"></i>
                             </th>
                             <th>Projet</th>
+
+                            <th>Travail effectué</th>
                             <th>Superviseur</th>
                             <th>
                                 <div class="filter-container">
@@ -275,20 +278,20 @@
                                     ></i>
                                 </div>
                             </th>
-
-                            <th>Travail effectué</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr v-for="projet in filteredProjects" :key="projet.id">
+                            <td>{{ projet.Date }}</td>
+                            <td>{{ projet.entreeHs }}</td>
+                            <td>11.51</td>
                             <td>
                                 {{ projet.hs }}
                             </td>
-                            <td>{{ projet.entreeHs }}</td>
-                            <td>11.51</td>
-                            <td>{{ projet.Date }}</td>
+
                             <td>{{ projet.place }}</td>
                             <td>{{ projet.nom }}</td>
+                            <td>{{ projet.travailEffectue }}</td>
                             <td>{{ projet.superviseur }}</td>
                             <td>
                                 <i
@@ -296,7 +299,6 @@
                                     :class="etatValidationBetter(projet)"
                                 ></i>
                             </td>
-                            <td>{{ projet.travailEffectue }}</td>
                         </tr>
                     </tbody>
                 </table>

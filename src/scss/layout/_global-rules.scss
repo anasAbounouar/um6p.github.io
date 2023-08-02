@@ -32,6 +32,7 @@ body {
 :root {
     --brand-color: #01392b;
     --label-text-color:#5F5F5F;
+    --grey-grey-100: ##fafafa;
     --placeholder-color:#4B506D;
     --submit-blue-color:#007E94;
     --title-dark-color:#01392B;
@@ -47,6 +48,8 @@ body {
     --nature-color: #8CE2AD;
     --ferie-box-color: #C2C2C2;
     --presence-hour-color: #52ACFF;
+    --my-blue-color: #2196F3;
+    --danger-color: #DC6803;
     
 }
 .c-orange{
@@ -73,6 +76,12 @@ body {
 }
 .bg-red {
     background-color: red;
+}
+.bg-my-blue-color {
+    background-color: #2196F3;
+}
+.bg-danger-color {
+    background-color: #DC6803;
 }
 
 

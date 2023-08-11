@@ -359,15 +359,29 @@ export default {
             return new Date(year, month, 0).getDate();
         },
         weekDays() {
-            return [
+            const firstDayOfMonth = new Date(
+                this.currentDate.getFullYear(),
+                this.currentDate.getMonth(),
+                1
+            );
+            const firstDayOfWeek = firstDayOfMonth.getDay();
+            const weekDaysNames = [
+                "Dimanche",
                 "Lundi",
                 "Mardi",
                 "Mercredi",
                 "Jeudi",
                 "Vendredi",
                 "Samedi",
-                "Dimanche",
             ];
+
+            // Rearrange the weekDaysNames array based on the first day of the week
+            const reorderedWeekDays = [
+                ...weekDaysNames.slice(firstDayOfWeek),
+                ...weekDaysNames.slice(0, firstDayOfWeek),
+            ];
+
+            return reorderedWeekDays;
         },
         etatValidationBetter() {
             return (projet) => {
@@ -401,22 +415,16 @@ export default {
         },
     },
     methods: {
-        prevMonth() {
-            // Logic to go to the previous month
-        },
-        nextMonth() {
-            // Logic to go to the next month
-        },
         getPresenceData(day) {
             // Logic to fetch and return 'heures de présences' data for the given day
             // Replace this with your data-fetching logic
-            // you should get the data from somewhere else checkron, the day ===0 doenst mean anything i just
+            // you should get the data from somewhere else checkron, the day === 0 doenst mean anything i just
             //i just didnt want to get an error for not using the day parametre
             const dayOfMonth = day.getDate();
             const dayOfWeek = day.getDay();
             if (
-                dayOfWeek === 4 ||
-                dayOfWeek === 5 ||
+                dayOfWeek === 6 ||
+                dayOfWeek === 0 ||
                 dayOfMonth === 18 ||
                 dayOfMonth === 19
             ) {
@@ -427,14 +435,9 @@ export default {
         getSupplementairesData(day) {
             // Logic to fetch and return 'heures supplémentaires' data for the given day
             // Replace this with your data-fetching logic
-            const dayOfMonth = day.getDate();
+            // const dayOfMonth = day.getDate();
             const dayOfWeek = day.getDay();
-            if (
-                dayOfWeek === 4 ||
-                dayOfWeek === 5 ||
-                dayOfMonth === 18 ||
-                dayOfMonth === 19
-            ) {
+            if (dayOfWeek === 6 || dayOfWeek === 0) {
                 return null; // Return "F" for Saturday and Sunday
             }
             return "Hs";
@@ -446,7 +449,7 @@ export default {
             console.log(dayOfWeek);
 
             // Check if the day is Saturday (6) or Sunday (0)
-            if (dayOfWeek === 4 || dayOfWeek === 5) {
+            if (dayOfWeek === 6 || dayOfWeek === 0) {
                 return "F"; // Return "F" for Saturday and Sunday
             } else {
                 // Replace this with your data-fetching logic
@@ -462,7 +465,7 @@ export default {
             // Logic to fetch and return 'repos' data for the given day
             // Replace this with your data-fetching logic
             const dayOfMonth = day.getDate(); // Get the day of the month
-            if (dayOfMonth === 18 || dayOfMonth === 19) {
+            if (dayOfMonth === 18) {
                 return "R"; // Return "R" for the 16th and 18th day of the month
             } else {
                 return null; // Return null for other days

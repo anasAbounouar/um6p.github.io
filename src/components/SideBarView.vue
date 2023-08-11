@@ -103,7 +103,10 @@
             <!-- RH Icons -->
             <div v-if="showRHIcons" class="user-space-icons">
                 <!-- Employés -->
-                <div class="user-space-icon" @click="goToPage('employees')">
+                <div
+                    class="user-space-icon"
+                    @click="goToPage('RH-employees-page')"
+                >
                     <i class="fa fa-users"></i>
                     <span>Employés</span>
                 </div>
@@ -111,6 +114,16 @@
                 <div class="user-space-icon" @click="goToPage('timekeeping')">
                     <i class="fa fa-clock"></i>
                     <span>Pointage</span>
+                </div>
+                <!-- Attendance -->
+                <div class="user-space-icon" @click="goToPage('RHAttendance')">
+                    <i class="fa fa-calendar"></i>
+                    <span>Attendance</span>
+                </div>
+                <!-- Demande -->
+                <div class="user-space-icon" @click="goToPage('RHDemande')">
+                    <i class="fa fa-file"></i>
+                    <span>Demande</span>
                 </div>
             </div>
             <!-- Gestion des comptes -->
@@ -218,6 +231,9 @@ export default {
                     break;
                 case "demandes-page":
                     this.$router.push({ name: "demandes-page" });
+                    break;
+                case "RH-employees-page":
+                    this.$router.push({ name: "RH-employees-page" });
                     break;
                 default:
                     console.warn(`Unknown page: ${page}`);

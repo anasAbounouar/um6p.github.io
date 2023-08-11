@@ -17,6 +17,7 @@ import BulletinsDePaieView from "../views/AllUsers/BulletinsDePaieView.vue";
 import DossiersMutuellesView from "../views/AllUsers/DossiersMutuellesView.vue";
 import DemandesView from "../views/AllUsers/DemandeView.vue";
 import DemandesDetailsView from "../views/AllUsers/DemandesDetailsView";
+import RHEmployeesView from "../views/GestionRH/RHEmployeesView.vue";
 
 Vue.use(VueRouter);
 
@@ -108,6 +109,13 @@ const routes = [
         name: "demande-details",
 
         component: DemandesDetailsView,
+    },
+    {
+        path: "/RHEmployees",
+
+        name: "RH-employees-page",
+
+        component: RHEmployeesView,
     },
 ];
 

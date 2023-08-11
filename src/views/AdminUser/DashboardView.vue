@@ -61,7 +61,7 @@ export default {
                     id: 3,
                     title: "Presence du jour",
                     data: 850,
-                    icon: "fa-user",
+                    icon: "fa-solid fa-hand-pointer",
                 },
                 {
                     id: 4,

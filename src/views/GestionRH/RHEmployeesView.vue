@@ -40,67 +40,152 @@
             </div>
             <div>
                 <h1>Gestion d'Absences</h1>
-                <form @submit.prevent="calculateTotalDuration">
+                <form class="absence-form">
                     <label for="start-date">Date de début :</label>
                     <input type="date" v-model="startDate" required />
 
                     <label for="end-date">Date de fin :</label>
                     <input type="date" v-model="endDate" required />
+                    <button
+                        @click.prevent="showDates = !showDates"
+                        class="btn-details"
+                    >
+                        {{ showDates ? "Masquer details" : "Montrer details" }}
+                    </button>
 
-                    <div v-for="date in selectedDates" :key="date">
-                        <p>le {{ formatDate(date) }}</p>
-                        <div class="d-flex justify-content-between">
-                            <!-- Morning Shift -->
-                            <div>
-                                <label :for="'start-time-morning-' + date">
-                                    Matin :
-                                </label>
-                                <input
-                                    type="time"
-                                    :id="'start-time-morning-' + date"
-                                    :value="getStartTime(date, 'morning')"
-                                    required
-                                />
-                                <input
-                                    type="time"
-                                    :id="'end-time-morning-' + date"
-                                    v-model="defaultEndMorning"
-                                    required
-                                />
-                            </div>
-                            <!-- Afternoon Shift -->
-                            <div>
-                                <label :for="'start-time-afternoon-' + date">
-                                    Soir :
-                                </label>
-                                <input
-                                    type="time"
-                                    :id="'start-time-aftenoon-' + date"
-                                    v-model="defaultStartAfternoon"
-                                    required
-                                />
-                                <input
-                                    type="time"
-                                    :id="'end-time-aftenoon-' + date"
-                                    v-model="defaultEndAfternoon"
-                                    required
-                                />
+                    <div v-if="showDates">
+                        <div
+                            v-for="date in selectedDates"
+                            :key="date"
+                            class="date-section"
+                        >
+                            <p>le {{ formatDate(date) }}</p>
+                            <div
+                                class="d-flex justify-content-between shift-container"
+                            >
+                                <div class="shift-container">
+                                    <!-- Morning Shift -->
+                                    <div class="shift">
+                                        <div class="time-input">
+                                            <label
+                                                :for="
+                                                    'start-time-morning-' + date
+                                                "
+                                            >
+                                                Matin :
+                                            </label>
+                                            <input
+                                                type="time"
+                                                :id="
+                                                    'start-time-morning-' + date
+                                                "
+                                                v-model="
+                                                    startTimes[date]['morning']
+                                                        .start
+                                                "
+                                                @input="
+                                                    setStartTime(
+                                                        date,
+                                                        'morning',
+                                                        $event.target.value
+                                                    )
+                                                "
+                                                required
+                                            />
+                                            <input
+                                                type="time"
+                                                :id="'end-time-morning-' + date"
+                                                v-model="
+                                                    endTimes[date]['morning']
+                                                        .end
+                                                "
+                                                @input="
+                                                    setEndTime(
+                                                        date,
+                                                        'morning',
+                                                        $event.target.value
+                                                    )
+                                                "
+                                                required
+                                            />
+                                        </div>
+                                    </div>
+                                    <!-- Afternoon Shift -->
+                                    <div class="shift">
+                                        <div class="time-input">
+                                            <label
+                                                :for="
+                                                    'start-time-afternoon-' +
+                                                    date
+                                                "
+                                            >
+                                                Soir :
+                                            </label>
+                                            <input
+                                                type="time"
+                                                :id="
+                                                    'start-time-aftenoon-' +
+                                                    date
+                                                "
+                                                v-model="
+                                                    startTimes[date][
+                                                        'afternoon'
+                                                    ].start
+                                                "
+                                                @input="
+                                                    setStartTime(
+                                                        date,
+                                                        'afternoon',
+                                                        $event.target.value
+                                                    )
+                                                "
+                                                required
+                                            />
+                                            <input
+                                                type="time"
+                                                :id="
+                                                    'end-time-aftenoon-' + date
+                                                "
+                                                v-model="
+                                                    endTimes[date]['afternoon']
+                                                        .end
+                                                "
+                                                @input="
+                                                    setEndTime(
+                                                        date,
+                                                        'afternoon',
+                                                        $event.target.value
+                                                    )
+                                                "
+                                                required
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
 
                     <button type="submit">Enregistrer l'absence</button>
+                    <button
+                        @click.prevent="calculateTotalHours"
+                        class="btn-calculation"
+                    >
+                        Calculate Total Hours
+                    </button>
+                    <div class="total-duration">
+                        Total Hours of Absence: {{ totalHours }}
+                        {{ setDefaultTimes() }}
+                    </div>
                 </form>
-
-                <div id="result" v-html="resultHTML"></div>
             </div>
-            <div id="result"></div>
         </section>
     </div>
 </template>
 <script>
 import SideBarView from "@/components/SideBarView.vue";
 import NavBarView from "@/components/NavBarView";
+// import Vue from "vue";
 export default {
     name: "RH-employees-page",
     components: {
@@ -118,6 +203,9 @@ export default {
             defaultEndMorning: "12:00",
             defaultStartAfternoon: "13:00",
             defaultEndAfternoon: "16:00",
+            showDates: true,
+            totalHours: 0,
+            shifts: ["morning", "afternoon"],
         };
     },
     computed: {
@@ -130,45 +218,76 @@ export default {
             }
             return dates;
         },
-        // resultHTML() {
-        //     // Calculate and format the result HTML here
-        //     // You can use the data from startTimes and endTimes
-        // },
+    },
+    created() {
+        // Set default start and end times when the component is created
+        this.setDefaultTimes();
     },
     methods: {
-        calculateTotalDuration() {
-            // Calculate the total duration here using the data from startTimes and endTimes
-        },
         formatDate(dateString) {
             const date = new Date(dateString);
             return date.toLocaleDateString("fr-CA");
         },
         setDefaultTimes() {
-            // Loop through selected dates and set default absence times
-            for (const date of this.selectedDates) {
-                this.startTimes[date] = this.defaultStartMorning;
-                this.endTimes[date] = this.defaultEndMorning;
+            if (
+                Object.keys(this.startTimes).length === 0 &&
+                Object.keys(this.endTimes).length === 0
+            ) {
+                // Loop through selected dates and set default absence times
+                for (const date of this.selectedDates) {
+                    // Set default values for morning shift
+                    this.startTimes[date] = {
+                        morning: { start: this.defaultStartMorning },
+                        afternoon: { start: this.defaultStartAfternoon },
+                    };
+
+                    // Set default values for afternoon shift
+                    this.endTimes[date] = {
+                        morning: { end: this.defaultEndMorning },
+                        afternoon: { end: this.defaultEndAfternoon },
+                    };
+                }
             }
-        },
-        getStartTime(date, shift) {
-            return (
-                this.startTimes[date] &&
-                this.startTimes[date][shift] &&
-                this.startTimes[date][shift].start
-            );
         },
         setStartTime(date, shift, value) {
-            if (!this.startTimes[date]) {
-                this.startTimes[date] = {};
-            }
-            if (!this.startTimes[date][shift]) {
-                this.startTimes[date][shift] = {};
-            }
             this.startTimes[date][shift].start = value;
         },
-    },
-    mounted() {
-        this.setDefaultTimes(); // Call the method to set default times on component mount
+        setEndTime(date, shift, value) {
+            this.endTimes[date][shift].end = value;
+        },
+        getStartTime(date, shift) {
+            if (this.startTimes[date] && this.startTimes[date][shift]) {
+                return this.startTimes[date][shift].start;
+            }
+            return null;
+        },
+        getEndTime(date, shift) {
+            if (this.endTimes[date] && this.endTimes[date][shift]) {
+                return this.endTimes[date][shift].end;
+            }
+            return null;
+        },
+        calculateTotalHours() {
+            this.totalHours = 0;
+            for (const date of this.selectedDates) {
+                console.log(this.startTimes[date]["morning"].start);
+                for (const shift of this.shifts) {
+                    const startTime = this.startTimes[date][shift].start;
+                    const endTime = this.endTimes[date][shift].end;
+
+                    const startTimeObj = new Date(`${date}T${startTime}`);
+                    const endTimeObj = new Date(`${date}T${endTime}`);
+
+                    const timeDifference =
+                        endTimeObj.getTime() - startTimeObj.getTime();
+                    const hoursDifference = timeDifference / 3600000;
+
+                    this.totalHours += hoursDifference;
+                }
+            }
+
+            return this.totalHours;
+        },
     },
 };
 </script>
@@ -233,5 +352,66 @@ button:hover {
 
 .shift label {
     font-weight: normal;
+}
+.absence-form {
+    max-width: 600px;
+    margin: 0 auto;
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.date-section {
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.date-heading {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.shift-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.shift {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #ffffff;
+}
+
+h3 {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+// .time-input {
+//     display: flex;
+//     align-items: center;
+//     margin-bottom: 10px;
+// }
+
+.time-input label {
+    margin-right: 10px;
+    font-weight: bold;
+    flex-shrink: 0;
+}
+.btn-details {
+    background: var(--submit-blue-color);
+    margin: 10px;
+}
+.btn-calculation {
+    background: blueviolet;
+    margin: 10px;
 }
 </style>

@@ -46,6 +46,13 @@
 
                     <label for="end-date">Date de fin :</label>
                     <input type="date" v-model="endDate" required />
+                    <label for="resume-day">Reprise le :</label>
+                    <input
+                        type="date"
+                        id="resume-day"
+                        v-model="resumeDay"
+                        required
+                    />
                     <button
                         @click.prevent="showDates = !showDates"
                         class="btn-details"
@@ -171,12 +178,37 @@
                         @click.prevent="calculateTotalHours"
                         class="btn-calculation"
                     >
-                        Calculate Total Hours
+                        Calculer les heures d'absences
                     </button>
                     <div class="total-duration">
                         Total Hours of Absence: {{ totalHours }}
+                        <!-- im calling setDefaultTimes just to work  -->
                         {{ setDefaultTimes() }}
                     </div>
+                </form>
+            </div>
+            <div>
+                <label for="beneficiarySelect"
+                    >Choisissez un bénéficiaire</label
+                >
+                <input
+                    id="beneficiarySelect"
+                    v-model="possibleBeneficiary"
+                    placeholder="Tapez son Prénom & nom"
+                />
+                <form>
+                    <select v-model="selectedBeneficiary" name="beneficiaire">
+                        <option value="" disabled selected hidden>
+                            Selectez
+                        </option>
+                        <option
+                            v-for="name in filteredBeneficiaries"
+                            :key="name.id"
+                            :value="name"
+                        >
+                            {{ name.firstName }} {{ name.lastName }}
+                        </option>
+                    </select>
                 </form>
             </div>
         </section>
@@ -203,9 +235,55 @@ export default {
             defaultEndMorning: "12:00",
             defaultStartAfternoon: "13:00",
             defaultEndAfternoon: "16:00",
-            showDates: true,
+            showDates: false,
             totalHours: 0,
             shifts: ["morning", "afternoon"],
+            resumeDay: "",
+            possibleBeneficiary: null,
+            selectedBeneficiary: "",
+            beneficiaryList: [
+                {
+                    id: 1,
+                    firstName: "John",
+                    lastName: "Doe",
+                    age: 28,
+                    gender: "Male",
+                    country: "USA",
+                },
+                {
+                    id: 2,
+                    firstName: "Jane",
+                    lastName: "Smith",
+                    age: 34,
+                    gender: "Female",
+                    country: "Canada",
+                },
+                {
+                    id: 3,
+                    firstName: "Michael",
+                    lastName: "Johnson",
+                    age: 42,
+                    gender: "Male",
+                    country: "UK",
+                },
+                {
+                    id: 4,
+                    firstName: "Emily",
+                    lastName: "Williams",
+                    age: 29,
+                    gender: "Female",
+                    country: "Australia",
+                },
+                {
+                    id: 5,
+                    firstName: "David",
+                    lastName: "Brown",
+                    age: 31,
+                    gender: "Male",
+                    country: "USA",
+                },
+                // ... other beneficiary objects
+            ],
         };
     },
     computed: {
@@ -217,6 +295,17 @@ export default {
                 currentDate.setDate(currentDate.getDate() + 1);
             }
             return dates;
+        },
+        filteredBeneficiaries() {
+            const filterText = this.possibleBeneficiary
+                ? this.possibleBeneficiary.toLowerCase()
+                : "";
+
+            return this.beneficiaryList.filter(
+                (name) =>
+                    name.firstName.toLowerCase().includes(filterText) ||
+                    name.lastName.toLowerCase().includes(filterText)
+            );
         },
     },
     created() {
@@ -287,6 +376,10 @@ export default {
             }
 
             return this.totalHours;
+        },
+        filterBeneficiaries() {
+            // Reset selected beneficiary when user is typing
+            this.selectedBeneficiary = null;
         },
     },
 };
@@ -413,5 +506,31 @@ h3 {
 .btn-calculation {
     background: blueviolet;
     margin: 10px;
+}
+select {
+    border: 1px solid red;
+}
+form {
+    display: inline-block;
+    width: 100%;
+    margin-top: 20px;
+}
+select:focus {
+    outline: none;
+}
+select {
+    height: 40px;
+    font-size: 16px;
+    padding: 3px 10px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    margin-right: 10px;
+    width: 70%;
+    margin-left: 15px;
+    option {
+        border-top: 1px solid #ebebeb;
+        font-weight: 40px;
+        color: #5f6467;
+    }
 }
 </style>

@@ -118,7 +118,7 @@
                     <span>Employés</span>
                 </div>
                 <!-- Pointage -->
-                <div class="user-space-icon" @click="goToPage('timekeeping')">
+                <div class="user-space-icon" @click="goToPage('Pointage-page')">
                     <i class="fa fa-clock"></i>
                     <span>Pointage</span>
                 </div>
@@ -241,6 +241,9 @@ export default {
                     break;
                 case "RH-employees-page":
                     this.$router.push({ name: "RH-employees-page" });
+                    break;
+                case "Pointage-page":
+                    this.$router.push({ name: "Pointage-page" });
                     break;
                 case "RH-employiiss-page":
                     this.$router.push({ name: "RH-employiiss-page" });

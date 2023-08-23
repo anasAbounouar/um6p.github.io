@@ -20,6 +20,8 @@ import DemandesDetailsView from "../views/AllUsers/DemandesDetailsView";
 import RHEmployeesView from "../views/GestionRH/RHEmployeesView.vue";
 import RHDetailsEmployeesView from "../views/GestionRH/RHDetailsEmployeesView.vue";
 import RHEmployiissView from "../views/GestionRH/RHEmployiissView.vue";
+import RHNewEmployeeView from "../views/GestionRH/RHNewEmployeeView.vue";
+import PointageView from "../views/GestionRH/PointageView.vue";
 
 Vue.use(VueRouter);
 
@@ -125,6 +127,20 @@ const routes = [
         name: "RH-employees-details",
 
         component: RHDetailsEmployeesView,
+    },
+    {
+        path: "/RHNewEmployee",
+
+        name: "RH-employees-new",
+
+        component: RHNewEmployeeView,
+    },
+    {
+        path: "/Pointage",
+
+        name: "pointage-page",
+
+        component: PointageView,
     },
     {
         path: "/RHEmployeeshelp",

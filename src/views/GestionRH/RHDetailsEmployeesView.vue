@@ -112,44 +112,93 @@
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-12">
-                        <div v-if="ParametresRH" class="projects-box mt-3">
-                            <div class="mytable">
+                        <div v-if="ParametresRH" class="parametersRH-box mt-3">
+                            <div class="">
+                                <div
+                                    class="bg-eee m-3 p-3 rad-10"
+                                    v-for="activeProject in activeProjects"
+                                    :key="activeProject.id"
+                                >
+                                    <div
+                                        class="d-flex justify-content-around mb-3"
+                                    >
+                                        <div
+                                            class="d-flex justify-content-around flex-1"
+                                        >
+                                            <span class="txt-underline"
+                                                >Projet Actif</span
+                                            >
+                                            <div class="green-rectangle">
+                                                <span>{{
+                                                    activeProject.name
+                                                }}</span>
+                                            </div>
+                                        </div>
+                                        <div
+                                            class="d-flex justify-content-around flex-1"
+                                        >
+                                            <span> Superviseur</span>
+                                            <div class="green-rectangle">
+                                                <span>
+                                                    {{
+                                                        activeProject.superviseur
+                                                    }}</span
+                                                >
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex">
+                                        <button
+                                            class="btn btn-danger m-2"
+                                            @click.prevent="
+                                                deleteActiveProject(
+                                                    activeProject.id
+                                                )
+                                            "
+                                        >
+                                            Supprimer
+                                        </button>
+                                        <button
+                                            class="btn btn-warning m-2"
+                                            @click.prevent="
+                                                rendrePassif(activeProject)
+                                            "
+                                        >
+                                            Rendre passif
+                                        </button>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div
+                                        class="col-12 d-flex align-items-center gap-10"
+                                    >
+                                        <div>Ajouter un projet Actif</div>
+                                        <div
+                                            class="btn btn-primary d-flex align-items-center"
+                                            @click.prevent="addActiveProject"
+                                        >
+                                            <i class="fa-solid fa-plus"></i>
+                                        </div>
+                                    </div>
+                                </div>
                                 <table>
                                     <thead>
                                         <tr>
-                                            <th>Derniers Projets</th>
+                                            <th>Projet passifs</th>
+                                            <th>Superviseur</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>Nom du Projet</td>
-                                            <td>Superviseur</td>
+                                        <tr
+                                            v-for="passiveProject in passiveProjects"
+                                            :key="passiveProject.id"
+                                            @click.prevent="
+                                                confirmActivate(passiveProject)
+                                            "
+                                        >
+                                            <td>{{ passiveProject.name }}</td>
                                             <td>
-                                                Temps
-                                                <i
-                                                    class="fa-regular fa-clock"
-                                                ></i>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Projet1</td>
-                                            <td>Superviseur 1</td>
-                                            <td>
-                                                Lundi 08h du matin a mercredi
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Projet2</td>
-                                            <td>Superviseur 2</td>
-                                            <td>
-                                                Lundi 08h du matin a mercredi
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Projet3</td>
-                                            <td>Superviseur 3</td>
-                                            <td>
-                                                Lundi 08h du matin a mercredi
+                                                {{ passiveProject.superviseur }}
                                             </td>
                                         </tr>
                                     </tbody>
@@ -168,17 +217,17 @@
                                 <i
                                     class="fa fa-pencil"
                                     @click="toggleEditingPerso"
-                                    v-show="!isEditingPerso"
+                                    v-if="!isEditingPerso"
                                 ></i>
                                 <i
                                     class="fa fa-check"
-                                    @click="saveDataPerso"
-                                    v-show="isEditingPerso"
+                                    @click="saveData"
+                                    v-if="isEditingPerso"
                                 ></i>
                                 <i
                                     class="fa-solid fa-xmark ms-3 c-red"
                                     @click="toggleEditingPerso"
-                                    v-show="isEditingPerso"
+                                    v-if="isEditingPerso"
                                 ></i>
                             </div>
                             <table>
@@ -239,19 +288,25 @@
                                             />
                                         </td>
                                         <td>
-                                            <input
-                                                type="text"
+                                            <select
                                                 :disabled="!isEditingPerso"
                                                 v-model="sexe"
                                                 :class="{
                                                     'border-none':
                                                         !isEditingPerso,
                                                 }"
-                                            />
+                                            >
+                                                <option value="Homme">
+                                                    Homme
+                                                </option>
+                                                <option value="Femme">
+                                                    Femme
+                                                </option>
+                                            </select>
                                         </td>
                                         <td>
                                             <input
-                                                type="text"
+                                                type="date"
                                                 :disabled="!isEditingPerso"
                                                 v-model="dateNaissance"
                                                 :class="{
@@ -287,7 +342,7 @@
                                         </td>
                                         <td>
                                             <input
-                                                type="text"
+                                                type="number"
                                                 :disabled="!isEditingPerso"
                                                 v-model="nbEnfants"
                                                 :class="{
@@ -341,13 +396,23 @@
                                     </td>
                                     <td>
                                         <input
-                                            :type="passwordtype"
+                                            :type="typeField"
                                             :disabled="!isEditingPerso"
                                             v-model="password"
                                             :class="{
                                                 'border-none': !isEditingPerso,
                                             }"
                                         />
+                                        <i
+                                            v-if="typeField == 'password'"
+                                            class="fa-solid fa-eye-slash"
+                                            @click.prevent="switchType"
+                                        ></i>
+                                        <i
+                                            v-else
+                                            class="fa-solid fa-eye"
+                                            @click.prevent="switchType"
+                                        ></i>
                                     </td>
                                 </tbody>
                             </table>
@@ -364,130 +429,19 @@
                                 <i
                                     class="fa fa-pencil"
                                     @click="toggleEditingPro"
-                                    v-show="!isEditingPro"
+                                    v-if="!isEditingPro"
                                 ></i>
                                 <i
                                     class="fa fa-check"
-                                    @click="saveDataPro"
-                                    v-show="isEditingPro"
+                                    @click="saveData"
+                                    v-if="isEditingPro"
+                                ></i>
+                                <i
+                                    class="fa-solid fa-xmark ms-3 c-red"
+                                    @click="toggleEditingPro"
+                                    v-if="isEditingPro"
                                 ></i>
                             </div>
-                            <!-- <table>
-                                <tbody>
-                                    <tr>
-                                        <td>Entité d’affectation</td>
-                                        <td>
-                                            <input
-                                                type="text"
-                                                :disabled="!isEditingPro"
-                                                v-model="entiteAffectation"
-                                                :class="{
-                                                    'border-none':
-                                                        !isEditingPro,
-                                                }"
-                                            />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Contrat</td>
-                                        <td>
-                                            <input
-                                                type="text"
-                                                :disabled="!isEditingPro"
-                                                v-model="contrat"
-                                                :class="{
-                                                    'border-none':
-                                                        !isEditingPro,
-                                                }"
-                                            />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Date prévue d’embauche</td>
-                                        <td>
-                                            <input
-                                                type="date"
-                                                :disabled="!isEditingPro"
-                                                v-model="dateEmbauche"
-                                                :class="{
-                                                    'border-none':
-                                                        !isEditingPro,
-                                                }"
-                                            />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Début de contrat</td>
-                                        <td>
-                                            <input
-                                                type="date"
-                                                :disabled="
-                                                    !isEditingProisEditingPro
-                                                "
-                                                v-model="debutContrat"
-                                                :class="{
-                                                    'border-none':
-                                                        !isEditingProisEditingPro,
-                                                }"
-                                            />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Fin de contrat</td>
-                                        <td>
-                                            <input
-                                                type="date"
-                                                :disabled="
-                                                    !isEditingProisEditingPro
-                                                "
-                                                v-model="finContrat"
-                                                :class="{
-                                                    'border-none':
-                                                        !isEditingProisEditingPro,
-                                                }"
-                                            />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Date de débauche</td>
-                                        <td>
-                                            <input
-                                                type="text"
-                                                disabled
-                                                v-model="dateDebauche"
-                                            />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Salaire mensuel net</td>
-                                        <td>
-                                            <input
-                                                type="number"
-                                                :disabled="!isEditingPro"
-                                                v-model="salaireNet"
-                                                :class="{
-                                                    'border-none':
-                                                        !isEditingPro,
-                                                }"
-                                            />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Indemnité mensuelle transport</td>
-                                        <td>
-                                            <input
-                                                type="text"
-                                                :disabled="!isEditingPro"
-                                                v-model="indemniteTransport"
-                                                :class="{
-                                                    'border-none':
-                                                        !isEditingPro,
-                                                }"
-                                            />
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table> -->
                             <table>
                                 <thead>
                                     <tr>
@@ -575,6 +529,7 @@
                                     <tr>
                                         <th>Salaire Net</th>
                                         <th>Indemnité Transport</th>
+                                        <th>Ancienneté</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -601,14 +556,15 @@
                                                 }"
                                             />
                                         </td>
+                                        <td>
+                                            {{ calculateExperience }}
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
                             <div class="mt-3 d-flex justify-content-end">
                                 Derniere modification :
-                                <span class="c-grey">
-                                    {{ lastModificationDatePro }}
-                                </span>
+                                <span class="c-grey"> 20022-20-0 </span>
                             </div>
                         </div>
                     </div>
@@ -621,6 +577,8 @@
 import SideBarView from "@/components/SideBarView.vue";
 import NavBarView from "@/components/NavBarView";
 import employees from "@/Js/employees";
+import Swal from "sweetalert2";
+// import Vue from "vue";
 export default {
     name: "RH-employees-details",
     components: {
@@ -638,7 +596,112 @@ export default {
             salaireNet: "1900",
             isEditingPerso: false,
             isEditingPro: false,
-            passwordtype: "password",
+            typeField: "password",
+            activeProjects: [
+                {
+                    id: 0,
+                    name: "Project 0",
+                    superviseur: "Superviseur X",
+                },
+                {
+                    id: 1,
+                    name: "Project 1",
+                    superviseur: "Superviseur Y",
+                },
+                {
+                    id: 2,
+                    name: "Project 2",
+                    superviseur: "Superviseur Z",
+                },
+                {
+                    id: 3,
+                    name: "Project 3",
+                    superviseur: "Superviseur W",
+                },
+            ],
+            passiveProjects: [
+                {
+                    id: 5,
+                    name: "Project 5",
+                    superviseur: "Superviseur X",
+                },
+                {
+                    id: 6,
+                    name: "Project 6",
+                    superviseur: "Superviseur Y",
+                },
+                {
+                    id: 7,
+                    name: "Project 7",
+                    superviseur: "Superviseur Z",
+                },
+                {
+                    id: 8,
+                    name: "Project 8",
+                    superviseur: "Superviseur W",
+                },
+            ],
+            Projects: [
+                {
+                    id: 0,
+                    name: "Project 0",
+                    superviseur: "Superviseur X",
+                },
+                {
+                    id: 1,
+                    name: "Project 1",
+                    superviseur: "Superviseur Y",
+                },
+                {
+                    id: 2,
+                    name: "Project 2",
+                    superviseur: "Superviseur Z",
+                },
+                {
+                    id: 3,
+                    name: "Project 3",
+                    superviseur: "Superviseur W",
+                },
+                {
+                    id: 5,
+                    name: "Project 5",
+                    superviseur: "Superviseur X",
+                },
+                {
+                    id: 6,
+                    name: "Project 6",
+                    superviseur: "Superviseur Y",
+                },
+                {
+                    id: 7,
+                    name: "Project 7",
+                    superviseur: "Superviseur Z",
+                },
+                {
+                    id: 8,
+                    name: "Project 8",
+                    superviseur: "Superviseur W",
+                },
+            ],
+            nom: "",
+            prenom: "",
+            matricule: "",
+            sexe: "",
+            dateNaissance: "",
+            cin: "",
+            cnss: "",
+            etatCivil: "",
+            nbEnfants: "",
+            entiteAffectation: "",
+            contrat: "",
+            debutContrat: "",
+            finContrat: "",
+            dateDebauche: "",
+            premierEmbauche: "",
+            email: "",
+            password: "",
+            indemnité: "",
+            salaire: "",
         };
     },
     methods: {
@@ -657,29 +720,112 @@ export default {
             this.ParametresRH = false;
             this.infospersoChosen = false;
         },
+        deleteActiveProject(activeProjectId) {
+            console.log(activeProjectId);
+            console.log(activeProjectId);
+            const indexToDelete = this.activeProjects.findIndex((project) => {
+                console.log(project.id);
+                console.log(project.id === activeProjectId);
+                return project.id === activeProjectId;
+            });
+            console.log(indexToDelete);
+            if (indexToDelete !== -1) {
+                this.activeProjects.splice(indexToDelete, 1);
+            } else {
+                console.log(`Project with  not found.`);
+            }
+        },
+        rendrePassif(activeProject) {
+            const indexToDelete = this.activeProjects.findIndex((project) => {
+                console.log(project.id);
+                console.log(project.id === activeProject.id);
+                return project.id === activeProject.id;
+            });
+            console.log(indexToDelete);
+            if (indexToDelete !== -1) {
+                this.passiveProjects.push(activeProject);
+                this.activeProjects.splice(indexToDelete, 1);
+            } else {
+                console.log(`Project with  not found.`);
+            }
+        },
+        async addActiveProject() {
+            const { value: projectId } = await Swal.fire({
+                title: "Choose an Active Project",
+                input: "select",
+                inputOptions: this.Projects.reduce((options, project) => {
+                    options[project.id] = project.name;
+                    return options;
+                }, {}),
+                inputPlaceholder: "Select a project",
+                showCancelButton: true,
+            });
+
+            if (projectId) {
+                const selectedProject = this.Projects.find(
+                    (project) => project.id === parseInt(projectId)
+                );
+                if (selectedProject) {
+                    this.activeProjects.push(selectedProject);
+                }
+            }
+        },
+        async confirmActivate(passiveProject) {
+            const confirmation = await Swal.fire({
+                title: "Confirmer Activation",
+                text: `Etes vous sur de vouloir activer "${passiveProject.name}"?`,
+                icon: "question",
+                showCancelButton: true,
+                confirmButtonText: "Activate",
+                cancelButtonText: "Cancel",
+            });
+
+            if (confirmation.isConfirmed) {
+                // Remove the project from passiveProjects
+                const indexToRemove = this.passiveProjects.findIndex(
+                    (project) => project.id === passiveProject.id
+                );
+                if (indexToRemove !== -1) {
+                    const projectToMove = this.passiveProjects.splice(
+                        indexToRemove,
+                        1
+                    )[0];
+                    this.activeProjects.push(projectToMove);
+                }
+            }
+        },
         toggleEditingPerso() {
+            for (const property in this.properties) {
+                this[property] = this.employee[property];
+            }
             this.isEditingPerso = !this.isEditingPerso;
         },
-        saveDataPerso() {
-            // Perform any necessary operations to save the data a si che9ron :)
-            this.isEditingPerso = false; // Disable editing mode after saving
-            const currentDate = new Date();
-            const formattedDate = `${currentDate.getDate()}/${
-                currentDate.getMonth() + 1
-            }/${currentDate.getFullYear()}`;
-            this.lastModificationDatePerso = formattedDate;
+        switchType() {
+            this.typeField = this.typeField == "password" ? "text" : "password";
+        },
+        saveData() {
+            //if data is initialized to empty string "", the data comes from the array I made, if not the case
+            // the array I made get modified :)
+            for (const property in this.properties) {
+                if (this.properties[property] === "") {
+                    this[property] = this.employee[property];
+                } else {
+                    this.employee[property] = this.properties[property];
+                }
+            }
+            this.isEditingPerso = false;
+            this.isEditingPro = false;
         },
         toggleEditingPro() {
+            for (const property in this.properties) {
+                this[property] = this.employee[property];
+            }
             this.isEditingPro = !this.isEditingPro;
         },
-        saveDataPro() {
-            // Perform any necessary operations to save the data a si che9ron :)
-            this.isEditingPro = false; // Disable editing mode after saving
-            const currentDate = new Date();
-            const formattedDate = `${currentDate.getDate()}/${
-                currentDate.getMonth() + 1
-            }/${currentDate.getFullYear()}`;
-            this.lastModificationDatePro = formattedDate;
+        getDateString(year, month, day) {
+            const monthStr = month < 10 ? `0${month}` : `${month}`;
+            const dayStr = day < 10 ? `0${day}` : `${day}`;
+            return `${year}-${monthStr}-${dayStr}`;
         },
     },
     computed: {
@@ -698,71 +844,129 @@ export default {
                 return null;
             }
         },
-        nom() {
-            return this.employee.nom;
+        properties() {
+            return {
+                nom: this.nom,
+                prenom: this.prenom,
+                matricule: this.matricule,
+                sexe: this.sexe,
+                dateNaissance: this.dateNaissance,
+                cin: this.cin,
+                cnss: this.cnss,
+                etatCivil: this.etatCivil,
+                nbEnfants: this.nbEnfants,
+                entiteAffectation: this.entiteAffectation,
+                contrat: this.contrat,
+                debutContrat: this.debutContrat,
+                finContrat: this.finContrat,
+                dateDebauche: this.dateDebauche,
+                premierEmbauche: this.premierEmbauche,
+                email: this.email,
+                password: this.password,
+                indemnité: this.indemnité,
+                salaire: this.salaire,
+            };
         },
-        prenom() {
-            return this.employee.prenom;
-        },
-        matricule() {
-            return this.employee.matricule;
-        },
-        sexe() {
-            return this.employee.sexe;
-        },
-        dateNaissance() {
-            return this.employee.dateNaissance;
-        },
-        cin() {
-            return this.employee.cin;
-        },
-        cnss() {
-            return this.employee.cnss;
-        },
-        etatCivil() {
-            return this.employee.etatCivil;
-        },
-        nbEnfants() {
-            return this.employee.nbEnfants;
-        },
-        entiteAffectation() {
-            return this.employee.entiteAffectation;
-        },
-        contrat() {
-            return this.employee.contrat;
-        },
-        debutContrat() {
-            return this.employee.debutContrat;
-        },
-        finContrat() {
-            return this.employee.finContrat;
-        },
-        dateDebauche() {
-            {
-                return this.employee.dateDebauche;
+        calculateExperience() {
+            const startDate = new Date(this.employee.dateEmbauche);
+            const currentDate = new Date();
+
+            let endDate;
+            if (this.employee.dateDebauche === "") {
+                endDate = currentDate;
+            } else {
+                const [year, month, day] =
+                    this.employee.dateDebauche.split("-");
+                endDate = new Date(year, month - 1, day);
             }
+
+            let yearsDiff = endDate.getFullYear() - startDate.getFullYear();
+            let monthsDiff = endDate.getMonth() - startDate.getMonth();
+
+            if (monthsDiff < 0) {
+                yearsDiff--;
+                monthsDiff += 12;
+            }
+
+            return `${yearsDiff} Année et ${monthsDiff} mois`;
         },
-        premierEmbauche() {
-            return this.employee.premierEmbauche;
-        },
-        email() {
-            return this.employee.email;
-        },
-        password() {
-            return this.employee.password;
-        },
-        indemnité() {
-            return this.employee.indemnité;
-        },
-        salaire() {
-            return this.employee.salaire;
-        },
+        // nom() {
+        //     return this.employee.nom;
+        // },
+        // prenom() {
+        //     return this.employee.prenom;
+        // },
+        // matricule() {
+        //     return this.employee.matricule;
+        // },
+        // sexe() {
+        //     return this.employee.sexe;
+        // },
+        // dateNaissance() {
+        //     return this.employee.dateNaissance;
+        // },
+        // cin() {
+        //     return this.employee.cin;
+        // },
+        // cnss() {
+        //     return this.employee.cnss;
+        // },
+        // etatCivil() {
+        //     return this.employee.etatCivil;
+        // },
+        // nbEnfants() {
+        //     return this.employee.nbEnfants;
+        // },
+        // entiteAffectation() {
+        //     return this.employee.entiteAffectation;
+        // },
+        // contrat() {
+        //     return this.employee.contrat;
+        // },
+        // debutContrat() {
+        //     return this.employee.debutContrat;
+        // },
+        // finContrat() {
+        //     return this.employee.finContrat;
+        // },
+        // dateDebauche() {
+        //     {
+        //         return this.employee.dateDebauche;
+        //     }
+        // },
+        // premierEmbauche() {
+        //     return this.employee.premierEmbauche;
+        // },
+        // email() {
+        //     return this.employee.email;
+        // },
+        // password() {
+        //     return this.employee.password;
+        // },
+        // indemnité() {
+        //     return this.employee.indemnité;
+        // },
+        // salaire() {
+        //     return this.employee.salaire;
+        // },
+    },
+    created() {
+        this.saveData(); // Call the function when the component is created
     },
 };
 </script>
 <style lang="scss" scoped>
-#othersprofile {
+section {
     padding-left: calc(var(--sidebar-width) + 25px);
+}
+#othersprofile {
+    .green-rectangle {
+        border: 1px solid var(--link-hovered-color);
+        color: var(--link-hovered-color);
+        border-radius: 4px;
+        background: white;
+        padding: 2px 5px;
+    }
     .general-info {
         .nom,
         .poste,
@@ -821,31 +1025,6 @@ export default {
                 border-radius: 6px;
             }
         }
-        .mytable {
-            border-radius: 7px;
-            border: 1px solid green;
-            table {
-                width: 100%;
-                thead tr th {
-                    font-weight: bold;
-                    padding: 10px;
-                }
-                tbody {
-                    tr:first-child {
-                        background: #eee;
-                        td {
-                            font-weight: bold;
-                        }
-                    }
-                    tr {
-                        border-bottom: 1px solid #777;
-                        td {
-                            padding: 10px;
-                        }
-                    }
-                }
-            }
-        }
     }
     .infosperso-box,
     .infospro-box {
@@ -859,6 +1038,10 @@ export default {
                 color: green;
             }
         }
+        .fa-eye-slash,
+        .fa-eye {
+            font-size: 17px !important;
+        }
         table {
             width: 100%;
             border-radius: 7px;
@@ -869,8 +1052,18 @@ export default {
 
             tr {
                 border-bottom: 1px solid #777;
-                > td {
+                td {
                     border-right: 1px solid #777;
+                    select {
+                        padding: 0px 5px;
+                        border: none;
+                        border-radius: 6px;
+                        &:focus {
+                            border: 1px solid #007bff;
+                            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+                            outline: none;
+                        }
+                    }
                 }
                 td {
                     white-space: normal; /* Allow text to wrap */
@@ -885,6 +1078,29 @@ export default {
                             border: 1px solid green !important;
                             outline: none;
                         }
+                    }
+                }
+                th {
+                    border-right: 1px solid #777;
+                }
+            }
+        }
+    }
+    .parametersRH-box {
+        table {
+            width: 100%;
+            border: 1px solid #eee;
+            border-radius: 3px;
+            td,
+            th {
+                border: 1px solid #777;
+                padding: 10px;
+            }
+            tbody {
+                tr {
+                    cursor: pointer;
+                    &:hover {
+                        box-shadow: 0px 1px 1px 1px #777;
                     }
                 }
             }

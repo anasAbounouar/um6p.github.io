@@ -45,6 +45,7 @@
                                 <th colspan="5">Liste des employees</th>
                                 <th
                                     class="d-flex align-items-center justify-content-center"
+                                    @click="goToaddNewEmployee"
                                 >
                                     <span
                                         class="btn rounded-circle btn-primary d-flex align-items-center justify-content-center"
@@ -170,6 +171,9 @@ export default {
                 name: "RH-employees-details",
                 params: { id: employeeID },
             });
+        },
+        goToaddNewEmployee() {
+            this.$router.push({ name: "RH-employees-new" });
         },
     },
     computed: {

@@ -105,6 +105,13 @@
                 <!-- Employés -->
                 <div
                     class="user-space-icon"
+                    @click="goToPage('RH-employiiss-page')"
+                >
+                    <i class="fa fa-users"></i>
+                    <span>Employés aiide</span>
+                </div>
+                <div
+                    class="user-space-icon"
                     @click="goToPage('RH-employees-page')"
                 >
                     <i class="fa fa-users"></i>
@@ -234,6 +241,9 @@ export default {
                     break;
                 case "RH-employees-page":
                     this.$router.push({ name: "RH-employees-page" });
+                    break;
+                case "RH-employiiss-page":
+                    this.$router.push({ name: "RH-employiiss-page" });
                     break;
                 default:
                     console.warn(`Unknown page: ${page}`);

@@ -32,7 +32,7 @@ body {
 :root {
     --brand-color: #01392b;
     --label-text-color:#5F5F5F;
-    --grey-grey-100: ##fafafa;
+    --grey-grey-100: #fafafa;
     --placeholder-color:#4B506D;
     --submit-blue-color:#007E94;
     --title-dark-color:#01392B;
@@ -46,8 +46,11 @@ body {
     --sidebar-width: 200px;
     --thead-color: #F5FFFC;
     --nature-color: #8CE2AD;
-    --ferie-box-color: #C2C2C2;
-    --presence-hour-color: #52ACFF;
+    --WeekEnd-box-color: #C2C2C2;
+    --presence-hour-color: #3498db;
+    --repos-color: #e74c3c;
+    --ferie-color: pink;
+    --heures-suplementaires-color:#2ecc71;
     --my-blue-color: #2196F3;
     --danger-color: #DC6803;
     
@@ -59,8 +62,8 @@ body {
     color: var(--nature-color);
 }
 
-.bg-ferie-box-color {
-    background-color: var( --ferie-box-color)!important;
+.bg-WeekEnd-box-color {
+    background-color: var( --WeekEnd-box-color)!important;
 }
 .bg-presence-hour-color {
     background-color: var( --presence-hour-color)!important;

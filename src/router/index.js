@@ -18,6 +18,8 @@ import DossiersMutuellesView from "../views/AllUsers/DossiersMutuellesView.vue";
 import DemandesView from "../views/AllUsers/DemandeView.vue";
 import DemandesDetailsView from "../views/AllUsers/DemandesDetailsView";
 import RHEmployeesView from "../views/GestionRH/RHEmployeesView.vue";
+import RHDetailsEmployeesView from "../views/GestionRH/RHDetailsEmployeesView.vue";
+import RHEmployiissView from "../views/GestionRH/RHEmployiissView.vue";
 
 Vue.use(VueRouter);
 
@@ -116,6 +118,20 @@ const routes = [
         name: "RH-employees-page",
 
         component: RHEmployeesView,
+    },
+    {
+        path: "/RHEmployees/:id",
+
+        name: "RH-employees-details",
+
+        component: RHDetailsEmployeesView,
+    },
+    {
+        path: "/RHEmployeeshelp",
+
+        name: "RH-employiiss-page",
+
+        component: RHEmployiissView,
     },
 ];
 

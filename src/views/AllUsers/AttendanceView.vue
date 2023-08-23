@@ -2,7 +2,7 @@
     <div>
         <SideBarView />
         <NavBarView />
-        <section id="attendance">
+        <section id="attendance" class="vh-100 d-flex align-items-center">
             <div class="container">
                 <div class="row justify-content-center align-items-center">
                     <div class="col-10 attendances-wrapper">

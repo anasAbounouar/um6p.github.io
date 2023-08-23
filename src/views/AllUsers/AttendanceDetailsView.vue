@@ -7,15 +7,34 @@
             <h5 class="c-brand">Attendance de la journé</h5>
 
             <div class="row mt-3 justify-content-center align-items-center">
-                <v-app class="col-6">
-                    <v-date-picker
-                        v-model="selectedDate"
-                        :landscape="landscape"
-                        :min="minDate"
-                        :max="maxDate"
-                    ></v-date-picker>
-                </v-app>
-                <div class="mytable col-6">
+                <label for="yearSelect">Choisir une année</label>
+                <select id="yearSelect" v-model="selectedYear">
+                    <option
+                        v-for="year in [2023, 2024, 2025]"
+                        :key="year"
+                        :value="year"
+                    >
+                        {{ year }}
+                    </option>
+                </select>
+
+                <label for="monthSelect">Choisir un mois</label>
+                <select id="monthSelect" v-model="selectedMonth">
+                    <option
+                        v-for="month in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]"
+                        :key="month"
+                        :value="month"
+                    >
+                        {{ months[month - 1] }}
+                    </option>
+                </select>
+                <label for="daySelect"> Choisir un jour</label>
+                <select id="daySelect" v-model="selectedDate">
+                    <option v-for="day in daysInMonth" :key="day" :value="day">
+                        {{ day }}
+                    </option>
+                </select>
+                <div class="mytable col-12">
                     <table class="m-auto mt-3">
                         <thead>
                             <tr>
@@ -27,10 +46,42 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td>8</td>
-                                <td>1</td>
-                                <td>2</td>
-                                <td>10</td>
+                                <td>
+                                    {{
+                                        monAttendance(
+                                            this.selectedYear,
+                                            this.selectedMonth,
+                                            this.selectedDate
+                                        )[0]
+                                    }}
+                                </td>
+                                <td>
+                                    {{
+                                        monAttendance(
+                                            this.selectedYear,
+                                            this.selectedMonth,
+                                            this.selectedDate
+                                        )[1]
+                                    }}
+                                </td>
+                                <td>
+                                    {{
+                                        monAttendance(
+                                            this.selectedYear,
+                                            this.selectedMonth,
+                                            this.selectedDate
+                                        )[2]
+                                    }}
+                                </td>
+                                <td>
+                                    {{
+                                        monAttendance(
+                                            this.selectedYear,
+                                            this.selectedMonth,
+                                            this.selectedDate
+                                        )[3]
+                                    }}
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -39,116 +90,180 @@
         </section>
         <section id="attendance-m" v-if="isAttendanceMois">
             <h5 class="mb-3 c-brand">Attendance du mois</h5>
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-10">
+                        <label for="yearSelect" class="w-full"
+                            >Choisir une année</label
+                        >
+                        <select
+                            id="yearSelect"
+                            v-model="selectedYear"
+                            class="w-full"
+                        >
+                            <option
+                                v-for="year in [2023, 2024, 2025]"
+                                :key="year"
+                                :value="year"
+                            >
+                                {{ year }}
+                            </option>
+                        </select>
 
-            <div>
-                <month-picker
-                    :lang="fr"
-                    :clearable="true"
-                    :editable-year="true"
-                    :show-year="false"
-                    :max-date="new Date()"
-                    id="selectedMonth"
-                />
-            </div>
-            <div class="custom-calendar mt-3">
-                <div class="week-days">
-                    <div v-for="day in weekDays" :key="day">{{ day }}</div>
+                        <label for="monthSelect" class="w-full"
+                            >Choisir un mois</label
+                        >
+                        <select
+                            id="monthSelect"
+                            class="w-full"
+                            v-model="selectedMonth"
+                        >
+                            <option
+                                v-for="month in [
+                                    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
+                                ]"
+                                :key="month"
+                                :value="month"
+                            >
+                                {{ months[month - 1] }}
+                            </option>
+                        </select>
+                    </div>
                 </div>
-                <!-- Calendar grid: display boxes for each day of the month -->
-                <div class="calendar-grid">
-                    <!-- Display the days of the week (Lundi, Mardi, etc.) -->
+            </div>
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-11">
+                        <div class="custom-calendar mt-3">
+                            <div class="week-days">
+                                <div v-for="day in weekDays" :key="day">
+                                    {{ day }}
+                                </div>
+                            </div>
+                            <!-- Calendar grid: display boxes for each day of the month -->
+                            <div class="calendar-grid">
+                                <!-- Display the days of the week (Lundi, Mardi, etc.) -->
 
-                    <!-- Display the days of the month in boxes -->
-                    <div
-                        v-for="day in daysInMonth"
-                        :key="day"
-                        class="day-box"
-                        :class="{
-                            'bg-ferie-box-color border-none': isFerie(
-                                new Date(
-                                    currentDate.getFullYear(),
-                                    currentDate.getMonth(),
-                                    day
-                                )
-                            ),
-                        }"
-                    >
-                        <!-- Render data for each day (heures de présences, heures supplémentaires, etc.) -->
-                        <div class="day-info">
-                            <div class="number-of-day">
-                                {{
-                                    getNumber(
-                                        new Date(
-                                            currentDate.getFullYear(),
-                                            currentDate.getMonth(),
-                                            day
-                                        )
-                                    )
-                                }}
+                                <!-- Display the days of the month in boxes -->
+                                <div
+                                    v-for="day in daysInMonth"
+                                    :key="day"
+                                    class="day-box"
+                                    :value="day"
+                                    :class="{
+                                        'bg-WeekEnd-box-color border-none':
+                                            isWeekEnd(
+                                                new Date(
+                                                    selectedYear,
+                                                    selectedMonth - 1,
+                                                    day
+                                                )
+                                            ),
+                                        'border-none ferie': isFerie(
+                                            new Date(
+                                                selectedYear,
+                                                selectedMonth - 1,
+                                                day
+                                            )
+                                        ),
+                                    }"
+                                >
+                                    <!-- Render data for each day (heures de présences, heures supplémentaires, etc.) -->
+                                    <div class="day-info">
+                                        <div class="number-of-day">
+                                            {{
+                                                getNumber(
+                                                    new Date(
+                                                        selectedYear,
+                                                        selectedMonth - 1,
+                                                        day
+                                                    )
+                                                )
+                                            }}
+                                        </div>
+                                        <div class="presence-cell">
+                                            {{
+                                                getPresenceData(
+                                                    selectedYear,
+                                                    selectedMonth,
+                                                    day
+                                                )
+                                            }}
+                                        </div>
+                                        <div class="supplementaires-cell">
+                                            {{
+                                                getSupplementairesData(
+                                                    selectedYear,
+                                                    selectedMonth,
+                                                    day
+                                                )
+                                            }}
+                                        </div>
+                                        <!-- <div class="WeekEnd-cell">
+                                            {{
+                                                getWeekEnd(
+                                                    new Date(
+                                                        selectedYear,
+                                                        selectedMonth - 1,
+                                                        day
+                                                    )
+                                                )
+                                            }}
+                                        </div> -->
+                                        <div class="repos-cell">
+                                            {{
+                                                getReposData(
+                                                    new Date(
+                                                        selectedYear,
+                                                        selectedMonth - 1,
+                                                        day
+                                                    )
+                                                )
+                                            }}
+                                        </div>
+                                        <!-- <div class="">
+                                            {{
+                                                getFerie(
+                                                    getDateString(
+                                                        selectedYear,
+                                                        selectedMonth,
+                                                        day
+                                                    )
+                                                )
+                                            }}
+                                        </div> -->
+                                    </div>
+                                </div>
                             </div>
-                            <div class="presence mb-2 bg-presence-hour-color">
-                                {{
-                                    getPresenceData(
-                                        new Date(
-                                            currentDate.getFullYear(),
-                                            currentDate.getMonth(),
-                                            day
-                                        )
-                                    )
-                                }}
-                            </div>
-                            <div class="supplementaires mb-2 bg-nature-color">
-                                {{
-                                    getSupplementairesData(
-                                        new Date(
-                                            currentDate.getFullYear(),
-                                            currentDate.getMonth(),
-                                            day
-                                        )
-                                    )
-                                }}
-                            </div>
-                            <div class="ferie">
-                                {{
-                                    getFerieData(
-                                        new Date(
-                                            currentDate.getFullYear(),
-                                            currentDate.getMonth(),
-                                            day
-                                        )
-                                    )
-                                }}
-                            </div>
-                            <div class="repos bg-red">
-                                {{
-                                    getReposData(
-                                        new Date(
-                                            currentDate.getFullYear(),
-                                            currentDate.getMonth(),
-                                            day
-                                        )
-                                    )
-                                }}
+                            <div class="legend">
+                                <div class="legend-item">
+                                    <div class="legend-color presence"></div>
+                                    <div class="legend-label">
+                                        Heures de présence
+                                    </div>
+                                </div>
+                                <div class="legend-item">
+                                    <div class="legend-color WeekEnd"></div>
+                                    <div class="legend-label">Week end</div>
+                                </div>
+                                <div class="legend-item">
+                                    <div
+                                        class="legend-color supplementaires"
+                                    ></div>
+                                    <div class="legend-label">
+                                        Heures supplémentaires
+                                    </div>
+                                </div>
+                                <div class="legend-item">
+                                    <div class="legend-color repos"></div>
+                                    <div class="legend-label">Repos</div>
+                                </div>
+                                <div class="legend-item">
+                                    <div class="legend-color ferie"></div>
+                                    <div class="legend-label">Jour ferié</div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="legend">
-                    <div class="legend-item">
-                        <div class="legend-color presence"></div>
-                        <div class="legend-label">Heures de présence</div>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-color ferie"></div>
-                        <div class="legend-label">Jour férié</div>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-color supplementaires"></div>
-                        <div class="legend-label">Heures supplémentaires</div>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-color repos"></div>
-                        <div class="legend-label">Repos</div>
                     </div>
                 </div>
             </div>
@@ -314,19 +429,187 @@
 <script>
 import SideBarView from "@/components/SideBarView.vue";
 import NavBarView from "@/components/NavBarView";
-import { MonthPicker } from "vue-month-picker";
+// import { MonthPicker } from "vue-month-picker";
 import projets from "@/Js/projects.js";
 export default {
-    components: { SideBarView, NavBarView, MonthPicker },
+    components: { SideBarView, NavBarView },
     name: "attendance-details",
     data() {
         return {
-            selectedMonth: null, // Initialize to null initially.
-            isAttendanceJourne: this.$route.params.id === "journe",
-            isAttendanceMois: this.$route.params.id === "mois",
-            isSyntheseM: this.$route.params.id === "SyntheseMois",
-            isSyntheseS: this.$route.params.id === "SyntheseS",
-            selectedDate: new Date().toISOString().substr(0, 10),
+            currentDate: new Date(),
+            months: [
+                "Janvier",
+                "Février",
+                "Mars",
+                "Avril",
+                "Mai",
+                "Juin",
+                "Juillet",
+                "Août",
+                "Septembre",
+                "Octobre",
+                "Novembre",
+                "Décembre",
+            ],
+            attendanceJournée: [
+                {
+                    date: "2023-08-15",
+                    JOEH: 8, // Jours ouvré en heures
+                    HSUPP: 2,
+                },
+                {
+                    date: "2023-08-16",
+                    JOEH: 7,
+                    HSUPP: 3,
+                },
+                {
+                    date: "2023-08-17",
+                    JOEH: 8,
+                    HSUPP: 2,
+                },
+                {
+                    date: "2023-08-18",
+                    JOEH: 8,
+                    HSUPP: 2,
+                },
+                {
+                    date: "2023-08-19",
+                    JOEH: 7,
+                    HSUPP: 3,
+                },
+                {
+                    date: "2023-08-20",
+                    JOEH: 8,
+                    HSUPP: 2,
+                },
+                {
+                    date: "2023-08-21",
+                    JOEH: 2,
+                    HSUPP: 0,
+                },
+            ],
+            selectedDate: new Date().getDate(),
+            selectedYear: new Date().getFullYear(),
+            selectedMonth: new Date().getMonth() + 1,
+            heuresSupp: [
+                {
+                    HS: 3,
+                    date: "2023-07-05",
+                },
+                {
+                    HS: 2,
+                    date: "2023-07-10",
+                },
+                {
+                    HS: 4,
+                    date: "2023-07-15",
+                },
+                {
+                    HS: 1,
+                    date: "2023-07-20",
+                },
+                {
+                    HS: 2,
+                    date: "2023-07-25",
+                },
+                {
+                    HS: 2,
+                    date: "2023-08-05",
+                },
+                {
+                    HS: 3,
+                    date: "2023-08-10",
+                },
+                {
+                    HS: 1,
+                    date: "2023-08-15",
+                },
+                {
+                    HS: 6,
+                    date: "2023-08-18",
+                },
+                {
+                    HS: 4,
+                    date: "2023-08-20",
+                },
+                {
+                    HS: 2,
+                    date: "2023-08-25",
+                },
+            ],
+            heuresPresence: [
+                { HS: 6, date: "2023-08-01" },
+                { HS: 8, date: "2023-08-02" },
+                { HS: 8, date: "2023-08-03" },
+                { HS: 6, date: "2023-08-04" },
+                { HS: 8, date: "2023-08-05" },
+                { HS: 8, date: "2023-08-07" },
+                { HS: 6, date: "2023-08-08" },
+                { HS: 6, date: "2023-08-09" },
+                { HS: 8, date: "2023-08-10" },
+                { HS: 6, date: "2023-08-11" },
+                { HS: 6, date: "2023-08-12" },
+                { HS: 6, date: "2023-08-14" },
+                { HS: 8, date: "2023-08-15" },
+                { HS: 6, date: "2023-08-16" },
+                { HS: 8, date: "2023-08-17" },
+                { HS: 8, date: "2023-08-19" },
+                { HS: 6, date: "2023-08-21" },
+                { HS: 6, date: "2023-08-22" },
+                { HS: 8, date: "2023-08-23" },
+                { HS: 6, date: "2023-08-24" },
+                { HS: 8, date: "2023-08-26" },
+                { HS: 8, date: "2023-08-28" },
+                { HS: 6, date: "2023-08-29" },
+                { HS: 6, date: "2023-08-30" },
+                { HS: 6, date: "2023-08-31" },
+                { HS: 6, date: "2023-07-01" },
+                { HS: 7, date: "2023-07-02" },
+                { HS: 8, date: "2023-07-03" },
+                { HS: 6, date: "2023-07-04" },
+                { HS: 6, date: "2023-07-05" },
+                { HS: 6, date: "2023-07-06" },
+                { HS: 6, date: "2023-07-07" },
+                { HS: 6, date: "2023-07-08" },
+                { HS: 6, date: "2023-07-09" },
+                { HS: 6, date: "2023-07-10" },
+                { HS: 6, date: "2023-07-11" },
+                { HS: 6, date: "2023-07-12" },
+                { HS: 6, date: "2023-07-13" },
+                { HS: 6, date: "2023-08-14" },
+                { HS: 6, date: "2023-07-16" },
+                { HS: 6, date: "2023-07-17" },
+                { HS: 6, date: "2023-07-18" },
+                { HS: 6, date: "2023-07-19" },
+                { HS: 6, date: "2023-07-20" },
+                { HS: 6, date: "2023-07-21" },
+                { HS: 6, date: "2023-07-22" },
+                { HS: 6, date: "2023-07-23" },
+                { HS: 6, date: "2023-07-24" },
+                { HS: 6, date: "2023-07-25" },
+                { HS: 6, date: "2023-07-26" },
+                { HS: 6, date: "2023-07-27" },
+                { HS: 6, date: "2023-07-28" },
+                { HS: 6, date: "2023-07-29" },
+                { HS: 6, date: "2023-07-30" },
+                { HS: 6, date: "2023-07-31" },
+                { HS: 6, date: "2023-09-01" },
+                { HS: 7, date: "2023-09-02" },
+                { HS: 8, date: "2023-09-03" },
+                // ... continue for all days in September
+                { HS: 6, date: "2023-09-30" },
+            ],
+            ferieDays: [
+                {
+                    startDate: "2023-08-21",
+                    endDate: "2023-08-24",
+                },
+                {
+                    startDate: "2023-07-20",
+                    endDate: "2023-07-21",
+                },
+            ],
+            // selectedDate: new Date().toISOString().substr(0, 10),
             landscape: false,
             //  selectedDate: new Date(), // Default selected date is today
             minDate: "2017-01-01", // Set the minimum selectable date
@@ -336,7 +619,6 @@ export default {
                 month: "long",
                 year: "numeric",
             }),
-            currentDate: new Date(),
             projets,
             etatValidationOptions: [
                 { id: 0, label: "Tout" },
@@ -345,13 +627,17 @@ export default {
                 { id: 3, label: "enCours" },
             ],
             selectedEtatValidation: "",
+            isAttendanceJourne: this.$route.params.id === "journe",
+            isAttendanceMois: this.$route.params.id === "mois",
+            isSyntheseM: this.$route.params.id === "SyntheseMois",
+            isSyntheseS: this.$route.params.id === "SyntheseS",
         };
     },
     computed: {
         daysInMonth() {
             // Calculate the total number of days in the current month
-            const year = this.currentDate.getFullYear();
-            const month = this.currentDate.getMonth() + 1; // Months are zero-based, so add 1
+            const year = this.selectedYear;
+            const month = this.selectedMonth - 1; // Months are zero-based, so add 1
             // Check if currentDate is a valid date object
             if (isNaN(year) || isNaN(month)) {
                 return 0; // Return 0 if currentDate is invalid
@@ -360,8 +646,8 @@ export default {
         },
         weekDays() {
             const firstDayOfMonth = new Date(
-                this.currentDate.getFullYear(),
-                this.currentDate.getMonth(),
+                this.selectedYear,
+                this.selectedMonth - 1,
                 1
             );
             const firstDayOfWeek = firstDayOfMonth.getDay();
@@ -415,50 +701,117 @@ export default {
         },
     },
     methods: {
-        getPresenceData(day) {
-            // Logic to fetch and return 'heures de présences' data for the given day
-            // Replace this with your data-fetching logic
-            // you should get the data from somewhere else checkron, the day === 0 doenst mean anything i just
-            //i just didnt want to get an error for not using the day parametre
-            const dayOfMonth = day.getDate();
-            const dayOfWeek = day.getDay();
-            if (
-                dayOfWeek === 6 ||
-                dayOfWeek === 0 ||
-                dayOfMonth === 18 ||
-                dayOfMonth === 19
-            ) {
-                return null; // Return "F" for Saturday and Sunday
-            }
-            return "H";
+        calculateTotal(...args) {
+            return args.reduce(
+                (total, current) => total + parseFloat(current),
+                0
+            );
         },
-        getSupplementairesData(day) {
-            // Logic to fetch and return 'heures supplémentaires' data for the given day
-            // Replace this with your data-fetching logic
-            // const dayOfMonth = day.getDate();
-            const dayOfWeek = day.getDay();
-            if (dayOfWeek === 6 || dayOfWeek === 0) {
-                return null; // Return "F" for Saturday and Sunday
-            }
-            return "Hs";
+        getDateString(year, month, day) {
+            const monthStr = month < 10 ? `0${month}` : `${month}`;
+            const dayStr = day < 10 ? `0${day}` : `${day}`;
+            return `${year}-${monthStr}-${dayStr}`;
         },
-        getFerieData(day) {
+        monAttendance(year, month, day) {
+            const formattedDate = this.getDateString(year, month, day);
+
+            const result = this.attendanceJournée.filter((ele) => {
+                return ele.date === formattedDate;
+            });
+            if (result.length > 0) {
+                const matchedEntry = result[0]; // Take the first matched entry
+                return [
+                    matchedEntry.JOEH,
+                    parseFloat(matchedEntry.JOEH / 8),
+                    matchedEntry.HSUPP,
+                    parseFloat(matchedEntry.JOEH) +
+                        parseFloat(matchedEntry.HSUPP), // Calculate the total here
+                ];
+            }
+
+            // If no matching entry is found, return an array of zeros or appropriate values
+            return [0, 0, 0, 0];
+        },
+        getPresenceData(year, month, day) {
+            const formattedDate = this.getDateString(year, month, day);
+            const heurePresence = this.heuresPresence.filter((ele) => {
+                return ele.date === formattedDate;
+            });
+
+            if (heurePresence.length > 0) {
+                return heurePresence[0].HS;
+            } else {
+                return null;
+            }
+        },
+        getSupplementairesData(year, month, day) {
+            const formattedDate = this.getDateString(year, month, day);
+            const result = this.heuresSupp.filter((ele) => {
+                return ele.date === formattedDate;
+            });
+            if (result.length > 0) {
+                return result[0].HS;
+            } else {
+                return null;
+            }
+        },
+        getWeekEnd(day) {
             // Logic to fetch and return 'jour férié' data for the given day
             // Replace this with your data-fetching logic
             const dayOfWeek = day.getDay();
-            console.log(dayOfWeek);
 
             // Check if the day is Saturday (6) or Sunday (0)
-            if (dayOfWeek === 6 || dayOfWeek === 0) {
-                return "F"; // Return "F" for Saturday and Sunday
+            if (dayOfWeek === 0) {
+                return "D"; // Return "D" for Dimanche
             } else {
                 // Replace this with your data-fetching logic
                 return null; // Return null for other days
             }
         },
+        getFerie(day) {
+            const result = this.ferieDays.filter((ele) => {
+                const startDate = new Date(ele.startDate);
+                const endDate = new Date(ele.endDate);
+                const currentDate = new Date(day);
+
+                const startDateYear = startDate.getFullYear();
+                const startDateMonth = startDate.getMonth();
+                const startDateDay = startDate.getDate();
+
+                const endDateYear = endDate.getFullYear();
+                const endDateMonth = endDate.getMonth();
+                const endDateDay = endDate.getDate();
+
+                const currentYear = currentDate.getFullYear();
+                const currentMonth = currentDate.getMonth();
+                const currentDay = currentDate.getDate();
+
+                return (
+                    new Date(startDateYear, startDateMonth, startDateDay) <=
+                        new Date(currentYear, currentMonth, currentDay) &&
+                    new Date(endDateYear, endDateMonth, endDateDay) >=
+                        new Date(currentYear, currentMonth, currentDay)
+                );
+            });
+
+            if (result.length > 0) {
+                return "F";
+            } else {
+                return null;
+            }
+        },
+
         isFerie(day) {
-            const ferieData = this.getFerieData(day);
-            return ferieData === "F";
+            console.log(
+                "for day",
+                day,
+                " result is ",
+                this.getFerie(day) === "F"
+            );
+            return this.getFerie(day) === "F";
+        },
+        isWeekEnd(day) {
+            return this.getWeekEnd(day) === "D";
         },
 
         getReposData(day) {
@@ -475,11 +828,18 @@ export default {
             const dayOfMonth = day.getDate();
             return dayOfMonth;
         },
-    },
-    created() {
-        this.selectedMonth = new Date().toISOString().substr(0, 7);
-        console.log(this.projets);
-        console.log(this.users);
+        getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        },
+
+        getRandomDate(startDate, endDate) {
+            const start = new Date(startDate);
+            const end = new Date(endDate);
+            const randomTime =
+                start.getTime() +
+                Math.random() * (end.getTime() - start.getTime());
+            return new Date(randomTime).toISOString().slice(0, 10);
+        },
     },
 };
 </script>
@@ -497,18 +857,22 @@ section {
     margin: auto;
     margin-bottom: 30px;
 }
-.presence,
-.supplementaires,
-.repos {
-    width: 90%;
-    text-align: center;
-    margin: auto;
+/* Style for the year and month selects */
+#yearSelect,
+#monthSelect,
+#daySelect {
+    font-size: 16px;
+    padding: 8px;
+    border: 1px solid #ccc;
     border-radius: 4px;
+    margin-right: 10px;
 }
 .day-box {
     border: 2px solid #eee;
     border-radius: 6px;
     font-family: cursive;
+    min-height: 100px;
+    min-width: 100px;
 }
 .week-days {
     display: grid;
@@ -520,6 +884,34 @@ section {
     grid-template-columns: repeat(7, 1fr); /* 7 columns */
     grid-template-rows: repeat(4, 1fr); /* 4 rows */
     gap: 5px; /* Adjust the gap between day boxes */
+    .presence-cell,
+    .supplementaires-cell,
+    .repos-cell {
+        width: 90%;
+        text-align: center;
+        margin: 3px;
+        border-radius: 4px;
+    }
+    .repos-cell {
+        background-color: var(--repos-color);
+        color: white;
+    }
+
+    .presence-cell {
+        background-color: var(
+            --presence-hour-color
+        ); /* Replace with your desired color for "Heures de présence" */
+    }
+
+    .supplementaires-cell {
+        background-color: var(
+            --heures-suplementaires-color
+        ); /* Replace with your desired color for "Heures supplémentaires" */
+    }
+
+    .ferie {
+        background-color: var(--ferie-color) !important;
+    }
 }
 .legend {
     display: flex;
@@ -546,10 +938,11 @@ section {
             ) !important; /* Replace with your desired color for "Heures de présence" */
         }
 
-        .ferie {
+        .WeekEnd {
             background-color: var(
-                --ferie-box-color
+                --WeekEnd-box-color
             ) !important; /* Replace with your desired color for "Jour férié" */
+            color: white;
         }
 
         .supplementaires {
@@ -561,14 +954,11 @@ section {
         .repos {
             background-color: red; /* Replace with your desired color for "Repos" */
         }
+        .ferie {
+            background-color: var(--ferie-color);
+        }
     }
 }
-/* Your styles for the day boxes and data... */
-// .day-box {
-//     /* Your styles... */
-// }
-
-// /* Your styles for the data within each day box... */
 .day-info {
     .number-of-day {
         display: flex;
@@ -582,7 +972,7 @@ section {
         padding: 10px;
     }
     .mytable {
-        // margin-top: 30px;
+        margin-top: 30px;
         padding: 10px;
         border: 3px solid #eee;
         border-radius: 4px;
@@ -591,6 +981,9 @@ section {
                 th,
                 td {
                     padding: 10px;
+                }
+                td:last-child {
+                    color: var(--link-hovered-color);
                 }
             }
         }

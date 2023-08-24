@@ -6,6 +6,8 @@
             <div class="container">
                 <div class="row">
                     <div class="col-12">
+                        {{ startTimes }}
+                        {{ endTimes }},
                         <div
                             class="activity-filter d-flex align-items-center justify-content-around"
                         >

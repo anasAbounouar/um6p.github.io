@@ -8,6 +8,8 @@
                     <div class="col-12">
                         {{ startTimes }}
                         {{ endTimes }},
+                        <p>lalalal</p>
+                        {{ justifications }}
                         <div
                             class="activity-filter d-flex align-items-center justify-content-around"
                         >
@@ -174,8 +176,21 @@
                             </div>
                         </div>
                     </div>
-
-                    <button type="submit">Enregistrer l'absence</button>
+                    <label for="selectJustification"></label>
+                    <select
+                        id="selectJustification"
+                        v-model="selectedJustification"
+                    >
+                        <option selected hidden>
+                            Choisir une justification
+                        </option>
+                        <option v-for="type in typesJustifications" :key="type">
+                            {{ type }}
+                        </option>
+                    </select>
+                    <button type="submit" @click.prevent="saveAbsence">
+                        Enregistrer l'absence
+                    </button>
                     <button
                         @click.prevent="calculateTotalHours"
                         class="btn-calculation"
@@ -507,6 +522,18 @@ export default {
 
     data() {
         return {
+            typesJustifications: [
+                "MGE",
+                "NCE",
+                "OC",
+                "C",
+                "D",
+                "CG",
+                "CM",
+                "M",
+            ],
+            selectedJustification: "Choisir une justification",
+            justifications: {}, // Initialize the justifications object
             employees,
             startDate: "",
             endDate: "",
@@ -716,6 +743,11 @@ export default {
                 return this.endTimes[date][shift].end;
             }
             return null;
+        },
+        async saveAbsence() {
+            for (const date of this.selectedDates) {
+                this.justifications[date] = this.selectedJustification;
+            }
         },
         calculateTotalHours() {
             this.totalHours = 0;

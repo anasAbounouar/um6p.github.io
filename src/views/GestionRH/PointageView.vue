@@ -40,6 +40,7 @@
                         <input id="date" type="date" v-model="selectedDate" />
                     </div>
                     <div class="col-12">
+                        <span>Morning Shift</span>
                         <table>
                             <thead>
                                 <tr>
@@ -71,10 +72,18 @@
                                                 ) -->
                                         <select
                                             v-model="
-                                                theoriticalExistance[
-                                                    `${employee.id}-${selectedDate}`
+                                                realExistance[
+                                                    `${employee.id}-${selectedDate}-morning`
                                                 ]
                                             "
+                                            :style="{
+                                                backgroundColor:
+                                                    getBackgroundColor(
+                                                        realExistance[
+                                                            `${employee.id}-${selectedDate}-morning`
+                                                        ]
+                                                    ),
+                                            }"
                                         >
                                             <option value="Present">
                                                 Present
@@ -86,28 +95,18 @@
                                                 Absent P
                                             </option>
                                         </select>
-                                        <!-- <select
-                                            v-model="employee.theoriticalExistance"
-                                        >
-                                            <option value="Present">
-                                                Present
-                                            </option>
-                                            <option value="Absent">
-                                                Absent
-                                            </option>
-                                            <option value="Absent P">
-                                                Absent P
-                                            </option>
-                                        </select> -->
                                     </td>
                                     <td>
                                         <select
                                             v-if="
-                                                employee.theoriticalExistance !==
-                                                'Present'
+                                                realExistance[
+                                                    `${employee.id}-${selectedDate}-morning`
+                                                ] !== 'Present'
                                             "
                                             v-model="
-                                                employee.selectedEtatAbsence
+                                                selectedEtatAbsence[
+                                                    `${employee.id}-${selectedDate}-morning`
+                                                ]
                                             "
                                         >
                                             <option value="AA">AA</option>
@@ -117,12 +116,167 @@
                                     <td>
                                         <select
                                             v-if="
-                                                employee.theoriticalExistance !==
-                                                    'Present' &&
-                                                employee.selectedEtatAbsence ===
-                                                    'AA'
+                                                realExistance[
+                                                    `${employee.id}-${selectedDate}-morning`
+                                                ] !== 'Present' &&
+                                                selectedEtatAbsence[
+                                                    `${employee.id}-${selectedDate}-morning`
+                                                ] === 'AA'
                                             "
-                                            v-model="employee.just"
+                                            v-model="
+                                                selectedJustifications[
+                                                    employee.id
+                                                ][selectedDate].just
+                                            "
+                                        >
+                                            <option value="MGE">MGE</option>
+                                            <option value="C">C</option>
+                                            <option value="Autre">Autre</option>
+                                        </select>
+                                        <!-- {{
+                                            selectedJustifications[employee.id]
+                                        }} -->
+                                    </td>
+                                    <td>
+                                        <input
+                                            v-show="
+                                                realExistance[
+                                                    `${employee.id}-${selectedDate}-morning`
+                                                ] !== 'Absent'
+                                            "
+                                            type="time"
+                                            v-model="
+                                                realEntrée[
+                                                    `${employee.id}-${selectedDate}-morning`
+                                                ]
+                                            "
+                                        />
+                                    </td>
+                                    <td>
+                                        <input
+                                            v-if="
+                                                realExistance[
+                                                    `${employee.id}-${selectedDate}-morning`
+                                                ] !== 'Absent'
+                                            "
+                                            type="time"
+                                            v-model="
+                                                realSortie[
+                                                    `${employee.id}-${selectedDate}-morning`
+                                                ]
+                                            "
+                                        />
+                                        <!-- {{
+                                            realSortie[
+                                                `${employee.id}-${selectedDate}-morning`
+                                            ]
+                                        }} -->
+                                    </td>
+                                    <td>
+                                        {{
+                                            calculateHoursDifference(
+                                                realEntrée[
+                                                    `${employee.id}-${selectedDate}-morning`
+                                                ],
+                                                realSortie[
+                                                    `${employee.id}-${selectedDate}-morning`
+                                                ]
+                                            )
+                                        }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-12">
+                        <span>Afternoon shift</span>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Matricule</th>
+                                    <th>Nom & Prenom</th>
+                                    <th>Presence</th>
+                                    <th>Etat d’absence</th>
+                                    <th>Just</th>
+                                    <th>Entrée</th>
+                                    <th>Sortie</th>
+                                    <th>Heures</th>
+                                    <th>Capacité</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr
+                                    v-for="employee in employees"
+                                    :key="employee.id"
+                                >
+                                    <td>{{ employee.matricule }}</td>
+                                    <td>
+                                        {{ employee.nom }} {{ employee.prenom }}
+                                    </td>
+
+                                    <td>
+                                        <!-- getAbsenceStatus(
+                                                    employee.id,
+                                                    selectedDate
+                                                ) -->
+                                        <select
+                                            v-model="
+                                                realExistance[
+                                                    `${employee.id}-${selectedDate}-afternoon`
+                                                ]
+                                            "
+                                            :style="{
+                                                backgroundColor:
+                                                    getBackgroundColor(
+                                                        realExistance[
+                                                            `${employee.id}-${selectedDate}-afternoon`
+                                                        ]
+                                                    ),
+                                            }"
+                                        >
+                                            <option value="Present">
+                                                Present
+                                            </option>
+                                            <option value="Absent">
+                                                Absent
+                                            </option>
+                                            <option value="Absent P">
+                                                Absent P
+                                            </option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select
+                                            v-if="
+                                                realExistance[
+                                                    `${employee.id}-${selectedDate}-afternoon`
+                                                ] !== 'Present'
+                                            "
+                                            v-model="
+                                                selectedEtatAbsence[
+                                                    `${employee.id}-${selectedDate}-afternoon`
+                                                ]
+                                            "
+                                        >
+                                            <option value="AA">AA</option>
+                                            <option value="ANA">ANA</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select
+                                            v-if="
+                                                realExistance[
+                                                    `${employee.id}-${selectedDate}-afternoon`
+                                                ] !== 'Present' &&
+                                                selectedEtatAbsence[
+                                                    `${employee.id}-${selectedDate}-afternoon`
+                                                ] === 'AA'
+                                            "
+                                            v-model="
+                                                selectedJustifications[
+                                                    employee.id
+                                                ][selectedDate].just
+                                            "
                                         >
                                             <option value="MGE">MGE</option>
                                             <option value="C">C</option>
@@ -132,28 +286,42 @@
                                     <td>
                                         <input
                                             v-show="
-                                                employee.theoriticalExistance !==
-                                                'Absent'
+                                                realExistance[
+                                                    `${employee.id}-${selectedDate}-afternoon`
+                                                ] !== 'Absent'
                                             "
                                             type="time"
-                                            v-model="entréeMatin"
+                                            v-model="
+                                                realEntrée[
+                                                    `${employee.id}-${selectedDate}-afternoon`
+                                                ]
+                                            "
                                         />
                                     </td>
                                     <td>
                                         <input
                                             v-if="
-                                                employee.theoriticalExistance !==
-                                                'Absent'
+                                                realExistance[
+                                                    `${employee.id}-${selectedDate}-afternoon`
+                                                ] !== 'Absent'
                                             "
                                             type="time"
-                                            v-model="sortieMatin"
+                                            v-model="
+                                                realSortie[
+                                                    `${employee.id}-${selectedDate}-afternoon`
+                                                ]
+                                            "
                                         />
                                     </td>
                                     <td>
                                         {{
                                             calculateHoursDifference(
-                                                employee.entréeMatin,
-                                                employee.sortieMatin
+                                                realEntrée[
+                                                    `${employee.id}-${selectedDate}-afternoon`
+                                                ],
+                                                realSortie[
+                                                    `${employee.id}-${selectedDate}-afternoon`
+                                                ]
                                             )
                                         }}
                                     </td>
@@ -171,6 +339,7 @@ import SideBarView from "@/components/SideBarView.vue";
 import NavBarView from "@/components/NavBarView";
 import employees from "@/Js/employees";
 import absence from "@/Js/absence";
+import justifications from "@/Js/justifications";
 export default {
     name: "Pointage-page",
     components: {
@@ -181,6 +350,13 @@ export default {
         const today = new Date();
         const formattedToday = today.toISOString().substr(0, 10);
         return {
+            shifts: ["morning", "afternoon"],
+            realEntrée: {},
+            realSortie: {},
+            realExistance: {},
+            realJustifications: {},
+            selectedJustifications: {},
+            justifications,
             absence,
             selectedDate: formattedToday,
             employees,
@@ -188,7 +364,7 @@ export default {
             selectedPoste: "Poste",
             selectedEmployeur: "Employeur",
             employeurs: ["Best Profile", "UM6P"],
-            selectedEtatAbsence: "AA",
+            selectedEtatAbsence: {},
             just: "MGE",
             entréeMatin: "07:00",
             sortieMatin: "12:00",
@@ -206,7 +382,7 @@ export default {
             const decimalHours = hours + minutes / 60; // Convert to decimal hours
             return decimalHours.toFixed(2); // Return formatted decimal hours
         },
-        calculateTotalAbsenceHours(employeeId, date) {
+        calculateTotalAbsenceHours(employeeId, date, shift) {
             const formattedSelectedDate = new Date(date)
                 .toISOString()
                 .substr(0, 10); // Format to 'yyyy-mm-dd'
@@ -218,21 +394,25 @@ export default {
             if (employeeAbsence) {
                 const absenceDataForDate =
                     employeeAbsence.starDates[formattedSelectedDate];
-                const startTime = absenceDataForDate?.morning?.start;
-                console.log(startTime);
-                const endTime =
-                    employeeAbsence.endDates[formattedSelectedDate]?.morning
-                        ?.end;
-                console.log(employeeAbsence.endDates);
-                // console.log(endTime);
+                let startTime, endTime; // Declare startTime and endTime
+                if (shift === "morning") {
+                    startTime = absenceDataForDate?.morning?.start;
+
+                    endTime =
+                        employeeAbsence.endDates[formattedSelectedDate]?.morning
+                            ?.end;
+                } else {
+                    startTime = absenceDataForDate?.afternoon?.start;
+                    endTime =
+                        employeeAbsence.endDates[formattedSelectedDate]
+                            ?.afternoon?.end;
+                }
 
                 if (startTime && endTime) {
                     const start = new Date(`1970-01-01T${startTime}`);
                     const end = new Date(`1970-01-01T${endTime}`);
                     const totalSeconds = (end - start) / 1000;
                     const totalHours = totalSeconds / 3600;
-                    console.log("Total hours is ", totalHours);
-
                     return totalHours;
                 }
             }
@@ -240,76 +420,225 @@ export default {
             return 0; // Default to 0 hours if data is missing
         },
 
-        determineAbsenceStatus(totalHours) {
-            if (totalHours >= 5) {
-                return "Absent";
-            } else if (totalHours > 0 && totalHours < 5) {
-                return "Absent P";
-            } else {
-                return "Present";
+        determineAbsenceStatus(totalHours, shift) {
+            if (shift === "morning") {
+                if (totalHours == 5) {
+                    return "Absent";
+                } else if (totalHours > 0 && totalHours < 5) {
+                    return "Absent P";
+                } else {
+                    return "Present";
+                }
+            } else if (shift === "afternoon") {
+                if (totalHours == 3) {
+                    return "Absent";
+                } else if (totalHours > 0 && totalHours < 3) {
+                    return "Absent P";
+                } else {
+                    return "Present";
+                }
             }
         },
 
-        getAbsenceStatus(employeeId, selectedDate) {
+        getAbsenceStatus(employeeId, selectedDate, shift) {
             const totalAbsenceHours = this.calculateTotalAbsenceHours(
                 employeeId,
-                selectedDate
+                selectedDate,
+                shift
             );
-            return this.determineAbsenceStatus(totalAbsenceHours);
+            return this.determineAbsenceStatus(totalAbsenceHours, shift);
         },
-        // updateAbsenceStatus(employeeId, date) {
-        //     const formattedSelectedDate = new Date(date)
-        //         .toISOString()
-        //         .substr(0, 10);
+        getBackgroundColor(existence) {
+            if (existence === "Present") {
+                return "#A9DFBF"; // Light green for 'Present'
+            } else if (existence === "Absent") {
+                return "#F1948A"; // Light red for 'Absent'
+            } else if (existence === "Absent P") {
+                return "#F5B7B1"; // Light pink for 'Absent P'
+            }
+            return ""; // Default background color
+        },
+        updateSelectedJustifications() {
+            for (const justification of this.justifications) {
+                const { employeeID, dates } = justification;
+                if (!this.selectedJustifications[employeeID]) {
+                    this.selectedJustifications[employeeID] = {};
+                }
 
-        //     const employeeAbsence = absence.find(
-        //         (item) => item.employeeId === employeeId
-        //     );
+                for (const date in dates) {
+                    const { just } = dates[date];
+                    if (!this.selectedJustifications[employeeID][date]) {
+                        this.selectedJustifications[employeeID][date] = {};
+                    }
+                    this.selectedJustifications[employeeID][date].just = just;
+                    console.log(this.selectedJustifications[employeeID][date]);
+                }
+            }
+        },
+        selectedJustificationForEmployee(employeeId, date) {
+            console.log(employeeId);
+            console.log();
+            const employeeJustifications =
+                this.selectedJustifications[employeeId];
+            if (employeeJustifications && employeeJustifications[date]) {
+                return employeeJustifications[date].just || "";
+            }
+            return "";
+        },
+        setRealEntréeSortie(employeeId, date, shift) {
+            const formattedSelectedDate = new Date(date)
+                .toISOString()
+                .substr(0, 10);
 
-        //     if (employeeAbsence) {
-        //         const realAbsenceData = {
-        //             employeeId: employeeId,
-        //             starDates: { ...employeeAbsence.starDates },
-        //             endDates: { ...employeeAbsence.endDates },
-        //         };
+            if (
+                this.realExistance[
+                    `${employeeId}-${formattedSelectedDate}-shift`
+                ] !== "Absent"
+            ) {
+                const entréeTime = shift === "morning" ? "07:00" : "13:00";
+                const sortieTime = shift === "morning" ? "12:00" : "16:00";
 
-        //         // Modify the realAbsenceData based on the theoriticalExistance value
-        //         const theoriticalExistanceValue =
-        //             this.theoriticalExistance[
-        //                 `${employeeId}-${formattedSelectedDate}`
-        //             ];
-        //         if (theoriticalExistanceValue === "Present") {
-        //             delete realAbsenceData.starDates[formattedSelectedDate];
-        //             delete realAbsenceData.endDates[formattedSelectedDate];
-        //         } else {
-        //             realAbsenceData.starDates[formattedSelectedDate] = {
-        //                 morning: { start: "07:00" },
-        //                 afternoon: { start: "13:00" },
-        //             };
-        //             realAbsenceData.endDates[formattedSelectedDate] = {
-        //                 morning: { end: "12:00" },
-        //                 afternoon: { end: "16:00" },
-        //             };
-        //         }
-
-        //         // Update the realAbsence object
-        //         this.realAbsence[employeeId] = realAbsenceData;
-        //     }
-        // },
+                this.$set(
+                    this.realEntrée,
+                    `${employeeId}-${formattedSelectedDate}-${shift}`,
+                    entréeTime
+                );
+                this.$set(
+                    this.realSortie,
+                    `${employeeId}-${formattedSelectedDate}-${shift}`,
+                    sortieTime
+                );
+            }
+        },
     },
+    computed: {
+        selectedEtatAbsenceComputed() {
+            return (employeeId, selectedDate, shift) => {
+                const theoriticalExistanceKey = `${employeeId}-${selectedDate}-${shift}`;
+                const theoriticalExistanceValue =
+                    this.theoriticalExistance[theoriticalExistanceKey];
+                return theoriticalExistanceValue !== "Present" ? "AA" : "";
+            };
+        },
+    },
+
     mounted() {
         this.employees.forEach((employee) => {
-            const absenceStatus = this.getAbsenceStatus(
+            const absenceStatusMorning = this.getAbsenceStatus(
                 employee.id,
-                this.selectedDate
+                this.selectedDate,
+                "morning"
             );
             this.$set(
                 this.theoriticalExistance,
-                `${employee.id}-${this.selectedDate}`,
-                absenceStatus
+                `${employee.id}-${this.selectedDate}-morning`,
+                absenceStatusMorning
+            );
+            const absenceStatusAfternoon = this.getAbsenceStatus(
+                employee.id,
+                this.selectedDate,
+                "afternoon"
+            );
+            this.$set(
+                this.theoriticalExistance,
+                `${employee.id}-${this.selectedDate}-afternoon`,
+                absenceStatusAfternoon
+            );
+            const morningShiftStatus =
+                this.theoriticalExistance[
+                    `${employee.id}-${this.selectedDate}-morning`
+                ];
+            const afternoonShiftStatus =
+                this.theoriticalExistance[
+                    `${employee.id}-${this.selectedDate}-afternoon`
+                ];
+
+            // Determine absence state based on theoriticalExistance
+            const morningState =
+                morningShiftStatus !== "Present"
+                    ? "AA"
+                    : employee.selectedEtatAbsence || "ANA";
+            // actually employee.selected .. has no meaning , but "ANA "yes . it meany if i change .
+            // the presence of someone from present to another thing , bye default it ana
+            const afternoonState =
+                afternoonShiftStatus !== "Present"
+                    ? "AA"
+                    : employee.selectedEtatAbsence || "ANA";
+
+            this.selectedEtatAbsence[
+                `${employee.id}-${this.selectedDate}-morning`
+            ] = morningState;
+            this.selectedEtatAbsence[
+                `${employee.id}-${this.selectedDate}-afternoon`
+            ] = afternoonState;
+            this.realExistance = this.theoriticalExistance;
+            // this.selectedJustifications[
+            //     `${employee.id}-${this.selectedDate}-morning-just`
+            // ] = this.justifications.dates[this.selectedDate]?.just;
+            // const employeeId = employee.id;
+            // const selectedDate = this.selectedDate;
+            // const theoriticalExistance = this.theoriticalExistance;
+
+            // const morningPresence =
+            //     theoriticalExistance[employeeId]?.[selectedDate]?.morning;
+            // const afternoonPresence =
+            //     theoriticalExistance[employeeId]?.[selectedDate]?.afternoon;
+
+            // const morningJustification =
+            //     justifications.find((j) => j.employeeID === employeeId)?.dates[
+            //         selectedDate
+            //     ]?.just || "";
+            // const afternoonJustification =
+            //     justifications.find((j) => j.employeeID === employeeId)?.dates[
+            //         selectedDate
+            //     ]?.just || "";
+
+            // this.selectedJustifications[
+            //     `${employeeId}-${selectedDate}-morning-just`
+            // ] = morningPresence !== "Present" ? "AA" : morningJustification;
+            // this.selectedJustifications[
+            //     `${employeeId}-${selectedDate}-afternoon-just`
+            // ] = afternoonPresence !== "Present" ? "AA" : afternoonJustification;
+            // Call the method to populate selectedJustifications when the component is mounted
+            this.updateSelectedJustifications();
+            // another function
+            // for (const shift in this.shifts) {
+            // if (
+            //     this.realExistance[
+            //         `${employee.id}-${this.selectedDate}-${"morning"}`
+            //     ] !== "Absent"
+            // ) {
+            //     //     const entréeTime = shift === "morning" ? "07:00" : "13:00";
+            //     //     const sortieTime = shift === "morning" ? "12:00" : "16:00";
+            //     const sortieTime = "12:00";
+            //     const entréeTime = "07:00";
+
+            //     this.$set(
+            //         this.realEntrée,
+            //         `${employee.id}-${this.selectedDate}-${"morning"}`,
+            //         entréeTime
+            //     );
+            //     this.$set(
+            //         this.realSortie,
+            //         `${employee.id}-${this.selectedDate}-${"morning"}`,
+            //         sortieTime
+            //     );
+            //     console.log("voila real sortie");
+            //     console.log(this.realAbsence);
+            //     // window.alert("k");
+            //     // }
+            // }
+            this.setRealEntréeSortie(employee.id, this.selectedDate, "morning");
+            this.setRealEntréeSortie(
+                employee.id,
+                this.selectedDate,
+                "afternoon"
             );
         });
     },
+    // created() {
+    //     this.setRealEntréeSortie();
+    // },
 };
 </script>
 <style lang="scss">
@@ -363,7 +692,20 @@ section {
                     width: 100%;
                     border: none;
                     cursor: pointer;
-                    box-shadow: 0px 1px 0px 0px rgb(41 41 41 / 50%);
+                    // box-shadow: 0px 1px 0px 0px rgb(41 41 41 / 50%);
+                    // .present-bg {
+                    //     background-color: white; /* or any color for 'Present' */
+                    // }
+                    // .absent-bg {
+                    //     background-color: red; /* or any color for 'Absent' */
+                    // }
+                    // .absent-p-bg {
+                    //     background-color: pink; /* or any color for 'Absent P' */
+                    // }
+                    &:focus {
+                        box-shadow: none;
+                        border: none;
+                    }
                 }
                 input {
                     padding: 10px;

@@ -42,3 +42,10 @@
     }
   
 }
+section  {
+    // flex: 1; /* Let the content take up the remaining width */
+    // padding: 20px;
+    // background-color: #fff;
+    // overflow: hidden; /* Hide any content that overflows the content area */
+    padding-left: calc(var(--sidebar-width) + 25px);
+}

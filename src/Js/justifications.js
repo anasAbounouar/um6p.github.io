@@ -2,7 +2,7 @@ const justifications = [
     {
         employeeID: 1,
         dates: {
-            "2023-08-25": { just: "C" },
+            "2023-08-27": { just: "C" },
             // "2023-08-19": { just: "CG" },
             // ... other dates ...
         },
@@ -10,7 +10,7 @@ const justifications = [
     {
         employeeID: 4,
         dates: {
-            "2023-08-25": { just: "MGE" },
+            "2023-08-27": { just: "MGE" },
             // "2023-08-19": { just: "C" },
             // ... other dates ...
         },

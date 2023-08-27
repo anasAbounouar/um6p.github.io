@@ -22,6 +22,10 @@ import RHDetailsEmployeesView from "../views/GestionRH/RHDetailsEmployeesView.vu
 import RHEmployiissView from "../views/GestionRH/RHEmployiissView.vue";
 import RHNewEmployeeView from "../views/GestionRH/RHNewEmployeeView.vue";
 import PointageView from "../views/GestionRH/PointageView.vue";
+import PointageSuppView from "../views/GestionRH/PointageSuppView.vue";
+import PlanificationView from "../views/GestionRH/PlanificationView.vue";
+import RHDemandesView from "../views/GestionRH/RHDemandesView.vue";
+import AutorisationAbsenceView from "../views/GestionRH/AutorisationAbsenceView.vue";
 
 Vue.use(VueRouter);
 
@@ -141,6 +145,34 @@ const routes = [
         name: "pointage-page",
 
         component: PointageView,
+    },
+    {
+        path: "/Pointage/:id/:mydate",
+
+        name: "pointage-supp",
+
+        component: PointageSuppView,
+    },
+    {
+        path: "/Planification",
+
+        name: "planification-page",
+
+        component: PlanificationView,
+    },
+    {
+        path: "/AutorisationAbsence",
+
+        name: "RH-autorisation-absence",
+
+        component: AutorisationAbsenceView,
+    },
+    {
+        path: "/RHDemandes",
+
+        name: "RH-demandes-page",
+
+        component: RHDemandesView,
     },
     {
         path: "/RHEmployeeshelp",

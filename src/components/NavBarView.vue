@@ -1,6 +1,6 @@
 <template>
     <div>
-        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary sticky-top">
             <div class="container-fluid">
                 <a class="navbar-brand" href="#"
                     ><img src="@/assets/ferme2.png" alt="this is a logo"
@@ -57,6 +57,8 @@ export default {
 </script>
 <style lang="scss" scoped>
 nav {
+    margin-left: var(--sidebar-width);
+    // width: 100%;
     height: 86px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     // padding-left: calc(var(--sidebar-width) + 25px);

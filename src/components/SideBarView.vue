@@ -1,6 +1,7 @@
+<!-- eslint-disable prettier/prettier -->
 <template>
     <div>
-        <div id="sidebar">
+        <div id="sidebar" ref="sidebarContainer">
             <!-- dashboard  -->
             <div
                 v-if="user.poste == 'admin'"
@@ -127,10 +128,22 @@
                     <i class="fa fa-calendar"></i>
                     <span>Attendance</span>
                 </div>
-                <!-- Demande -->
-                <div class="user-space-icon" @click="goToPage('RHDemande')">
+                <div
+                    class="user-space-icon"
+                    @click="goToPage('planification-page')"
+                >
+                    <i
+                        class="fa fa-clock"
+                        :class="{ active: isAttendanceActive }"
+                    ></i>
+                    <span :class="{ active: isAttendanceActive }"
+                        >Planification</span
+                    >
+                </div>
+                <!-- RH Demandes -->
+                <div class="user-space-icon" @click="goToPage('RH-demandes-page')">
                     <i class="fa fa-file"></i>
-                    <span>Demande</span>
+                    <span>Demandes</span>
                 </div>
             </div>
             <!-- Gestion des comptes -->
@@ -160,6 +173,7 @@ export default {
             showIcons: true,
             showRHIcons: true,
             user: null,
+            scrolling: "",
         };
     },
     //we want to use props but i prefered localstorage
@@ -177,6 +191,8 @@ export default {
             this.showRHIcons = !this.showRHIcons;
         },
         goToPage(page) {
+            // Prevent default link behavior
+            event.preventDefault();
             const currentRouteName = this.$route.name;
 
             if (page === "profile" && currentRouteName === "myprofile-page") {
@@ -248,6 +264,12 @@ export default {
                 case "RH-employiiss-page":
                     this.$router.push({ name: "RH-employiiss-page" });
                     break;
+                case "planification-page":
+                    this.$router.push({ name: "planification-page" });
+                    break;
+                case "RH-demandes-page":
+                    this.$router.push({ name: "RH-demandes-page" });
+                    break;
                 default:
                     console.warn(`Unknown page: ${page}`);
             }
@@ -294,17 +316,37 @@ export default {
             );
         },
     },
+    mounted() {
+        // Select the sidebar element using its ID
+        const sidebar = document.getElementById("sidebar");
+        console.log(sidebar);
+
+        // Get the scroll position (scrollTop) of the sidebar
+        const scrollPosition = sidebar.scrollTop;
+        console.log(scrollPosition);
+        this.scrolling = window.scrollY;
+
+        // Use the scroll position as needed
+        console.log("Scroll Position:", this.scrolling);
+    },
 };
 </script>
 
 <style lang="scss" scoped>
 #sidebar {
-    top: 87px;
+    // top: 87px;
 
+    // z-index: 99;
+    width: var(--sidebar-width);
+    // min-height: 100%;
+    position: relative;
     z-index: 99;
-    min-width: var(--sidebar-width);
-    min-height: 100%;
-    position: absolute;
+    background-color: #f0f0f0;
+    position: fixed;
+    top: 0px;
+    left: 0;
+    bottom: 0;
+    overflow-y: auto;
     background: var(--principal-color);
     .active {
         color: var(--sidebar-li-color);

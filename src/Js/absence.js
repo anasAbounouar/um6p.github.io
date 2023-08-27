@@ -1,8 +1,9 @@
 const absence = [
     {
+        id: 0,
         employeeId: 1,
         starDates: {
-            "2023-08-25": {
+            "2023-08-27": {
                 morning: { start: "07:00" },
                 afternoon: { start: "15:00" },
             },
@@ -40,7 +41,7 @@ const absence = [
             // },
         },
         endDates: {
-            "2023-08-25": {
+            "2023-08-27": {
                 morning: { end: "12:00" },
                 afternoon: { end: "16:00" },
             },
@@ -77,11 +78,13 @@ const absence = [
             //     afternoon: { end: "16:00" },
             // },
         },
+        demandeur: 2,
     },
     {
+        id: 1,
         employeeId: 4,
         starDates: {
-            "2023-08-25": {
+            "2023-08-27": {
                 morning: { start: "08:00" },
                 afternoon: { start: "13:00" },
             },
@@ -119,7 +122,7 @@ const absence = [
             // },
         },
         endDates: {
-            "2023-08-25": {
+            "2023-08-27": {
                 morning: { end: "11:00" },
                 afternoon: { end: "16:00" },
             },
@@ -156,6 +159,7 @@ const absence = [
             //     afternoon: { end: "16:00" },
             // },
         },
+        demandeur: 5,
     },
 ];
 export default absence;

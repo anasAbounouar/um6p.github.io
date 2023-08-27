@@ -1035,7 +1035,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 section {
-    padding-left: calc(var(--sidebar-width) + 25px);
+    margin-left: calc(var(--sidebar-width) + 25px);
 }
 
 form {
@@ -1249,60 +1249,6 @@ select {
 
     .sunday-color {
         background-color: #bdc3c7; /* Grey color for Sundays */
-    }
-    b-modal {
-        position: absolute;
-        .custom-modal {
-            max-width: 600px;
-            width: 100%;
-            margin: 0 auto;
-        }
-
-        .modal-form {
-            padding: 20px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            transition: border-color 0.2s ease-in-out;
-        }
-
-        .form-control:focus {
-            outline: none;
-            border-color: #007bff;
-            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-        }
-
-        .buttons {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .btn {
-            padding: 10px 20px;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        .btn-primary {
-            background-color: #007bff;
-            color: white;
-            border: none;
-        }
-
-        .btn-secondary {
-            background-color: #f0f0f0;
-            color: #333;
-            border: none;
-        }
     }
     .ajouter-repos {
         padding: 10px 20px;

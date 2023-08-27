@@ -9,8 +9,8 @@
                         <div class="d-flex justify-content-between nom">
                             <div>Nom & Prenom :</div>
                             <div>
-                                <span
-                                    >{{ user && user.nom }}
+                                <span>
+                                    {{ user && user.nom }}
                                     {{ user && user.prenom }}</span
                                 >
                             </div>
@@ -212,107 +212,100 @@
                             v-if="infospersoChosen"
                             class="infosperso-box mt-3"
                         >
-                            <div class="my-3 d-flex justify-content-end">
-                                <i
-                                    v-if="user.poste === 'admin'"
-                                    class="fa fa-pencil"
-                                    @click="toggleEditingPerso"
-                                    v-show="!isEditingPerso"
-                                ></i>
-                                <i
-                                    v-if="user.poste === 'admin'"
-                                    class="fa fa-check"
-                                    @click="saveDataPerso"
-                                    v-show="isEditingPerso"
-                                ></i>
-                            </div>
                             <table>
+                                <thead>
+                                    <tr>
+                                        <th>Nom</th>
+                                        <th>Prenom</th>
+                                        <th>Matricule</th>
+                                        <th>CIN</th>
+                                        <th>Sexe</th>
+                                        <th>Date de Naissance</th>
+                                    </tr>
+                                </thead>
                                 <tbody>
                                     <tr>
-                                        <td>Sexe</td>
                                         <td>
-                                            <input
-                                                type="text"
-                                                :disabled="!isEditingPerso"
-                                                v-model="sexe"
-                                                :class="{
-                                                    'border-none':
-                                                        !isEditingPerso,
-                                                }"
-                                            />
+                                            {{ nom }}
                                         </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Date de naissance</td>
                                         <td>
-                                            <input
-                                                type="date"
-                                                :disabled="!isEditingPerso"
-                                                v-model="dateNaissance"
-                                                :class="{
-                                                    'border-none':
-                                                        !isEditingPerso,
-                                                }"
-                                            />
+                                            {{ prenom }}
                                         </td>
-                                    </tr>
-                                    <tr>
-                                        <td>CIN</td>
                                         <td>
-                                            <input
-                                                type="text"
-                                                :disabled="!isEditingPerso"
-                                                v-model="cin"
-                                                :class="{
-                                                    'border-none':
-                                                        !isEditingPerso,
-                                                }"
-                                            />
+                                            {{ matricule }}
                                         </td>
-                                    </tr>
-                                    <tr>
-                                        <td>CNSS</td>
                                         <td>
-                                            <input
-                                                type="text"
-                                                :disabled="!isEditingPerso"
-                                                v-model="cnss"
-                                                :class="{
-                                                    'border-none':
-                                                        !isEditingPerso,
-                                                }"
-                                            />
+                                            {{ cin }}
                                         </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Etat civil</td>
                                         <td>
-                                            <input
-                                                type="text"
-                                                :disabled="!isEditingPerso"
-                                                v-model="etatCivil"
-                                                :class="{
-                                                    'border-none':
-                                                        !isEditingPerso,
-                                                }"
-                                            />
+                                            {{ sexe }}
                                         </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Nb d'enfants</td>
                                         <td>
-                                            <input
-                                                type="number"
-                                                :disabled="!isEditingPerso"
-                                                v-model="nbEnfants"
-                                                :class="{
-                                                    'border-none': !isEditing,
-                                                }"
-                                            />
+                                            {{ dateNaissance }}
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Etat Civil</th>
+                                        <th>Nombre d'enfants</th>
+                                        <th>Entité d'affetation</th>
+                                        <th>Premier Embauche</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            {{ etatCivil }}
+                                        </td>
+                                        <td>
+                                            {{ nbEnfants }}
+                                        </td>
+                                        <td>
+                                            {{ entiteAffectation }}
+                                        </td>
+                                        <td>
+                                            {{ premierEmbauche }}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Email</th>
+                                        <th>Mot de passe</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <td>
+                                        {{ email }}
+                                    </td>
+                                    <td>
+                                        <input
+                                            :type="typeField"
+                                            disabled
+                                            v-model="password"
+                                            :class="{
+                                                'border-none': !isEditingPerso,
+                                            }"
+                                        />
+                                        <i
+                                            v-if="typeField == 'password'"
+                                            class="fa-solid fa-eye-slash"
+                                            @click.prevent="switchType"
+                                        ></i>
+                                        <i
+                                            v-else
+                                            class="fa-solid fa-eye"
+                                            @click.prevent="switchType"
+                                        ></i>
+                                    </td>
+                                </tbody>
+                            </table>
+
                             <div class="mt-3 d-flex justify-content-end">
                                 Derniere modification :
                                 <span class="c-grey">{{
@@ -321,145 +314,66 @@
                             </div>
                         </div>
                         <div v-if="infosproChosen" class="infospro-box mt-3">
-                            <div class="my-3 d-flex justify-content-end">
-                                <i
-                                    v-if="user.poste == 'admin'"
-                                    class="fa fa-pencil"
-                                    @click="toggleEditingPro"
-                                    v-show="!isEditingPro"
-                                ></i>
-                                <i
-                                    v-if="user.poste == 'admin'"
-                                    class="fa fa-check"
-                                    @click="saveDataPro"
-                                    v-show="isEditingPro"
-                                ></i>
-                            </div>
+                            <div class="my-3 d-flex justify-content-end"></div>
                             <table>
+                                <thead>
+                                    <tr>
+                                        <th>Entité d'affectation</th>
+                                        <th>Contrat</th>
+                                        <th>Date d'embauche</th>
+                                        <th>Début de contrat</th>
+                                        <th>Fin de contrat</th>
+                                        <th>Date de débauche</th>
+                                    </tr>
+                                </thead>
                                 <tbody>
                                     <tr>
-                                        <td>Entité d’affectation</td>
                                         <td>
-                                            <input
-                                                type="text"
-                                                :disabled="!isEditingPro"
-                                                v-model="entite"
-                                                :class="{
-                                                    'border-none':
-                                                        !isEditingPro,
-                                                }"
-                                            />
+                                            {{ entiteAffectation }}
+                                        </td>
+                                        <td>
+                                            {{ contrat }}
+                                        </td>
+                                        <td>
+                                            {{ dateEmbauche }}
+                                        </td>
+                                        <td>
+                                            {{ debutContrat }}
+                                        </td>
+                                        <td>
+                                            {{ finContrat }}
+                                        </td>
+                                        <td>
+                                            {{ dateDebauche }}
                                         </td>
                                     </tr>
+                                </tbody>
+                            </table>
+                            <table>
+                                <thead>
                                     <tr>
-                                        <td>Contrat</td>
-                                        <td>
-                                            <input
-                                                type="text"
-                                                :disabled="!isEditingPro"
-                                                v-model="contrat"
-                                                :class="{
-                                                    'border-none':
-                                                        !isEditingPro,
-                                                }"
-                                            />
-                                        </td>
+                                        <th>Salaire Net</th>
+                                        <th>Indemnité Transport</th>
+                                        <th>Ancienneté</th>
                                     </tr>
+                                </thead>
+                                <tbody>
                                     <tr>
-                                        <td>Date prévue d’embauche</td>
                                         <td>
-                                            <input
-                                                type="date"
-                                                :disabled="!isEditingPro"
-                                                v-model="dateEmbauche"
-                                                :class="{
-                                                    'border-none':
-                                                        !isEditingPro,
-                                                }"
-                                            />
+                                            {{ salaire }}
                                         </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Début de contrat</td>
                                         <td>
-                                            <input
-                                                type="date"
-                                                :disabled="
-                                                    !isEditingProisEditingPro
-                                                "
-                                                v-model="debutContrat"
-                                                :class="{
-                                                    'border-none':
-                                                        !isEditingProisEditingPro,
-                                                }"
-                                            />
+                                            {{ indemnité }}
                                         </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Fin de contrat</td>
                                         <td>
-                                            <input
-                                                type="date"
-                                                :disabled="
-                                                    !isEditingProisEditingPro
-                                                "
-                                                v-model="finContrat"
-                                                :class="{
-                                                    'border-none':
-                                                        !isEditingProisEditingPro,
-                                                }"
-                                            />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Date de débauche</td>
-                                        <td>
-                                            <input
-                                                type="date"
-                                                :disabled="!isEditingPro"
-                                                v-model="dateDebauche"
-                                                :class="{
-                                                    'border-none':
-                                                        !isEditingPro,
-                                                }"
-                                            />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Salaire mensuel net</td>
-                                        <td>
-                                            <input
-                                                type="number"
-                                                :disabled="!isEditingPro"
-                                                v-model="salaireNet"
-                                                :class="{
-                                                    'border-none':
-                                                        !isEditingPro,
-                                                }"
-                                            />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Indemnité mensuelle transport</td>
-                                        <td>
-                                            <input
-                                                type="text"
-                                                :disabled="!isEditingPro"
-                                                v-model="indemniteTransport"
-                                                :class="{
-                                                    'border-none':
-                                                        !isEditingPro,
-                                                }"
-                                            />
+                                            {{ calculateExperience }}
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
                             <div class="mt-3 d-flex justify-content-end">
                                 Derniere modification :
-                                <span class="c-grey">
-                                    {{ lastModificationDatePro }}
-                                </span>
+                                <span class="c-grey"> 20022-20-0 </span>
                             </div>
                         </div>
                     </div>
@@ -472,6 +386,7 @@
 <script>
 import SideBarView from "@/components/SideBarView.vue";
 import NavBarView from "@/components/NavBarView";
+import employees from "@/Js/employees";
 
 export default {
     name: "myprofile-page",
@@ -482,26 +397,33 @@ export default {
     },
     data() {
         return {
+            employees,
             user: null,
             projectChosen: true,
             infospersoChosen: false,
             infosproChosen: false,
-            entite: "entite1",
-            contrat: "CICD",
-            dateEmbauche: "1999-08-10",
-            debutContrat: "1999-08-10",
-            finContrat: "1999-08-10",
-            dateDebauche: "1999-08-10",
-            salaireNet: "1900",
-            indemniteTransport: "What is this ?",
             isEditingPerso: false,
             isEditingPro: false,
-            sexe: "Homme",
-            dateNaissance: "1999-06-09",
-            cin: "E1793B",
-            cnss: "FM6",
-            etatCivil: "marié",
-            nbEnfants: 2,
+            typeField: "password",
+            nom: "",
+            prenom: "",
+            matricule: "",
+            sexe: "",
+            dateNaissance: "",
+            cin: "",
+            cnss: "",
+            etatCivil: "",
+            nbEnfants: "",
+            entiteAffectation: "",
+            contrat: "",
+            debutContrat: "",
+            finContrat: "",
+            dateDebauche: "",
+            premierEmbauche: "",
+            email: "",
+            password: "",
+            indemnité: "",
+            salaire: "",
             lastModificationDatePerso: "1999-06-20",
             lastModificationDatePro: "1999-06-20",
         };
@@ -514,51 +436,97 @@ export default {
     },
     methods: {
         toggleProject() {
-            this.projectChosen = true;
             this.infospersoChosen = false;
             this.infosproChosen = false;
+            this.projectChosen = true;
         },
         toggleinfosPerso() {
-            this.infospersoChosen = true;
             this.projectChosen = false;
             this.infosproChosen = false;
+            this.infospersoChosen = true;
         },
         toggleinfosPro() {
-            this.infosproChosen = true;
             this.projectChosen = false;
             this.infospersoChosen = false;
+            this.infosproChosen = true;
         },
-        toggleEditingPerso() {
-            this.isEditingPerso = !this.isEditingPerso;
-        },
-        saveDataPerso() {
-            // Perform any necessary operations to save the data a si che9ron :)
-            this.isEditingPerso = false; // Disable editing mode after saving
-            const currentDate = new Date();
-            const formattedDate = `${currentDate.getDate()}/${
-                currentDate.getMonth() + 1
-            }/${currentDate.getFullYear()}`;
-            this.lastModificationDatePerso = formattedDate;
-        },
-        toggleEditingPro() {
-            this.isEditingPro = !this.isEditingPro;
-        },
-        saveDataPro() {
-            // Perform any necessary operations to save the data a si che9ron :)
-            this.isEditingPro = false; // Disable editing mode after saving
-            const currentDate = new Date();
-            const formattedDate = `${currentDate.getDate()}/${
-                currentDate.getMonth() + 1
-            }/${currentDate.getFullYear()}`;
-            this.lastModificationDatePro = formattedDate;
+        switchType() {
+            this.typeField = this.typeField == "password" ? "text" : "password";
         },
     },
     mounted() {
-        document.addEventListener("keyup", (event) => {
-            if (event.key === "Enter" && this.isEditing) {
-                this.saveData();
+        for (const property in this.properties) {
+            this[property] = this.employee[property];
+        }
+    },
+    computed: {
+        employee() {
+            const employeeId = this.user.id;
+            console.log("my name is ");
+            console.log(this.user.nom);
+            const selectedEmployee = this.employees.find((employee) => {
+                return employee.id === employeeId;
+            });
+            console.log(selectedEmployee);
+            console.log(selectedEmployee);
+            console.log(selectedEmployee);
+
+            if (selectedEmployee) {
+                console.log(selectedEmployee.nom);
+                console.log(selectedEmployee.prenom);
+                return selectedEmployee;
+            } else {
+                console.log("No employee found with the specified id.");
+                return null;
             }
-        });
+        },
+        properties() {
+            return {
+                nom: this.nom,
+                prenom: this.prenom,
+                matricule: this.matricule,
+                sexe: this.sexe,
+                dateNaissance: this.dateNaissance,
+                cin: this.cin,
+                cnss: this.cnss,
+                etatCivil: this.etatCivil,
+                nbEnfants: this.nbEnfants,
+                entiteAffectation: this.entiteAffectation,
+                contrat: this.contrat,
+                debutContrat: this.debutContrat,
+                dateEmbauche: this.dateEmbauche,
+                finContrat: this.finContrat,
+                dateDebauche: this.dateDebauche,
+                premierEmbauche: this.premierEmbauche,
+                email: this.email,
+                password: this.password,
+                indemnité: this.indemnité,
+                salaire: this.salaire,
+            };
+        },
+        calculateExperience() {
+            const startDate = new Date(this.employee.dateEmbauche);
+            const currentDate = new Date();
+
+            let endDate;
+            if (this.employee.dateDebauche === "") {
+                endDate = currentDate;
+            } else {
+                const [year, month, day] =
+                    this.employee.dateDebauche.split("-");
+                endDate = new Date(year, month - 1, day);
+            }
+
+            let yearsDiff = endDate.getFullYear() - startDate.getFullYear();
+            let monthsDiff = endDate.getMonth() - startDate.getMonth();
+
+            if (monthsDiff < 0) {
+                yearsDiff--;
+                monthsDiff += 12;
+            }
+
+            return `${yearsDiff} Année et ${monthsDiff} mois`;
+        },
     },
 };
 </script>
@@ -655,13 +623,19 @@ export default {
             width: 100%;
             border-radius: 7px;
             border: 1px solid green;
+            margin: 10px;
+            i {
+                cursor: pointer;
+            }
             tr {
                 border-bottom: 1px solid #777;
                 > td {
                     border-right: 1px solid #777;
                 }
-                td {
+                td,
+                th {
                     padding: 10px;
+                    border: 1px solid #777;
                 }
                 td:first-child {
                     font-weight: bold;
@@ -669,35 +643,23 @@ export default {
             }
         }
     }
-    .infospro-box,
-    .infosperso-box {
-        i {
-            font-size: 25px;
-            cursor: pointer;
-            &:hover {
-                color: var(--link-hovered-color);
-            }
-            &.fa-check {
-                color: green;
-            }
-        }
-        table {
-            td:first-child {
-                font-weight: bold;
-            }
-            input:disabled {
-                min-width: 200px;
-            }
-            input:enabled {
-                min-width: 200px;
-                border-radius: 6px;
-                border: 2px solid #eee;
-                &:focus {
-                    border: 2px solid green !important;
-                    outline: none;
-                }
-            }
-        }
-    }
+    // .infospro-box,
+    // .infosperso-box {
+    //     i {
+    //         font-size: 25px;
+    //         cursor: pointer;
+    //         &:hover {
+    //             color: var(--link-hovered-color);
+    //         }
+    //         &.fa-check {
+    //             color: green;
+    //         }
+    //     }
+    //     table {
+    //         td:first-child {
+    //             font-weight: bold;
+    //         }
+    //     }
+    // }
 }
 </style>

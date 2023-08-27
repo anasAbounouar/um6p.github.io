@@ -81,7 +81,7 @@
     </div>
 </template>
 <script>
-import users from "@/Js/accounts.js";
+import employees from "@/Js/employees.js";
 export default {
     name: "login-page",
     data() {
@@ -101,7 +101,7 @@ export default {
             this.isRemembered = !this.isRemembered;
         },
         loginUser() {
-            const user = users.find(
+            const user = employees.find(
                 (user) =>
                     user.email == this.email && user.password == this.password
             );

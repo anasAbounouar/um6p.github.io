@@ -1,8 +1,5 @@
 <template>
     <div>
-        <SideBarView />
-        <NavBarView />
-
         <section id="presence" v-if="isPresence" class="container">
             presence lala
         </section>
@@ -63,13 +60,9 @@
         </section>
     </div>
 </template>
-
 <script>
-import SideBarView from "@/components/SideBarView.vue";
-import NavBarView from "@/components/NavBarView";
 import absences from "@/Js/P&A";
 export default {
-    components: { SideBarView, NavBarView },
     name: "demandes-details",
     data() {
         return {

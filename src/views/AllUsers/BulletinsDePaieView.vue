@@ -1,7 +1,6 @@
+/
 <template>
     <div>
-        <SideBarView />
-        <NavBarView />
         <section id="bulletins">
             <div class="container">
                 <h5>Bulletins de paie</h5>
@@ -110,16 +109,12 @@
     </div>
 </template>
 <script>
-import SideBarView from "@/components/SideBarView.vue";
-import NavBarView from "@/components/NavBarView";
 import { MonthPicker } from "vue-month-picker";
 import bulletins from "@/Js/bulletins";
 import Swal from "sweetalert2";
 export default {
     name: "bulletin-de-paie-page",
     components: {
-        SideBarView,
-        NavBarView,
         MonthPicker,
     },
     data() {

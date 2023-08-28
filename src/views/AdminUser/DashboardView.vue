@@ -1,7 +1,5 @@
 <template>
     <div>
-        <SideBarView />
-        <NavBarView />
         <section id="dashboard">
             <div class="container">
                 <div class="row">
@@ -26,8 +24,6 @@
     </div>
 </template>
 <script>
-import SideBarView from "@/components/SideBarView.vue";
-import NavBarView from "@/components/NavBarView";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Pie } from "vue-chartjs";
 import { data, options } from "./ChartConfig";
@@ -35,7 +31,7 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 
 export default {
     name: "dashboard-page",
-    components: { SideBarView, NavBarView, Pie },
+    components: { Pie },
     data() {
         return {
             boxes: [

@@ -1,6 +1,5 @@
 <template>
     <div>
-        <SideBarView /> <NavBarView />
         <section id="pointage-supp">
             <div class="container">
                 <h5 class="mx-3">
@@ -64,16 +63,10 @@
     </div>
 </template>
 <script>
-import SideBarView from "@/components/SideBarView.vue";
-import NavBarView from "@/components/NavBarView";
 import employees from "@/Js/employees";
 import Swal from "sweetalert2";
 export default {
     name: "pointage-supp",
-    components: {
-        SideBarView,
-        NavBarView,
-    },
     data() {
         return {
             employees,

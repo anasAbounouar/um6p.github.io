@@ -1,6 +1,5 @@
 <template>
     <div>
-        <SideBarView /> <NavBarView />
         <section id="new-employee">
             <div class="container">
                 <h2>Ajouter un nouveau employee</h2>
@@ -250,16 +249,10 @@
     </div>
 </template>
 <script>
-import SideBarView from "@/components/SideBarView.vue";
-import NavBarView from "@/components/NavBarView";
 import employees from "@/Js/employees";
 import Swal from "sweetalert2";
 export default {
     name: "RH-employees-new",
-    components: {
-        SideBarView,
-        NavBarView,
-    },
     data() {
         return {
             etatCivil: "",

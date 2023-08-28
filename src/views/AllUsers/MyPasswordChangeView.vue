@@ -1,7 +1,5 @@
 <template>
     <div>
-        <SideBarView />
-        <NavBarView />
         <section id="passwordchange">
             <form class="container">
                 <h5 class="ms-3">Changer le mot de passe</h5>
@@ -83,14 +81,8 @@
     </div>
 </template>
 <script>
-import SideBarView from "@/components/SideBarView.vue";
-import NavBarView from "@/components/NavBarView";
 export default {
     name: "mypassword-page",
-    components: {
-        SideBarView,
-        NavBarView,
-    },
     data() {
         return {
             user: null,

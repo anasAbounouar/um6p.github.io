@@ -1,8 +1,5 @@
 <template>
     <div>
-        <SideBarView />
-        <NavBarView />
-
         <section id="attendance-j" v-if="isAttendanceJourne" class="container">
             <h5 class="c-brand">Attendance de la journé</h5>
 
@@ -427,12 +424,9 @@
 </template>
 
 <script>
-import SideBarView from "@/components/SideBarView.vue";
-import NavBarView from "@/components/NavBarView";
 // import { MonthPicker } from "vue-month-picker";
 import projets from "@/Js/projects.js";
 export default {
-    components: { SideBarView, NavBarView },
     name: "attendance-details",
     data() {
         return {

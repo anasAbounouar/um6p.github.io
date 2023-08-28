@@ -1,7 +1,5 @@
 <template>
     <div>
-        <SideBarView />
-        <NavBarView />
         <section id="horsSite">
             <h5 class="my-3">Liste des deplacements hors site</h5>
             <div class="site-table m-3">
@@ -62,15 +60,9 @@
     </div>
 </template>
 <script>
-import SideBarView from "@/components/SideBarView.vue";
-import NavBarView from "@/components/NavBarView";
 import deplacements from "@/Js/deplacement";
 export default {
     name: "hors-site-page",
-    components: {
-        SideBarView,
-        NavBarView,
-    },
     data() {
         return {
             etatOptions: [

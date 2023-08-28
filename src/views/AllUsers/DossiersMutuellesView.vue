@@ -1,7 +1,6 @@
+/
 <template>
     <div>
-        <SideBarView />
-        <NavBarView />
         <section id="dossiers-mutuelles">
             <h5>Bulletins de paie</h5>
             <div class="my-3">
@@ -42,15 +41,11 @@
     </div>
 </template>
 <script>
-import SideBarView from "@/components/SideBarView.vue";
-import NavBarView from "@/components/NavBarView";
 import { MonthPicker } from "vue-month-picker";
 import dossiers from "@/Js/dossiers.js";
 export default {
     name: "dossiers-mutuelles-page",
     components: {
-        SideBarView,
-        NavBarView,
         MonthPicker,
     },
     data() {

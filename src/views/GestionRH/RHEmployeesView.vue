@@ -1,7 +1,5 @@
 <template>
     <div>
-        <SideBarView />
-        <NavBarView />
         <section id="employees">
             <div class="container">
                 <div class="row">
@@ -143,14 +141,10 @@
     </div>
 </template>
 <script>
-import SideBarView from "@/components/SideBarView.vue";
-import NavBarView from "@/components/NavBarView";
 import employees from "@/Js/employees";
 export default {
     name: "RH-employees-page",
     components: {
-        SideBarView,
-        NavBarView,
         // VSelect, // Register the VSelect component
     },
     data() {

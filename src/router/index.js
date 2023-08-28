@@ -26,6 +26,7 @@ import PointageSuppView from "../views/GestionRH/PointageSuppView.vue";
 import PlanificationView from "../views/GestionRH/PlanificationView.vue";
 import RHDemandesView from "../views/GestionRH/RHDemandesView.vue";
 import AutorisationAbsenceView from "../views/GestionRH/AutorisationAbsenceView.vue";
+import DemandeAbsenceView from "../views/GestionRH/DemandeAbsenceView.vue";
 
 Vue.use(VueRouter);
 
@@ -173,6 +174,13 @@ const routes = [
         name: "RH-demandes-page",
 
         component: RHDemandesView,
+    },
+    {
+        path: "/DemandeAbsence",
+
+        name: "demande-absence-page",
+
+        component: DemandeAbsenceView,
     },
     {
         path: "/RHEmployeeshelp",

@@ -1,6 +1,5 @@
 <template>
     <div>
-        <SideBarView /> <NavBarView />
         <section id="othersprofile">
             <div class="general-info container mb-3 px-4">
                 <div class="row">
@@ -574,17 +573,11 @@
     </div>
 </template>
 <script>
-import SideBarView from "@/components/SideBarView.vue";
-import NavBarView from "@/components/NavBarView";
 import employees from "@/Js/employees";
 import Swal from "sweetalert2";
 // import Vue from "vue";
 export default {
     name: "RH-employees-details",
-    components: {
-        SideBarView,
-        NavBarView,
-    },
     data() {
         return {
             employees,

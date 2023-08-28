@@ -1,7 +1,5 @@
 <template>
     <div>
-        <SideBarView />
-        <NavBarView />
         <section id="employees">
             <div class="container">
                 <div class="row">
@@ -505,8 +503,7 @@
 </template>
 <script>
 // import { BTooltip } from "bootstrap-vue"; // Import BTooltip from Bootstrap Vue
-import SideBarView from "@/components/SideBarView.vue";
-import NavBarView from "@/components/NavBarView";
+
 import employees from "@/Js/employees";
 // import { VSelect } from "vuetify/lib"; // Import VSelect component from Vuetify
 import Swal from "sweetalert2";
@@ -515,8 +512,6 @@ import Swal from "sweetalert2";
 export default {
     name: "RH-employiis-page",
     components: {
-        SideBarView,
-        NavBarView,
         // VSelect, // Register the VSelect component
     },
 

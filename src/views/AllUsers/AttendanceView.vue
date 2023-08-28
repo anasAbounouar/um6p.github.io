@@ -1,7 +1,5 @@
 <template>
     <div>
-        <SideBarView />
-        <NavBarView />
         <section id="attendance" class="vh-100 d-flex align-items-center">
             <div class="container">
                 <div class="row justify-content-center align-items-center">
@@ -46,10 +44,7 @@
     </div>
 </template>
 <script>
-import SideBarView from "@/components/SideBarView.vue";
-import NavBarView from "@/components/NavBarView";
 export default {
-    components: { SideBarView, NavBarView },
     name: "attendance-page",
     methods: {
         goToPage(page) {

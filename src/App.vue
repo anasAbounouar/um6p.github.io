@@ -1,8 +1,26 @@
+<!-- eslint-disable vue/no-parsing-error -->
+<!--eslint-disable -->
 <template>
     <div id="app">
+        <SideBarView v-if="shouldShowBar" />
+        <NavBarView v-if="shouldShowBar" />
         <router-view />
     </div>
 </template>
+<script>
+import SideBarView from "@/components/SideBarView.vue";
+import NavBarView from "@/components/NavBarView";
+const routesWithoutSidebarAndNavbar = ["/"];
+
+export default {
+    components: { NavBarView, SideBarView },
+    computed: {
+        shouldShowBar() {
+            return !routesWithoutSidebarAndNavbar.includes(this.$route.path);
+        },
+    },
+};
+</script>
 
 <style lang="scss">
 #app {

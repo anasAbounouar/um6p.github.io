@@ -1,7 +1,5 @@
 <template>
     <div>
-        <SideBarView />
-        <NavBarView />
         <section id="myprofile">
             <div class="general-info container mb-3 px-4">
                 <div class="row">
@@ -384,17 +382,11 @@
 </template>
 
 <script>
-import SideBarView from "@/components/SideBarView.vue";
-import NavBarView from "@/components/NavBarView";
 import employees from "@/Js/employees";
 
 export default {
     name: "myprofile-page",
     // props: ["user"],
-    components: {
-        SideBarView, // Use the correct component name here
-        NavBarView,
-    },
     data() {
         return {
             employees,

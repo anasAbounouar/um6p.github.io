@@ -1,7 +1,5 @@
 <template>
     <div>
-        <SideBarView />
-        <NavBarView />
         <section id="demande">
             <div class="container">
                 <div class="mt-3 row justify-content-center align-items-center">
@@ -30,14 +28,8 @@
     </div>
 </template>
 <script>
-import SideBarView from "@/components/SideBarView.vue";
-import NavBarView from "@/components/NavBarView";
 export default {
     name: "demandes-page",
-    components: {
-        SideBarView,
-        NavBarView,
-    },
     methods: {
         goToPage(page) {
             switch (page) {

@@ -1,6 +1,5 @@
 <template>
     <div>
-        <SideBarView /> <NavBarView />
         <section id="pointage">
             <div class="container head">
                 <div class="row">
@@ -493,8 +492,6 @@
     </div>
 </template>
 <script>
-import SideBarView from "@/components/SideBarView.vue";
-import NavBarView from "@/components/NavBarView";
 import employees from "@/Js/employees";
 import absence from "@/Js/absence";
 import justifications from "@/Js/justifications";
@@ -504,10 +501,6 @@ import "jspdf-autotable";
 
 export default {
     name: "Pointage-page",
-    components: {
-        SideBarView,
-        NavBarView,
-    },
     data() {
         const today = new Date();
         const formattedToday = today.toISOString().substr(0, 10);

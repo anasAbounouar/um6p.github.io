@@ -1,7 +1,5 @@
 <template>
     <div>
-        <SideBarView />
-        <NavBarView />
         <section id="planification">
             <div class="my-5">
                 <label for="yearSelect">Choisisir une année</label>
@@ -360,15 +358,11 @@
     </div>
 </template>
 <script>
-import SideBarView from "@/components/SideBarView.vue";
-import NavBarView from "@/components/NavBarView";
 import employees from "@/Js/employees";
 import Swal from "sweetalert2";
 export default {
     name: "planification-page",
     components: {
-        SideBarView,
-        NavBarView,
         // VSelect, // Register the VSelect component
     },
     data() {

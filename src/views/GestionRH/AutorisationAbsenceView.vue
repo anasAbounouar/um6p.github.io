@@ -1,7 +1,5 @@
 <template>
     <div>
-        <SideBarView />
-        <NavBarView />
         <section id="autorisation-absence">
             <div class="container">
                 <div class="row">
@@ -13,6 +11,9 @@
                                     class="d-flex align-items-center justify-content-center"
                                 >
                                     <span
+                                        @click="
+                                            goToPage('demande-absence-page')
+                                        "
                                         class="btn rounded-circle btn-primary d-flex align-items-center justify-content-center"
                                         ><i class="fa-solid fa-plus"></i
                                     ></span>
@@ -107,15 +108,11 @@
     </div>
 </template>
 <script>
-import SideBarView from "@/components/SideBarView.vue";
-import NavBarView from "@/components/NavBarView";
 import employees from "@/Js/employees";
 import absence from "@/Js/absence";
 export default {
     name: "RH-autorisation-absence",
     components: {
-        SideBarView,
-        NavBarView,
         // VSelect, // Register the VSelect component
     },
     data() {
@@ -141,6 +138,11 @@ export default {
             } else {
                 console.log("No employee found with the specified id.");
                 return null;
+            }
+        },
+        goToPage(page) {
+            if (page === "demande-absence-page") {
+                this.$router.push({ name: "demande-absence-page" });
             }
         },
     },

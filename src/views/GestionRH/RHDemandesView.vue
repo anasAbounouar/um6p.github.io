@@ -1,6 +1,5 @@
 <template>
     <div>
-        <SideBarView /> <NavBarView />
         <section id="RH-demandes" class="vh-100 d-flex align-items-center">
             <div class="container">
                 <div class="row justify-content-center align-items-center">
@@ -54,15 +53,10 @@
     </div>
 </template>
 <script>
-import SideBarView from "@/components/SideBarView.vue";
-import NavBarView from "@/components/NavBarView";
 // import absence from "@/Js/absence";
 export default {
     name: "RH-demandes-page",
-    components: {
-        SideBarView,
-        NavBarView,
-    },
+
     methods: {
         goToPage(page) {
             switch (page) {

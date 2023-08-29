@@ -588,6 +588,7 @@ export default {
                 text: message,
                 confirmButtonText: "OK",
             });
+            this.$router.push({ name: "RH-autorisation-absence" });
         },
         async calculateTotalHours() {
             this.totalHours = 0;

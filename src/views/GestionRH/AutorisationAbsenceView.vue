@@ -87,14 +87,16 @@
                                         <ul>
                                             <li
                                                 v-for="startDate in Object.keys(
-                                                    absencee.starDates
+                                                    absencee.startDates
                                                 )"
                                                 :key="startDate"
                                             >
                                                 {{ startDate }}
                                             </li>
                                             <!-- {{
-                                                absencee.starDates
+                                                this.extractFirstDateAndMonth(
+                                                    absencee.startDates
+                                                )
                                             }} -->
                                         </ul>
                                     </td>
@@ -132,8 +134,6 @@ export default {
             });
 
             if (selectedEmployee) {
-                console.log(selectedEmployee.nom);
-                console.log(selectedEmployee.prenom);
                 return selectedEmployee;
             } else {
                 console.log("No employee found with the specified id.");
@@ -145,12 +145,23 @@ export default {
                 this.$router.push({ name: "demande-absence-page" });
             }
         },
+        extractFirstDateAndMonth(startDates) {
+            const firstDateKey = Object.keys(startDates)[0];
+            const [year, month] = firstDateKey.split("-");
+            const firstDateObject = startDates[firstDateKey];
+
+            return {
+                firstDateObject,
+                year,
+                month,
+            };
+        },
     },
     computed: {
         uniqueStartDates() {
             const uniqueDates = new Set();
             this.absence.forEach((absencee) => {
-                Object.keys(absencee.starDates).forEach((date) => {
+                Object.keys(absencee.startDates).forEach((date) => {
                     uniqueDates.add(date);
                 });
             });
@@ -195,7 +206,7 @@ export default {
             if (this.searchDate !== "") {
                 const regex = new RegExp(this.searchDate, "i");
                 return this.absence.filter((absencee) => {
-                    return Object.keys(absencee.starDates).some((date) =>
+                    return Object.keys(absencee.startDates).some((date) =>
                         regex.test(date)
                     );
                 });
@@ -208,14 +219,15 @@ export default {
             const filteredDemandeur = this.filterDemandeur;
             const filteredNumero = this.filterNumero;
             const filteredDateDebut = this.filterDate;
-            console.log(filteredDateDebut);
 
             return this.absence.filter((absencee) => {
+                console.log(Object.keys(absencee.startDates));
                 return (
                     filteredBeneficiaire.includes(absencee) &&
                     filteredDemandeur.includes(absencee) &&
                     filteredNumero.includes(absencee) &&
-                    filteredDateDebut.includes(absencee)
+                    filteredDateDebut.includes(absencee) &&
+                    Object.keys(absencee.startDates).length > 0
                 );
             });
         },

@@ -713,11 +713,7 @@ export default {
             this.infospersoChosen = false;
         },
         deleteActiveProject(activeProjectId) {
-            console.log(activeProjectId);
-            console.log(activeProjectId);
             const indexToDelete = this.activeProjects.findIndex((project) => {
-                console.log(project.id);
-                console.log(project.id === activeProjectId);
                 return project.id === activeProjectId;
             });
             console.log(indexToDelete);
@@ -729,8 +725,6 @@ export default {
         },
         rendrePassif(activeProject) {
             const indexToDelete = this.activeProjects.findIndex((project) => {
-                console.log(project.id);
-                console.log(project.id === activeProject.id);
                 return project.id === activeProject.id;
             });
             console.log(indexToDelete);

@@ -582,7 +582,7 @@ export default {
 
             if (employeeAbsence) {
                 const absenceDataForDate =
-                    employeeAbsence.starDates[formattedSelectedDate];
+                    employeeAbsence.startDates[formattedSelectedDate];
                 let startTime, endTime; // Declare startTime and endTime
                 if (shift === "morning") {
                     startTime = absenceDataForDate?.morning?.start;
@@ -685,13 +685,11 @@ export default {
             // const formattedSelectedDate = new Date(date)
             //     .toISOString()
             //     .substr(0, 10);
-            console.log(this.realExistance);
 
             if (
                 this.realExistance[`${employeeId}-${selectedDate}-${shift}`] !==
                 "Absent"
             ) {
-                console.log("this.realExistance !!!not equaal Absent");
                 const entréeTime = shift === "morning" ? "07:00" : "13:00";
                 const sortieTime = shift === "morning" ? "12:00" : "16:00";
 
@@ -706,7 +704,6 @@ export default {
                     sortieTime
                 );
             } else {
-                console.log("this.realExistance is not equaal Absent");
                 // const entréeTime = null;
                 // const sortieTime = null;
 
@@ -909,7 +906,6 @@ export default {
         },
         postesFilter() {
             if (this.selectedPoste === "Poste") {
-                console.log("now we return employees");
                 return employees;
             } else {
                 return this.employees.filter((employee) => {
@@ -949,7 +945,6 @@ export default {
                 const result = this.employees.filter((employee) => {
                     return regex.test(employee.matricule);
                 });
-                console.log(result);
                 return result;
             }
         },
@@ -964,7 +959,6 @@ export default {
                         regex.test(employee.prenom) || regex.test(employee.nom)
                     );
                 });
-                console.log(result);
                 return result;
             }
         },

@@ -459,10 +459,6 @@ export default {
             const selectedEmployee = this.employees.find((employee) => {
                 return employee.id === employeeId;
             });
-            console.log(selectedEmployee);
-            console.log(selectedEmployee);
-            console.log(selectedEmployee);
-
             if (selectedEmployee) {
                 console.log(selectedEmployee.nom);
                 console.log(selectedEmployee.prenom);

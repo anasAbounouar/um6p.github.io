@@ -11,12 +11,13 @@
                     Dashboard
                 </h5>
             </div>
-            <div class="user-space-header" @click="toggleIcons">
+            <div class="user-space-header">
+                <!-- <div class="user-space-header" @click="toggleIcons"> -->
                 <h5 class="m-0" :class="{ active: isMyProfileActive }">
                     Mon espace
                 </h5>
-                <i v-if="showIcons" class="fa fa-chevron-up"></i>
-                <i v-else class="fa fa-chevron-down"></i>
+                <!-- <i v-if="showIcons" class="fa fa-chevron-up"></i>
+                <i v-else class="fa fa-chevron-down"></i> -->
             </div>
             <div v-if="showIcons" class="user-space-icons">
                 <div class="user-space-icon" @click="goToPage('profile')">
@@ -76,17 +77,22 @@
                     <span>Dossiers mutuelles</span>
                     <i class="fa fa-heart"></i>
                 </div>
-                <div class="user-space-icon" @click="goToPage('demandes-page')">
+                <!-- <div class="user-space-icon" @click="goToPage('demandes-page')">
                     <span>Demande</span>
                     <i class="fa fa-plus"></i>
-                </div>
+                </div> -->
             </div>
             <!-- Gestion RH -->
-            <div v-if="user.poste == 'admin' || 'RH'">
-                <div class="user-space-header" @click="toggleRHIcons">
-                    <h5 class="m-0" @click="toggleRHIcons">Gestion RH</h5>
-                    <i v-if="showRHIcons" class="fa fa-chevron-up"></i>
-                    <i v-else class="fa fa-chevron-down"></i>
+            <div v-if="user.poste == 'admin' || 'RH' || 'Technicien'">
+                <div class="user-space-header">
+                    <!-- <div class="user-space-header" @click="toggleRHIcons"> -->
+                    <h5 v-if="user.poste !== 'Technicien'" class="m-0">
+                        Gestion RH
+                    </h5>
+                    <h5 v-else>Gestion Technicien</h5>
+                    <!-- <h5 class="m-0" @click="toggleRHIcons">Gestion RH</h5> -->
+                    <!-- <i v-if="showRHIcons" class="fa fa-chevron-up"></i>
+                    <i v-else class="fa fa-chevron-down"></i> -->
                 </div>
 
                 <!-- RH Icons -->
@@ -100,6 +106,7 @@
                         <span>Employés aiide</span>
                     </div>
                     <div
+                        v-if="user.poste !== 'Technicien'"
                         class="user-space-icon"
                         @click="goToPage('RH-employees-page')"
                     >
@@ -108,6 +115,7 @@
                     </div>
                     <!-- Pointage -->
                     <div
+                        v-if="user.poste !== 'Technicien'"
                         class="user-space-icon"
                         @click="goToPage('pointage-page')"
                     >
@@ -116,6 +124,7 @@
                     </div>
                     <!-- Attendance -->
                     <div
+                        v-if="user.poste !== 'Technicien'"
                         class="user-space-icon"
                         @click="goToPage('RHAttendance')"
                     >
@@ -123,6 +132,7 @@
                         <span>Attendance</span>
                     </div>
                     <div
+                        v-if="user.poste !== 'Technicien'"
                         class="user-space-icon"
                         @click="goToPage('planification-page')"
                     >
@@ -313,19 +323,17 @@ export default {
             );
         },
     },
-    mounted() {
-        // Select the sidebar element using its ID
-        const sidebar = document.getElementById("sidebar");
-        console.log(sidebar);
+    // mounted() {
+    //     // Select the sidebar element using its ID
+    //     // const sidebar = document.getElementById("sidebar");
+    //     // // Get the scroll position (scrollTop) of the sidebar
+    //     // // const scrollPosition = sidebar.scrollTop;
 
-        // Get the scroll position (scrollTop) of the sidebar
-        const scrollPosition = sidebar.scrollTop;
-        console.log(scrollPosition);
-        this.scrolling = window.scrollY;
+    //     // this.scrolling = window.scrollY;
 
-        // Use the scroll position as needed
-        console.log("Scroll Position:", this.scrolling);
-    },
+    //     // // Use the scroll position as needed
+    //     // c
+    // },
 };
 </script>
 

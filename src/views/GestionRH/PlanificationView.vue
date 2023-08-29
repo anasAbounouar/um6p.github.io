@@ -360,6 +360,7 @@
 <script>
 import employees from "@/Js/employees";
 import Swal from "sweetalert2";
+import absence from "@/Js/absence.js";
 export default {
     name: "planification-page",
     components: {
@@ -367,6 +368,7 @@ export default {
     },
     data() {
         return {
+            absence,
             searchText: "",
             selectedEmployee: null,
             dialogVisible: false,
@@ -563,7 +565,6 @@ export default {
 
                 // Handle updating start and end dates if a holiday is clicked
                 if (publicHolidayIndex !== -1) {
-                    console.log(publicHolidayIndex);
                     Swal.fire({
                         title: `Modifier les dates du jour férié`,
                         html: `

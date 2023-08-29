@@ -222,6 +222,9 @@
                             </table>
                         </div>
                         <div>
+                            {{ this.startDate }}
+                            {{ this.endDate }}
+                            {{ this.getStartTime(this.startDate, "morning") }}
                             <h1>Gestion d'Absences</h1>
                             <form class="absence-form">
                                 <label for="start-date">Date de début :</label>
@@ -410,10 +413,12 @@
 <script>
 import employees from "@/Js/employees";
 import Swal from "sweetalert2";
+import absence from "@/Js/absence";
 export default {
     name: "demande-absence-page",
     data() {
         return {
+            absence,
             user: null,
             employees,
             selectedTypeDemande: "autre",
@@ -576,6 +581,38 @@ export default {
                 this.justifications[date] = this.selectedJustification;
                 //checkrone must edit this to push to the table (backend)
             }
+
+            const targetAbsence = this.absence.find((absenceObj) => {
+                console.log(absenceObj.employeeId, "absenceObjc");
+                console.log(this.beneficiaire().id, "beneficiaireId");
+                return absenceObj.employeeId == this.beneficiaire().id;
+            });
+            console.log("before targetabsence", targetAbsence);
+
+            if (targetAbsence) {
+                const formattedStartDate = {
+                    morning: {
+                        start: this.getStartTime(this.startDate, "morning"),
+                    },
+                    afternoon: {
+                        start: this.getStartTime(this.startDate, "afternoon"),
+                    },
+                };
+
+                const formattedEndDate = {
+                    morning: { end: this.getEndTime(this.endDate, "morning") },
+                    afternoon: {
+                        end: this.getEndTime(this.endDate, "afternoon"),
+                    },
+                };
+
+                for (const date of this.selectedDates) {
+                    targetAbsence.startDates[date] = formattedStartDate;
+                    targetAbsence.endDates[date] = formattedEndDate;
+                }
+            }
+            console.log("target absence", targetAbsence);
+            console.log("absences", this.absence);
             let message = "";
             if (this.autorisation === "Oui") {
                 message = "Vous avez bien enregistré l'absence de cet employé.";
@@ -598,7 +635,6 @@ export default {
                 this.endDate !== ""
             ) {
                 for (const date of this.selectedDates) {
-                    console.log(this.startTimes[date]["morning"].start);
                     for (const shift of this.shifts) {
                         const startTime = this.startTimes[date][shift].start;
                         const endTime = this.endTimes[date][shift].end;
@@ -619,14 +655,7 @@ export default {
         },
     },
     watch: {
-        selectedEmployee(newValue, oldValue) {
-            // Triggered whenever selectedEmployee changes
-            console.log(
-                "selectedEmployee changed:",
-                newValue,
-                " was ",
-                oldValue
-            );
+        selectedEmployee() {
             this.beneficiaire();
         },
         selectedTypeDemande(newValue) {

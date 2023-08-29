@@ -1,4 +1,3 @@
-<!-- eslint-disable prettier/prettier -->
 <template>
     <div>
         <div id="sidebar" ref="sidebarContainer">
@@ -16,150 +15,148 @@
                 <h5 class="m-0" :class="{ active: isMyProfileActive }">
                     Mon espace
                 </h5>
-                <i
-                    v-if="showIcons"
-                    class="fa fa-chevron-up"
-                    @click="toggleIcons"
-                ></i>
-                <i v-else class="fa fa-chevron-down" @click="toggleIcons"></i>
+                <i v-if="showIcons" class="fa fa-chevron-up"></i>
+                <i v-else class="fa fa-chevron-down"></i>
             </div>
             <div v-if="showIcons" class="user-space-icons">
                 <div class="user-space-icon" @click="goToPage('profile')">
+                    <span :class="{ active: isProfilePageActive }"
+                        >Mon profil</span
+                    >
                     <i
                         class="fa fa-user"
                         :class="{ active: isProfilePageActive }"
                     ></i>
-                    <span :class="{ active: isProfilePageActive }"
-                        >Mon profil</span
-                    >
                 </div>
                 <div
                     class="user-space-icon"
                     @click="goToPage('mypassword-page')"
                 >
+                    <span :class="{ active: isPasswordPageActive }"
+                        >Mot de passe</span
+                    >
                     <i
                         class="fa fa-lock"
                         :class="{ active: isPasswordPageActive }"
                     ></i>
-                    <span :class="{ active: isPasswordPageActive }"
-                        >Mot de passe</span
-                    >
                 </div>
                 <div
                     class="user-space-icon"
                     @click="goToPage('attendance-page')"
                 >
+                    <span :class="{ active: isAttendanceActive }"
+                        >Attendance</span
+                    >
                     <i
                         class="fa fa-clock"
                         :class="{ active: isAttendanceActive }"
                     ></i>
-                    <span :class="{ active: isAttendanceActive }"
-                        >Attendance</span
-                    >
                 </div>
                 <div
                     class="user-space-icon"
                     @click="goToPage('hors-site-page')"
                 >
+                    <span :class="{ active: isHorsSiteActive }">Hors site</span>
                     <i
                         class="fa fa-map-marker"
                         :class="{ active: isHorsSiteActive }"
                     ></i>
-                    <span :class="{ active: isHorsSiteActive }">Hors site</span>
                 </div>
                 <div
                     class="user-space-icon"
                     @click="goToPage('bulletin-de-paie-page')"
                 >
-                    <i class="fa fa-file-invoice-dollar"></i>
                     <span>Bulletins de paie</span>
+                    <i class="fa fa-file-invoice-dollar"></i>
                 </div>
                 <div
                     class="user-space-icon"
                     @click="goToPage('dossiers-mutuelles-page')"
                 >
-                    <i class="fa fa-heart"></i>
                     <span>Dossiers mutuelles</span>
+                    <i class="fa fa-heart"></i>
                 </div>
                 <div class="user-space-icon" @click="goToPage('demandes-page')">
-                    <i class="fa fa-plus"></i>
                     <span>Demande</span>
+                    <i class="fa fa-plus"></i>
                 </div>
             </div>
             <!-- Gestion RH -->
-            <div
-                v-if="user.poste == 'admin'"
-                class="user-space-header"
-                @click="toggleRHIcons"
-            >
-                <h5 class="m-0" @click="toggleRHIcons">Gestion RH</h5>
-                <i
-                    v-if="showRHIcons"
-                    class="fa fa-chevron-up"
-                    @click="toggleRHIcons"
-                ></i>
-                <i v-else class="fa fa-chevron-down" @click="toggleRHIcons"></i>
-            </div>
+            <div v-if="user.poste == 'admin' || 'RH'">
+                <div class="user-space-header" @click="toggleRHIcons">
+                    <h5 class="m-0" @click="toggleRHIcons">Gestion RH</h5>
+                    <i v-if="showRHIcons" class="fa fa-chevron-up"></i>
+                    <i v-else class="fa fa-chevron-down"></i>
+                </div>
 
-            <!-- RH Icons -->
-            <div v-if="showRHIcons" class="user-space-icons">
-                <!-- Employés -->
-                <div
-                    class="user-space-icon"
-                    @click="goToPage('RH-employiiss-page')"
-                >
-                    <i class="fa fa-users"></i>
-                    <span>Employés aiide</span>
-                </div>
-                <div
-                    class="user-space-icon"
-                    @click="goToPage('RH-employees-page')"
-                >
-                    <i class="fa fa-users"></i>
-                    <span>Employés</span>
-                </div>
-                <!-- Pointage -->
-                <div class="user-space-icon" @click="goToPage('pointage-page')">
-                    <i class="fa fa-clock"></i>
-                    <span>Pointage</span>
-                </div>
-                <!-- Attendance -->
-                <div class="user-space-icon" @click="goToPage('RHAttendance')">
-                    <i class="fa fa-calendar"></i>
-                    <span>Attendance</span>
-                </div>
-                <div
-                    class="user-space-icon"
-                    @click="goToPage('planification-page')"
-                >
-                    <i
-                        class="fa fa-clock"
-                        :class="{ active: isAttendanceActive }"
-                    ></i>
-                    <span :class="{ active: isAttendanceActive }"
-                        >Planification</span
+                <!-- RH Icons -->
+                <div v-if="showRHIcons" class="user-space-icons">
+                    <!-- Employés -->
+                    <div
+                        class="user-space-icon"
+                        @click="goToPage('RH-employiiss-page')"
                     >
-                </div>
-                <!-- RH Demandes -->
-                <div class="user-space-icon" @click="goToPage('RH-demandes-page')">
-                    <i class="fa fa-file"></i>
-                    <span>Demandes</span>
+                        <i class="fa fa-users"></i>
+                        <span>Employés aiide</span>
+                    </div>
+                    <div
+                        class="user-space-icon"
+                        @click="goToPage('RH-employees-page')"
+                    >
+                        <i class="fa fa-users"></i>
+                        <span>Employés</span>
+                    </div>
+                    <!-- Pointage -->
+                    <div
+                        class="user-space-icon"
+                        @click="goToPage('pointage-page')"
+                    >
+                        <i class="fa fa-clock"></i>
+                        <span>Pointage</span>
+                    </div>
+                    <!-- Attendance -->
+                    <div
+                        class="user-space-icon"
+                        @click="goToPage('RHAttendance')"
+                    >
+                        <i class="fa fa-calendar"></i>
+                        <span>Attendance</span>
+                    </div>
+                    <div
+                        class="user-space-icon"
+                        @click="goToPage('planification-page')"
+                    >
+                        <i
+                            class="fa fa-clock"
+                            :class="{ active: isAttendanceActive }"
+                        ></i>
+                        <span :class="{ active: isAttendanceActive }"
+                            >Planification</span
+                        >
+                    </div>
+                    <!-- RH Demandes -->
+                    <div
+                        class="user-space-icon"
+                        @click="goToPage('RH-demandes-page')"
+                    >
+                        <i class="fa fa-file"></i>
+                        <span>Demandes</span>
+                    </div>
                 </div>
             </div>
-            <!-- Gestion des comptes -->
-            <div
-                v-if="user.poste == 'admin'"
-                class="user-space-header pb-3 mb-3"
-            >
-                <h5 class="m-0">Gestion Des comptes</h5>
-            </div>
-            <!-- //sign out -->
-            <div
-                class="signout d-flex justify-content-around align-items-center pb-3"
-                @click="signOut"
-            >
-                <i class="fs-25 fa-solid fa-arrow-right-from-bracket"></i>
-                <span class="fs-20">Se deconnecter</span>
+            <div v-if="user.poste == 'admin'">
+                <!-- Gestion des comptes -->
+                <div class="user-space-header pb-3 mb-3">
+                    <h5 class="m-0">Gestion Des comptes</h5>
+                </div>
+                <!-- //sign out -->
+                <div
+                    class="signout d-flex justify-content-around align-items-center pb-3"
+                    @click="signOut"
+                >
+                    <i class="fs-25 fa-solid fa-arrow-right-from-bracket"></i>
+                    <span class="fs-20">Se deconnecter</span>
+                </div>
             </div>
         </div>
     </div>

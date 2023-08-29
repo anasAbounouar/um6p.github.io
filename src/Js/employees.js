@@ -55,7 +55,7 @@ const employees = [
         id: 2,
         prenom: "Mohammed",
         nom: "Ali",
-        poste: "Agent agricole",
+        poste: "RH",
         matricule: "BA789J",
         employeur: "Best Profile",
         cin: "BF21785",

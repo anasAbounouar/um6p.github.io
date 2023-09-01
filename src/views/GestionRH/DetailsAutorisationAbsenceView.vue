@@ -163,6 +163,135 @@
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-12">
+                        <form class="absence-form">
+                            <label for="start-date">Date de début :</label>
+                            <input
+                                type="date"
+                                v-model="debutAbsenceDate"
+                                required
+                                disabled
+                            />
+
+                            <label for="end-date">Date de fin :</label>
+                            <input
+                                type="date"
+                                v-model="endAbsenceDate"
+                                required
+                                disabled
+                            />
+                            <button
+                                @click.prevent="showDates = !showDates"
+                                class="btn-details"
+                            >
+                                {{
+                                    showDates
+                                        ? "Masquer details"
+                                        : "Montrer details"
+                                }}
+                            </button>
+
+                            <div v-if="showDates">
+                                <div
+                                    v-for="date in selectedDates"
+                                    :key="date"
+                                    class="date-section"
+                                >
+                                    <p>le {{ formatDate(date) }}</p>
+                                    <div
+                                        class="d-flex justify-content-between shift-container"
+                                    >
+                                        <div class="shift-container">
+                                            <!-- Morning Shift -->
+                                            <div class="shift">
+                                                <div class="time-input">
+                                                    <label
+                                                        :for="
+                                                            'start-time-morning-' +
+                                                            date
+                                                        "
+                                                    >
+                                                        Matin :
+                                                    </label>
+                                                    <input
+                                                        type="time"
+                                                        :id="
+                                                            'start-time-morning-' +
+                                                            date
+                                                        "
+                                                        v-model="
+                                                            startTimes[date][
+                                                                'morning'
+                                                            ].start
+                                                        "
+                                                        disabled
+                                                        required
+                                                    />
+                                                    <input
+                                                        type="time"
+                                                        :id="
+                                                            'end-time-morning-' +
+                                                            date
+                                                        "
+                                                        v-model="
+                                                            endTimes[date][
+                                                                'morning'
+                                                            ].end
+                                                        "
+                                                        disabled
+                                                        required
+                                                    />
+                                                </div>
+                                            </div>
+                                            <!-- Afternoon Shift -->
+                                            <div class="shift">
+                                                <div class="time-input">
+                                                    <label
+                                                        :for="
+                                                            'start-time-afternoon-' +
+                                                            date
+                                                        "
+                                                    >
+                                                        Soir :
+                                                    </label>
+                                                    <input
+                                                        type="time"
+                                                        :id="
+                                                            'start-time-aftenoon-' +
+                                                            date
+                                                        "
+                                                        v-model="
+                                                            startTimes[date][
+                                                                'afternoon'
+                                                            ].start
+                                                        "
+                                                        disabled
+                                                        required
+                                                    />
+                                                    <input
+                                                        type="time"
+                                                        :id="
+                                                            'end-time-aftenoon-' +
+                                                            date
+                                                        "
+                                                        v-model="
+                                                            endTimes[date][
+                                                                'afternoon'
+                                                            ].end
+                                                        "
+                                                        disabled
+                                                        required
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         </section>
     </div>
@@ -176,7 +305,9 @@ export default {
         return {
             employees,
             demandesAbsences,
-            demandeId: null, // Initialize demandeId
+            demandeId: this.$route.params.demandeId, // Initialize demandeId
+            resumeDay: "",
+            showDates: false,
         };
     },
     methods: {
@@ -185,8 +316,18 @@ export default {
                 return employee.id === employeeId;
             });
         },
+        formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString("fr-CA");
+        },
     },
     computed: {
+        getAbsence() {
+            return this.demandesAbsences.find((demande) => {
+                console.log(demande);
+                return demande.id === this.demandeId;
+            });
+        },
         getDemandeur() {
             console.log(this.demandesAbsences);
             const demandeur = this.demandesAbsences.find((demande) => {
@@ -204,10 +345,39 @@ export default {
             console.log("hahiya demandeur Id ", employeeId);
             return this.getEmployeeById(employeeId);
         },
+        debutAbsenceDate() {
+            const debutAbsenceDate = this.demandesAbsences.find((demande) => {
+                return demande.id === this.demandeId;
+            }).debutAbsenceDate;
+            return debutAbsenceDate;
+        },
+        endAbsenceDate() {
+            const endAbsenceDate = this.demandesAbsences.find((demande) => {
+                return demande.id === this.demandeId;
+            }).endAbsenceDate;
+            return endAbsenceDate;
+        },
+        selectedDates() {
+            const dates = [];
+            let formattedStartDate = new Date(this.getAbsence.debutAbsenceDate);
+            console.log("formatted start date is ", formattedStartDate);
+            let formattedEndDate = new Date(this.getAbsence.endAbsenceDate);
+            while (formattedStartDate <= formattedEndDate) {
+                dates.push(formattedStartDate.toISOString().split("T")[0]);
+                formattedStartDate.setDate(formattedStartDate.getDate() + 1);
+            }
+            return dates;
+        },
+        startTimes() {
+            return this.getAbsence.startDates;
+        },
+        endTimes() {
+            return this.getAbsence.endDates;
+        },
     },
-    created() {
-        this.demandeId = this.$route.params.demandeId; // Assign the route parameter to demandeId
-    },
+    // created() {
+    //     this.demandeId = this.$route.params.demandeId; // Assign the route parameter to demandeId
+    // },
 };
 </script>
 <style lang="scss" scoped>
@@ -275,6 +445,60 @@ export default {
                 th {
                     background: #f1f3f9;
                 }
+            }
+        }
+    }
+    .absence-form {
+        max-width: 600px;
+        margin: 0 auto;
+        border: 1px solid #ccc;
+        padding: 20px;
+        border-radius: 5px;
+        background-color: #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        .btn-details {
+            background: var(--submit-blue-color);
+            margin: 10px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .date-section {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .shift-container {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            .shift {
+                flex: 1;
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                background-color: #ffffff;
             }
         }
     }

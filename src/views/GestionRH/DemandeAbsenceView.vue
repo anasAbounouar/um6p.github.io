@@ -409,7 +409,7 @@
                     <!-- <div>
                         <v-autocomplete
                             v-model="selectedEmployee"
-                            :items="prenomNom(this.employees)"
+                            :items="this.autocompleteEmploye"
                             item-text="prenomNom"
                             item-value="id"
                             placeholder="Sélectionnez un employé"
@@ -417,6 +417,7 @@
                             solo-inverted
                             hide-no-data
                             return-object
+                            @click="autocomplete()"
                         ></v-autocomplete>
                     </div> -->
                 </div>
@@ -475,6 +476,7 @@ export default {
             shifts: ["morning", "afternoon"],
             resumeDay: "",
             justifications: {}, // Initialize the justifications object
+            autocompleteEmploye: [],
         };
     },
     computed: {
@@ -538,6 +540,14 @@ export default {
         },
     },
     methods: {
+        autocomplete() {
+            let array = [];
+            this.employees.forEach((employee) => {
+                array.push(employee.nom + employee.prenom);
+            });
+            this.autocompleteEmploye = array;
+            return array;
+        },
         beneficiaire() {
             if (this.selectedTypeDemande === "autre") {
                 if (this.selectedEmployee !== "") {

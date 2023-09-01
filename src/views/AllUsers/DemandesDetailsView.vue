@@ -6,62 +6,105 @@
         <section id="absence" v-if="isAbsence">
             <h5 class="c-brand m-auto mt-3">Autorisation d'absence</h5>
             <div class="my-table">
-                <table class="w-full mt-3">
-                    <thead>
-                        <tr>
-                            <th>N°</th>
-                            <th>Demandeur</th>
-                            <th>Benificier</th>
-                            <th>Date</th>
+                <div class="col-12">
+                    <table>
+                        <thead class="title">
+                            <th colspan="6">Liste des demandes</th>
+                        </thead>
+                        <thead>
                             <th>
-                                <div class="filter-container">
-                                    <select name="" v-model="selectedEtat">
-                                        <option
-                                            value=""
-                                            disabled
-                                            hidden
-                                            selected
-                                        >
-                                            Etat
-                                        </option>
-                                        <option
-                                            v-for="option in etatOptions"
-                                            :key="option.id"
-                                        >
-                                            {{ option.label }}
-                                        </option>
-                                    </select>
-                                    <i
-                                        class="fa-solid fa-sort-down p-absolute"
-                                    ></i>
-                                </div>
+                                <input
+                                    class="w-full"
+                                    type="number"
+                                    v-model="searchNumero"
+                                    placeholder="N°"
+                                />
                             </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr
-                            v-for="absence in filteredAbsences"
-                            :key="absence.id"
-                        >
-                            <td>{{ absence.id }}</td>
-                            <td>{{ absence.demandeur.name }}</td>
-                            <td>{{ absence.beneficiaire.name }}</td>
-                            <td>{{ absence.date }}</td>
-                            <td>
-                                <i
-                                    class="fa-solid"
-                                    :class="etatBetter(absence)"
-                                ></i>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                            <th>
+                                <input
+                                    class="w-full"
+                                    type="text"
+                                    v-model="searchDemandeur"
+                                    placeholder="Demandeur"
+                                />
+                            </th>
+                            <th>
+                                <input
+                                    class="w-full"
+                                    type="text"
+                                    v-model="searchBeneficiaire"
+                                    placeholder="Beneficiaire"
+                                />
+                            </th>
+                            <th>
+                                <input
+                                    class="w-full"
+                                    type="text"
+                                    v-model="searchDate"
+                                    placeholder="Date de debut"
+                                />
+                            </th>
+                            <th>
+                                <input
+                                    class="w-full"
+                                    type="text"
+                                    placeholder="Date de fin"
+                                />
+                            </th>
+                            <th><span class="mx-2">autorisation</span></th>
+                        </thead>
+                        <tbody>
+                            <tr
+                                v-for="demandeAbsence in GeneralFilter"
+                                :key="demandeAbsence.id"
+                                @click.prevent="
+                                    goToEmployeeDetails(demandeAbsence.id)
+                                "
+                            >
+                                <td>
+                                    {{ demandeAbsence.id }}
+                                </td>
+                                <td>
+                                    {{
+                                        getEmployee(demandeAbsence.demandeur)
+                                            .prenom
+                                    }}
+                                    {{
+                                        getEmployee(demandeAbsence.demandeur)
+                                            .nom
+                                    }}
+                                </td>
+                                <td>
+                                    {{
+                                        getEmployee(demandeAbsence.employeeId)
+                                            .prenom
+                                    }}
+                                    {{
+                                        getEmployee(demandeAbsence.employeeId)
+                                            .nom
+                                    }}
+                                </td>
+                                <td>
+                                    {{ demandeAbsence.debutAbsenceDate }}
+                                </td>
+                                <td>
+                                    {{ demandeAbsence.endAbsenceDate }}
+                                </td>
+                                <td>
+                                    {{ demandeAbsence.authorisation }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </section>
     </div>
 </template>
 <script>
 import absences from "@/Js/P&A";
+import demandesAbsences from "@/Js/demandesAbsences";
+import employees from "@/Js/employees";
 export default {
     name: "demandes-details",
     data() {
@@ -77,6 +120,12 @@ export default {
             selectedEtat: "",
             user: null,
             absences,
+            employees,
+            demandesAbsences,
+            searchDemandeur: "",
+            searchBeneficiaire: "",
+            searchNumero: "",
+            searchDate: "",
         };
     },
     computed: {
@@ -116,8 +165,96 @@ export default {
                 }
             };
         },
+        filterDemandeur() {
+            if (this.searchDemandeur === "") {
+                return this.demandesAbsences;
+            } else {
+                const regex = new RegExp(this.searchDemandeur, "i");
+                return this.demandesAbsences.filter((demandeAbsence) => {
+                    return (
+                        regex.test(
+                            this.getEmployee(demandeAbsence.demandeur).nom
+                        ) ||
+                        regex.test(
+                            this.getEmployee(demandeAbsence.demandeur).prenom
+                        )
+                    );
+                });
+            }
+        },
+        filterBeneficiaire() {
+            if (this.searchBeneficiaire === "") {
+                return this.demandesAbsences;
+            } else {
+                const regex = new RegExp(this.searchBeneficiaire, "i");
+                return this.demandesAbsences.filter((demandeAbsence) => {
+                    return (
+                        regex.test(
+                            this.getEmployee(demandeAbsence.employeeId).nom
+                        ) ||
+                        regex.test(
+                            this.getEmployee(demandeAbsence.employeeId).prenom
+                        )
+                    );
+                });
+            }
+        },
+        filterNumero() {
+            if (this.searchNumero === "") {
+                return this.demandesAbsences;
+            } else {
+                return this.demandesAbsences.filter((demandeAbsence) => {
+                    return demandeAbsence.id == this.searchNumero;
+                });
+            }
+        },
+        filterDate() {
+            if (this.searchDate !== "") {
+                const regex = new RegExp(this.searchDate, "i");
+                return this.demandesAbsences.filter((demandeAbsence) => {
+                    // return demandeAbsence.debutAbsenceDate((date) =>
+                    //     regex.test(date)
+                    // );
+                    return regex.test(demandeAbsence.debutAbsenceDate);
+                });
+            } else {
+                return this.demandesAbsences;
+            }
+        },
+        GeneralFilter() {
+            const filteredBeneficiaire = this.filterBeneficiaire;
+            const filteredDemandeur = this.filterDemandeur;
+            const filteredNumero = this.filterNumero;
+            const filteredDateDebut = this.filterDate;
+
+            return this.ourDemandes.filter((demandeAbsence) => {
+                return (
+                    filteredBeneficiaire.includes(demandeAbsence) &&
+                    filteredDemandeur.includes(demandeAbsence) &&
+                    filteredNumero.includes(demandeAbsence) &&
+                    filteredDateDebut.includes(demandeAbsence) &&
+                    Object.keys(demandeAbsence.debutAbsenceDate).length > 0
+                );
+            });
+        },
+        ourDemandes() {
+            console.log("thsi is user id ", this.user.id);
+            return this.demandesAbsences.filter((demande) => {
+                console.log(demande.demandeur);
+                return (
+                    demande.employeeId === this.user.id ||
+                    demande.demandeur === this.user.id
+                );
+            });
+        },
     },
-    methods: {},
+    methods: {
+        getEmployee(employeeId) {
+            return this.employees.find((employee) => {
+                return employee.id === employeeId;
+            });
+        },
+    },
     created() {
         const user = localStorage.getItem("user");
         if (user) {
@@ -173,7 +310,35 @@ section {
         }
     }
 }
-// #absence {
-
-// }
+table {
+    width: 100%;
+    th,
+    td {
+        position: relative;
+        border: 1px solid #eee;
+        // width: 180px;
+        select {
+            width: 100%;
+        }
+        input {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            outline: none;
+            transition: border-color 0.3s ease-in-out;
+        }
+        input::placeholder {
+            color: black;
+        }
+    }
+    thead.title {
+        th {
+            height: 80px;
+            span {
+                height: 40px;
+                width: 40px;
+            }
+        }
+    }
+}
 </style>

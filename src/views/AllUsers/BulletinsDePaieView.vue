@@ -1,4 +1,3 @@
-/
 <template>
     <div>
         <section id="bulletins">

@@ -67,26 +67,40 @@
                     class="user-space-icon"
                     @click="goToPage('bulletin-de-paie-page')"
                 >
-                    <span>Bulletins de paie</span>
-                    <i class="fa fa-file-invoice-dollar"></i>
+                    <span :class="{ active: isBulletinDePaieActive }"
+                        >Bulletins de paie</span
+                    >
+                    <i
+                        class="fa fa-file-invoice-dollar"
+                        :class="{ active: isBulletinDePaieActive }"
+                    ></i>
                 </div>
                 <div
                     class="user-space-icon"
                     @click="goToPage('dossiers-mutuelles-page')"
                 >
-                    <span>Dossiers mutuelles</span>
-                    <i class="fa fa-heart"></i>
+                    <span :class="{ active: isDossiersMutuellesActive }"
+                        >Dossiers mutuelles</span
+                    >
+                    <i
+                        class="fa-solid fa-user-doctor"
+                        :class="{ active: isDossiersMutuellesActive }"
+                    ></i>
                 </div>
-                <!-- <div class="user-space-icon" @click="goToPage('demandes-page')">
-                    <span>Demande</span>
+                <div class="user-space-icon" @click="goToPage('demandes-page')">
+                    <span>Demandes</span>
                     <i class="fa fa-plus"></i>
-                </div> -->
+                </div>
             </div>
             <!-- Gestion RH -->
             <div v-if="user.poste == 'admin' || 'RH' || 'Technicien'">
                 <div class="user-space-header">
                     <!-- <div class="user-space-header" @click="toggleRHIcons"> -->
-                    <h5 v-if="user.poste !== 'Technicien'" class="m-0">
+                    <h5
+                        v-if="user.poste !== 'Technicien'"
+                        class="m-0"
+                        :class="{ active: isGestionRH }"
+                    >
                         Gestion RH
                     </h5>
                     <h5 v-else>Gestion Technicien</h5>
@@ -97,21 +111,26 @@
 
                 <!-- RH Icons -->
                 <div v-if="showRHIcons" class="user-space-icons">
-                    <!-- Employés -->
+                    <!-- Employés
                     <div
                         class="user-space-icon"
                         @click="goToPage('RH-employiiss-page')"
                     >
-                        <i class="fa fa-users"></i>
                         <span>Employés aiide</span>
-                    </div>
+                        <i class="fa fa-users"></i>
+                    </div> -->
                     <div
                         v-if="user.poste !== 'Technicien'"
                         class="user-space-icon"
                         @click="goToPage('RH-employees-page')"
                     >
-                        <i class="fa fa-users"></i>
-                        <span>Employés</span>
+                        <span :class="{ active: isRHEmployees }">
+                            Employés</span
+                        >
+                        <i
+                            class="fa fa-users"
+                            :class="{ active: isRHEmployees }"
+                        ></i>
                     </div>
                     <!-- Pointage -->
                     <div
@@ -119,8 +138,11 @@
                         class="user-space-icon"
                         @click="goToPage('pointage-page')"
                     >
-                        <i class="fa fa-clock"></i>
-                        <span>Pointage</span>
+                        <span :class="{ active: isPointage }">Pointage</span>
+                        <i
+                            class="fa fa-clock"
+                            :class="{ active: isPointage }"
+                        ></i>
                     </div>
                     <!-- Attendance -->
                     <div
@@ -128,29 +150,32 @@
                         class="user-space-icon"
                         @click="goToPage('RHAttendance')"
                     >
-                        <i class="fa fa-calendar"></i>
                         <span>Attendance</span>
+                        <i class="fa fa-calendar"></i>
                     </div>
                     <div
                         v-if="user.poste !== 'Technicien'"
                         class="user-space-icon"
                         @click="goToPage('planification-page')"
                     >
-                        <i
-                            class="fa fa-clock"
-                            :class="{ active: isAttendanceActive }"
-                        ></i>
-                        <span :class="{ active: isAttendanceActive }"
+                        <span :class="{ active: isPlanification }"
                             >Planification</span
                         >
+                        <i
+                            class="fa fa-clock"
+                            :class="{ active: isPlanification }"
+                        ></i>
                     </div>
                     <!-- RH Demandes -->
                     <div
                         class="user-space-icon"
                         @click="goToPage('RH-demandes-page')"
                     >
-                        <i class="fa fa-file"></i>
-                        <span>Demandes</span>
+                        <span :class="{ active: isRHDemandes }">Demandes</span>
+                        <i
+                            class="fa fa-file"
+                            :class="{ active: isRHDemandes }"
+                        ></i>
                     </div>
                 </div>
             </div>
@@ -159,14 +184,14 @@
                 <div class="user-space-header pb-3 mb-3">
                     <h5 class="m-0">Gestion Des comptes</h5>
                 </div>
-                <!-- //sign out -->
-                <div
-                    class="signout d-flex justify-content-around align-items-center pb-3"
-                    @click="signOut"
-                >
-                    <i class="fs-25 fa-solid fa-arrow-right-from-bracket"></i>
-                    <span class="fs-20">Se deconnecter</span>
-                </div>
+            </div>
+            <!-- //sign out -->
+            <div
+                class="signout d-flex justify-content-around align-items-center pb-3"
+                @click="signOut"
+            >
+                <span class="fs-20">Se deconnecter</span>
+                <i class="fs-25 fa-solid fa-arrow-right-from-bracket"></i>
             </div>
         </div>
     </div>
@@ -320,6 +345,32 @@ export default {
                 this.$route.name === "mypassword-page" ||
                 this.$route.name === "attendance-page" ||
                 this.$route.name === "hors-site-page"
+            );
+        },
+        isBulletinDePaieActive() {
+            return this.$route.name === "bulletin-de-paie-page";
+        },
+        isDossiersMutuellesActive() {
+            return this.$route.name === "dossiers-mutuelles-page";
+        },
+        isRHEmployees() {
+            return this.$route.name === "RH-employees-page";
+        },
+        isPointage() {
+            return this.$route.name === "pointage-page";
+        },
+        isRHDemandes() {
+            return this.$route.name === "RH-demandes-page";
+        },
+        isPlanification() {
+            return this.$route.name === "planification-page";
+        },
+        isGestionRH() {
+            return (
+                this.isPlanification ||
+                this.isRHDemandes ||
+                this.isPointage ||
+                this.isRHEmployees
             );
         },
     },

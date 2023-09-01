@@ -341,6 +341,7 @@ export default {
             // Push the new employee to the employees array
             this.employees.push(newEmployee);
             this.setNull();
+            this.$router.push({ name: "RH-employees-page" });
 
             await Swal.fire({
                 icon: "success",

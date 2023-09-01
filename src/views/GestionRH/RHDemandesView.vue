@@ -16,19 +16,19 @@
                         </div>
                         <div>
                             <div class="RH-demande-wrapper" @click.prevent="">
-                                <h5>Demandes de Presence</h5>
+                                <h5>Demandes de Presence x</h5>
                             </div>
                         </div>
                         <div>
                             <div class="RH-demande-wrapper" @click.prevent="">
-                                <h5>Demande de main d’oeuvre hors site</h5>
+                                <h5>Demande de main d’oeuvre hors site x</h5>
                             </div>
                         </div>
                         <div>
                             <div class="RH-demande-wrapper" @click.prevent="">
                                 <h5>
                                     Demande hebdomadaire interne de la main
-                                    d'œuvre
+                                    d'œuvre x
                                 </h5>
                             </div>
                         </div>
@@ -36,13 +36,13 @@
                             <div class="RH-demande-wrapper" @click.prevent="">
                                 <h5>
                                     Informations pour la préparation d'ordre de
-                                    mission
+                                    mission x
                                 </h5>
                             </div>
                         </div>
                         <div>
                             <div class="RH-demande-wrapper" @click.prevent="">
-                                <h5>Déplacements hors site</h5>
+                                <h5>Déplacements hors site x</h5>
                             </div>
                         </div>
                     </div>

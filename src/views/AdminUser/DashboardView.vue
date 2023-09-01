@@ -28,45 +28,49 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Pie } from "vue-chartjs";
 import { data, options } from "./ChartConfig";
 ChartJS.register(ArcElement, Tooltip, Legend);
+import employees from "@/Js/employees";
 
 export default {
     name: "dashboard-page",
     components: { Pie },
     data() {
+        const employeesLength = employees.length; // Initialize employeesLength here
         return {
+            employees,
+            employeesLength,
             boxes: [
                 {
                     id: 0,
                     title: "Nb d’employés",
-                    data: 856,
+                    data: 7,
                     icon: "fa-user-tie",
                 },
                 {
                     id: 1,
                     title: "Nb d’embauches",
-                    data: 900,
+                    data: 20,
                     icon: "fa-suitcase",
                 },
                 {
-                    id: 2,
+                    id: 3,
                     title: "Nb des debauches",
                     data: 30,
                     icon: "fa-user-slash",
                 },
                 {
-                    id: 3,
+                    id: 6,
                     title: "Presence du jour",
                     data: 850,
                     icon: "fa-solid fa-hand-pointer",
                 },
                 {
-                    id: 4,
+                    id: 1,
                     title: "Absence du jour",
                     data: 6,
                     icon: "fa-user-xmark",
                 },
                 {
-                    id: 5,
+                    id: 0,
                     title: "repos",
                     data: 15,
                     icon: "fa-house",

@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="app">
         <section id="demande-absence">
             <div class="container">
                 <div class="row align-items-center justify-content-center">
@@ -91,6 +91,7 @@
                                 <div>
                                     <span>
                                         {{ this.beneficiaire().prenom }}
+                                        {{ this.beneficiaire().nom }}
                                     </span>
                                 </div>
                             </div>
@@ -405,6 +406,19 @@
                             </form>
                         </div>
                     </div>
+                    <!-- <div>
+                        <v-autocomplete
+                            v-model="selectedEmployee"
+                            :items="prenomNom(this.employees)"
+                            item-text="prenomNom"
+                            item-value="id"
+                            placeholder="Sélectionnez un employé"
+                            clearable
+                            solo-inverted
+                            hide-no-data
+                            return-object
+                        ></v-autocomplete>
+                    </div> -->
                 </div>
             </div>
         </section>
@@ -413,12 +427,19 @@
 <script>
 import employees from "@/Js/employees";
 import Swal from "sweetalert2";
-import absence from "@/Js/absence";
+// import absence from "@/Js/absence";
+// import { VAutocomplete } from "vuetify/lib";
+import demandesAbsences from "@/Js/demandesAbsences";
+
+import "vuetify/dist/vuetify.min.css"; // Ensure you import Vuetify's CSS
 export default {
     name: "demande-absence-page",
+    components: {
+        // VAutocomplete,
+    },
     data() {
         return {
-            absence,
+            demandesAbsences,
             user: null,
             employees,
             selectedTypeDemande: "autre",
@@ -512,6 +533,9 @@ export default {
             }
             return dates;
         },
+        prenomNom() {
+            return (employee) => `${employee.prenom} ${employee.nom}`;
+        },
     },
     methods: {
         beneficiaire() {
@@ -582,37 +606,49 @@ export default {
                 //checkrone must edit this to push to the table (backend)
             }
 
-            const targetAbsence = this.absence.find((absenceObj) => {
-                console.log(absenceObj.employeeId, "absenceObjc");
-                console.log(this.beneficiaire().id, "beneficiaireId");
-                return absenceObj.employeeId == this.beneficiaire().id;
-            });
-            console.log("before targetabsence", targetAbsence);
+            // const targetAbsence = this.absence.find((absenceObj) => {
+            //     console.log(absenceObj.employeeId, "absenceObjc");
+            //     console.log(this.beneficiaire().id, "beneficiaireId");
+            //     return absenceObj.employeeId == this.beneficiaire().id;
+            // });
+            // console.log("before targetabsence", targetAbsence);
 
-            if (targetAbsence) {
-                const formattedStartDate = {
-                    morning: {
-                        start: this.getStartTime(this.startDate, "morning"),
-                    },
-                    afternoon: {
-                        start: this.getStartTime(this.startDate, "afternoon"),
-                    },
-                };
+            // if (targetAbsence) {
+            //     const formattedStartDate = {
+            //         morning: {
+            //             start: this.getStartTime(this.startDate, "morning"),
+            //         },
+            //         afternoon: {
+            //             start: this.getStartTime(this.startDate, "afternoon"),
+            //         },
+            //     };
 
-                const formattedEndDate = {
-                    morning: { end: this.getEndTime(this.endDate, "morning") },
-                    afternoon: {
-                        end: this.getEndTime(this.endDate, "afternoon"),
-                    },
-                };
+            //     const formattedEndDate = {
+            //         morning: { end: this.getEndTime(this.endDate, "morning") },
+            //         afternoon: {
+            //             end: this.getEndTime(this.endDate, "afternoon"),
+            //         },
+            //     };
 
-                for (const date of this.selectedDates) {
-                    targetAbsence.startDates[date] = formattedStartDate;
-                    targetAbsence.endDates[date] = formattedEndDate;
-                }
-            }
-            console.log("target absence", targetAbsence);
-            console.log("absences", this.absence);
+            //     for (const date of this.selectedDates) {
+            //         targetAbsence.startDates[date] = formattedStartDate;
+            //         targetAbsence.endDates[date] = formattedEndDate;
+            //     }
+            // }
+            // console.log("target absence", targetAbsence);
+            // console.log("absences", this.absence);
+            const newDemandeAbsence = {
+                id: this.demandesAbsences.length + 1,
+                demandeur: this.user.id,
+                employeeId: this.beneficiaire().id,
+                justification: this.selectedJustification,
+                startDates: this.startTimes,
+                endDates: this.endTimes,
+                authorisation: this.autorisation,
+                debutAbsenceDate: this.startDate,
+                endAbsenceDate: this.endDate,
+            };
+            this.demandesAbsences.push(newDemandeAbsence);
             let message = "";
             if (this.autorisation === "Oui") {
                 message = "Vous avez bien enregistré l'absence de cet employé.";

@@ -1,12 +1,12 @@
 <template>
     <div>
         <section id="autorisation-absence">
-            <div class="container">
+            <div class="container p-relative">
                 <div class="row">
                     <div class="col-12">
                         <table>
                             <thead class="title">
-                                <th colspan="3">Liste des demandes</th>
+                                <th colspan="5">Liste des demandes</th>
                                 <th
                                     class="d-flex align-items-center justify-content-center"
                                 >
@@ -52,53 +52,58 @@
                                         placeholder="Date de debut"
                                     />
                                 </th>
+                                <th>
+                                    <input
+                                        class="w-full"
+                                        type="text"
+                                        placeholder="Date de fin"
+                                    />
+                                </th>
+                                <th><span class="mx-2">autorisation</span></th>
                             </thead>
                             <tbody>
                                 <tr
-                                    v-for="absencee in GeneralFilter"
-                                    :key="absencee.id"
+                                    v-for="demandeAbsence in GeneralFilter"
+                                    :key="demandeAbsence.id"
                                     @click.prevent="
-                                        goToEmployeeDetails(absencee.id)
+                                        goToEmployeeDetails(demandeAbsence.id)
                                     "
                                 >
                                     <td>
-                                        {{ absencee.id }}
+                                        {{ demandeAbsence.id }}
                                     </td>
                                     <td>
                                         {{
-                                            getEmployee(absencee.demandeur)
-                                                .prenom
+                                            getEmployee(
+                                                demandeAbsence.demandeur
+                                            ).prenom
                                         }}
                                         {{
-                                            getEmployee(absencee.demandeur).nom
+                                            getEmployee(
+                                                demandeAbsence.demandeur
+                                            ).nom
                                         }}
                                     </td>
                                     <td>
                                         {{
-                                            getEmployee(absencee.employeeId).nom
+                                            getEmployee(
+                                                demandeAbsence.employeeId
+                                            ).prenom
                                         }}
-
                                         {{
-                                            getEmployee(absencee.employeeId)
-                                                .prenom
+                                            getEmployee(
+                                                demandeAbsence.employeeId
+                                            ).nom
                                         }}
                                     </td>
                                     <td>
-                                        <ul>
-                                            <li
-                                                v-for="startDate in Object.keys(
-                                                    absencee.startDates
-                                                )"
-                                                :key="startDate"
-                                            >
-                                                {{ startDate }}
-                                            </li>
-                                            <!-- {{
-                                                this.extractFirstDateAndMonth(
-                                                    absencee.startDates
-                                                )
-                                            }} -->
-                                        </ul>
+                                        {{ demandeAbsence.debutAbsenceDate }}
+                                    </td>
+                                    <td>
+                                        {{ demandeAbsence.endAbsenceDate }}
+                                    </td>
+                                    <td>
+                                        {{ demandeAbsence.authorisation }}
                                     </td>
                                 </tr>
                             </tbody>
@@ -111,7 +116,7 @@
 </template>
 <script>
 import employees from "@/Js/employees";
-import absence from "@/Js/absence";
+import demandesAbsences from "@/Js/demandesAbsences";
 export default {
     name: "RH-autorisation-absence",
     components: {
@@ -120,7 +125,7 @@ export default {
     data() {
         return {
             employees,
-            absence,
+            demandesAbsences,
             searchDemandeur: "",
             searchBeneficiaire: "",
             searchNumero: "",
@@ -156,12 +161,18 @@ export default {
                 month,
             };
         },
+        goToEmployeeDetails(demandeId) {
+            this.$router.push({
+                name: "RH-autorisation-absence-details",
+                params: { demandeId: demandeId },
+            });
+        },
     },
     computed: {
         uniqueStartDates() {
             const uniqueDates = new Set();
-            this.absence.forEach((absencee) => {
-                Object.keys(absencee.startDates).forEach((date) => {
+            this.demandesAbsences.forEach((demandeAbsence) => {
+                Object.keys(demandeAbsence.startDates).forEach((date) => {
                     uniqueDates.add(date);
                 });
             });
@@ -169,49 +180,58 @@ export default {
         },
         filterDemandeur() {
             if (this.searchDemandeur === "") {
-                return this.absence;
+                return this.demandesAbsences;
             } else {
                 const regex = new RegExp(this.searchDemandeur, "i");
-                return this.absence.filter((absencee) => {
+                return this.demandesAbsences.filter((demandeAbsence) => {
                     return (
-                        regex.test(this.getEmployee(absencee.demandeur).nom) ||
-                        regex.test(this.getEmployee(absencee.demandeur).prenom)
+                        regex.test(
+                            this.getEmployee(demandeAbsence.demandeur).nom
+                        ) ||
+                        regex.test(
+                            this.getEmployee(demandeAbsence.demandeur).prenom
+                        )
                     );
                 });
             }
         },
         filterBeneficiaire() {
             if (this.searchBeneficiaire === "") {
-                return this.absence;
+                return this.demandesAbsences;
             } else {
                 const regex = new RegExp(this.searchBeneficiaire, "i");
-                return this.absence.filter((absencee) => {
+                return this.demandesAbsences.filter((demandeAbsence) => {
                     return (
-                        regex.test(this.getEmployee(absencee.employeeId).nom) ||
-                        regex.test(this.getEmployee(absencee.employeeId).prenom)
+                        regex.test(
+                            this.getEmployee(demandeAbsence.employeeId).nom
+                        ) ||
+                        regex.test(
+                            this.getEmployee(demandeAbsence.employeeId).prenom
+                        )
                     );
                 });
             }
         },
         filterNumero() {
             if (this.searchNumero === "") {
-                return this.absence;
+                return this.demandesAbsences;
             } else {
-                return this.absence.filter((absencee) => {
-                    return absencee.id == this.searchNumero;
+                return this.demandesAbsences.filter((demandeAbsence) => {
+                    return demandeAbsence.id == this.searchNumero;
                 });
             }
         },
         filterDate() {
             if (this.searchDate !== "") {
                 const regex = new RegExp(this.searchDate, "i");
-                return this.absence.filter((absencee) => {
-                    return Object.keys(absencee.startDates).some((date) =>
-                        regex.test(date)
-                    );
+                return this.demandesAbsences.filter((demandeAbsence) => {
+                    // return demandeAbsence.debutAbsenceDate((date) =>
+                    //     regex.test(date)
+                    // );
+                    return regex.test(demandeAbsence.debutAbsenceDate);
                 });
             } else {
-                return this.absence;
+                return this.demandesAbsences;
             }
         },
         GeneralFilter() {
@@ -220,14 +240,13 @@ export default {
             const filteredNumero = this.filterNumero;
             const filteredDateDebut = this.filterDate;
 
-            return this.absence.filter((absencee) => {
-                console.log(Object.keys(absencee.startDates));
+            return this.demandesAbsences.filter((demandeAbsence) => {
                 return (
-                    filteredBeneficiaire.includes(absencee) &&
-                    filteredDemandeur.includes(absencee) &&
-                    filteredNumero.includes(absencee) &&
-                    filteredDateDebut.includes(absencee) &&
-                    Object.keys(absencee.startDates).length > 0
+                    filteredBeneficiaire.includes(demandeAbsence) &&
+                    filteredDemandeur.includes(demandeAbsence) &&
+                    filteredNumero.includes(demandeAbsence) &&
+                    filteredDateDebut.includes(demandeAbsence) &&
+                    Object.keys(demandeAbsence.debutAbsenceDate).length > 0
                 );
             });
         },

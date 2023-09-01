@@ -1,6 +1,7 @@
 const absence = [
     {
         id: 0,
+        demandeAbsenceId: 1,
         employeeId: 1,
         startDates: {
             "2023-08-27": {
@@ -83,6 +84,7 @@ const absence = [
     // i should have here all employees, one absent or not
     {
         id: 1,
+        demandeAbsenceId: 2,
         employeeId: 4,
         startDates: {},
         endDates: {},
@@ -90,6 +92,7 @@ const absence = [
     },
     {
         id: 2,
+        demandeAbsenceId: 3,
         employeeId: 5,
         startDates: {},
         endDates: {},
@@ -97,6 +100,7 @@ const absence = [
     },
     {
         id: 3,
+        demandeAbsenceId: 4,
         employeeId: 6,
         startDates: {},
         endDates: {},
@@ -104,6 +108,7 @@ const absence = [
     },
     {
         id: 4,
+        demandeAbsenceId: 5,
         employeeId: 7,
         startDates: {},
         endDates: {},
@@ -111,6 +116,7 @@ const absence = [
     },
     {
         id: 5,
+        demandeAbsenceId: 6,
         employeeId: 0,
         startDates: {},
         endDates: {},

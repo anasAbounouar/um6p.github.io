@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/no-parsing-error -->
 <!--eslint-disable -->
 <template>
-    <div id="app">
+    <div id="app" data-app>
         <SideBarView v-if="shouldShowBar" />
         <NavBarView v-if="shouldShowBar" />
         <router-view />

@@ -42,7 +42,7 @@ export default {
                 {
                     id: 0,
                     title: "Nb d’employés",
-                    data: 7,
+                    data: 17,
                     icon: "fa-user-tie",
                 },
                 {
@@ -54,19 +54,19 @@ export default {
                 {
                     id: 3,
                     title: "Nb des debauches",
-                    data: 30,
+                    data: 3,
                     icon: "fa-user-slash",
                 },
                 {
                     id: 6,
                     title: "Presence du jour",
-                    data: 850,
+                    data: 10,
                     icon: "fa-solid fa-hand-pointer",
                 },
                 {
                     id: 1,
                     title: "Absence du jour",
-                    data: 6,
+                    data: 7,
                     icon: "fa-user-xmark",
                 },
                 {

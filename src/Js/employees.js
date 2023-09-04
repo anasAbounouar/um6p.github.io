@@ -1,8 +1,8 @@
 const employees = [
     {
         id: 0,
-        prenom: "anas",
-        nom: "ab",
+        prenom: "Anas",
+        nom: "Abounouar",
         poste: "admin",
         matricule: "LJ390L",
         employeur: "Best Profile",

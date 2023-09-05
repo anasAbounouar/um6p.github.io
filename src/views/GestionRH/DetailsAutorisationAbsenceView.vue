@@ -152,11 +152,79 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>Oui</td>
-                                        <td>Encours</td>
-                                        <td>Encours</td>
-                                        <td>Encours</td>
-                                        <td>MGE</td>
+                                        <td>
+                                            <select
+                                                name=""
+                                                id=""
+                                                v-model="visaDemandeur"
+                                            >
+                                                <option value="" disabled>
+                                                    Choisir une option
+                                                </option>
+                                                <option
+                                                    v-for="visa in visas"
+                                                    :key="visa"
+                                                >
+                                                    {{ visa }}
+                                                </option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select
+                                                name=""
+                                                id=""
+                                                v-model="visaSuperviseur"
+                                                :disabled="
+                                                    !isAccesVisaSuperviseur
+                                                "
+                                            >
+                                                <option value="" disabled>
+                                                    Choisir une option
+                                                </option>
+                                                <option
+                                                    v-for="visa in visas"
+                                                    :key="visa"
+                                                >
+                                                    {{ visa }}
+                                                </option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select
+                                                name=""
+                                                id=""
+                                                v-model="visaAdmin"
+                                                :disabled="!isAccesVisaAdmin"
+                                            >
+                                                <option value="" disabled>
+                                                    Choisir une option
+                                                </option>
+                                                <option
+                                                    v-for="visa in visas"
+                                                    :key="visa"
+                                                    :value="visa"
+                                                >
+                                                    {{ visa }}
+                                                </option>
+                                            </select>
+                                        </td>
+                                        <td>{{ autorisation }}</td>
+                                        <td>
+                                            <select
+                                                id="selectJustification"
+                                                v-model="justification"
+                                            >
+                                                <option value="" disabled>
+                                                    Choisir une option
+                                                </option>
+                                                <option
+                                                    v-for="type in typesJustifications"
+                                                    :key="type"
+                                                >
+                                                    {{ type }}
+                                                </option>
+                                            </select>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -291,6 +359,14 @@
                             </div>
                         </form>
                     </div>
+                    <div class="col-12">
+                        <button
+                            @click="saveAbsence()"
+                            class="btn btn-primary border-none bg-my-blue-color"
+                        >
+                            Valider
+                        </button>
+                    </div>
                 </div>
             </div>
         </section>
@@ -299,15 +375,34 @@
 <script>
 import demandesAbsences from "@/Js/demandesAbsences";
 import employees from "@/Js/employees";
+import Swal from "sweetalert2";
 export default {
     name: "RH-autorisation-absence-details",
     data() {
         return {
+            justifications: {}, // Initialize the justifications object
+            justification: "",
+            user: null,
             employees,
             demandesAbsences,
             demandeId: this.$route.params.demandeId, // Initialize demandeId
             resumeDay: "",
             showDates: false,
+            visaAdmin: "",
+            visaSuperviseur: "",
+            visaDemandeur: "",
+            authorisation: "",
+            visas: ["Encours", "Non", "Oui"],
+            typesJustifications: [
+                "MGE",
+                "NCE",
+                "OC",
+                "C",
+                "D",
+                "CG",
+                "CM",
+                "M",
+            ],
         };
     },
     methods: {
@@ -319,6 +414,63 @@ export default {
         formatDate(dateString) {
             const date = new Date(dateString);
             return date.toLocaleDateString("fr-CA");
+        },
+        saveAbsence() {
+            for (const date of this.selectedDates) {
+                //lets save the justification for these days
+                this.justifications[date] = this.selectedJustification;
+                //checkrone must edit this to push to the table (backend)
+            }
+            // Find the index of the demande in the list
+            const index = this.demandesAbsences.findIndex(
+                (demande) => demande.id === this.demandeId
+            );
+
+            if (index !== -1) {
+                // Use Vue's $set to update the properties
+                this.$set(
+                    this.demandesAbsences[index],
+                    "justification",
+                    this.justification
+                );
+                this.$set(
+                    this.demandesAbsences[index],
+                    "visaDemandeur",
+                    this.visaDemandeur
+                );
+                this.$set(
+                    this.demandesAbsences[index],
+                    "visaSuperviseur",
+                    this.visaSuperviseur
+                );
+                this.$set(
+                    this.demandesAbsences[index],
+                    "visaAdmin",
+                    this.visaAdmin
+                );
+                this.$set(
+                    this.demandesAbsences[index],
+                    "authorisation",
+                    this.autorisation
+                );
+            }
+            // this.getAbsence.justification = this.justification;
+            // this.getAbsence.visaDemandeur = this.visaDemandeur;
+            // this.getAbsence.visaSuperviseur = this.visaSuperviseur;
+            // this.getAbsence.visaAdmin = this.visaAdmin;
+            let message = "";
+            if (this.autorisation === "Oui") {
+                message = " l'absence de cet employé est bien autorisé.";
+            } else {
+                message = "Vous avez bien demandé l'absence pour cet employé.";
+            }
+            Swal.fire({
+                icon: "success",
+                title: "Succès!",
+                text: message,
+                confirmButtonText: "OK",
+            });
+            this.$router.push({ name: "RH-autorisation-absence" });
         },
     },
     computed: {
@@ -374,10 +526,67 @@ export default {
         endTimes() {
             return this.getAbsence.endDates;
         },
+        isAccesVisaSuperviseur() {
+            if (this.user.poste === "admin" || this.user.poste === "RH") {
+                return true;
+                // an admin can do whatever he wants
+            } else {
+                if (this.selectedTypeDemande === "autre") {
+                    return true;
+                    // this means im a supervisor of someone else
+                } else {
+                    // case its for me
+                    return false;
+                }
+            }
+        },
+        isAccesVisaAdmin() {
+            if (this.user.poste === "admin") {
+                return true;
+            } else {
+                return false;
+            }
+        },
+        autorisation() {
+            const visas = [
+                this.visaAdmin,
+                this.visaSuperviseur,
+                this.visaDemandeur,
+            ];
+
+            if (visas.includes("Non")) {
+                return "Non";
+            } else if (visas.includes("Encours")) {
+                return "Encours";
+            } else {
+                return "Oui";
+            }
+        },
     },
-    // created() {
-    //     this.demandeId = this.$route.params.demandeId; // Assign the route parameter to demandeId
-    // },
+    created() {
+        const user = localStorage.getItem("user");
+        if (user) {
+            this.user = JSON.parse(user);
+        }
+    },
+    mounted() {
+        this.visaAdmin = this.getAbsence.visaAdmin;
+        this.visaSuperviseur = this.getAbsence.visaSuperviseur;
+        this.visaDemandeur = this.getAbsence.visaDemandeur;
+        this.authorisation = this.getAbsence.authorisation;
+        this.justification = this.getAbsence.justification;
+    },
+    watch: {
+        visaSuperviseur() {
+            this.autorisation;
+        },
+        visaAdmin() {
+            this.autorisation;
+        },
+        visaDemandeur() {
+            this.autorisation;
+        },
+    },
 };
 </script>
 <style lang="scss" scoped>

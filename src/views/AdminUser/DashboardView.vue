@@ -4,7 +4,7 @@
             <div class="container">
                 <div class="row">
                     <div v-for="box in boxes" :key="box.id" class="col-4">
-                        <div class="box">
+                        <div class="box" data-aos="flip-up">
                             <span class="fw-bold d-flex m-3">
                                 {{ box.title }}
                             </span>
@@ -29,6 +29,8 @@ import { Pie } from "vue-chartjs";
 import { data, options } from "./ChartConfig";
 ChartJS.register(ArcElement, Tooltip, Legend);
 import employees from "@/Js/employees";
+import "aos/dist/aos.css"; // Import the AOS CSS
+import AOS from "aos";
 
 export default {
     name: "dashboard-page",
@@ -82,6 +84,12 @@ export default {
             options,
         };
     },
+    mounted() {
+        // Ensure that AOS animations are applied after Vue component is mounted.
+        this.$nextTick(() => {
+            AOS.refresh();
+        });
+    },
 };
 </script>
 <style lang="scss" scoped>
@@ -110,6 +118,7 @@ section {
             }
             i {
                 font-size: 35px;
+                color: black;
             }
         }
     }

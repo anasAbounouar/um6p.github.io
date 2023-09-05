@@ -2,7 +2,7 @@
     <div>
         <section id="myprofile">
             <div class="general-info container mb-3 px-4">
-                <div class="row">
+                <div class="row" data-aos="zoom-in">
                     <div class="col-6 d-flex flex-d-c">
                         <div class="d-flex justify-content-between nom">
                             <div>Nom & Prenom :</div>

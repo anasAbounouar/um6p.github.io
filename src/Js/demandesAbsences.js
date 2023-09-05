@@ -84,6 +84,9 @@ const demandesAbsences = [
             // },
         },
         authorisation: "Encours",
+        visaDemandeur: "Encours",
+        visaSuperviseur: "Encours",
+        visaAdmin: "Encours",
     },
     {
         id: 1,
@@ -170,6 +173,9 @@ const demandesAbsences = [
             // },
         },
         authorisation: "Encours",
+        visaDemandeur: "Encours",
+        visaSuperviseur: "Encours",
+        visaAdmin: "Encours",
     },
     {
         id: 2,
@@ -178,7 +184,7 @@ const demandesAbsences = [
         debutAbsenceDate: "2023-08-16",
         endAbsenceDate: "2023-08-17",
 
-        justification: "V",
+        justification: "MGE",
         startDates: {
             // "2023-08-27": {
             //     morning: { start: "07:00" },
@@ -256,6 +262,9 @@ const demandesAbsences = [
             // },
         },
         authorisation: "Encours",
+        visaDemandeur: "Encours",
+        visaSuperviseur: "Encours",
+        visaAdmin: "Encours",
     },
     // Add more entries here with authorisation: "Encours"
     {
@@ -265,7 +274,7 @@ const demandesAbsences = [
         debutAbsenceDate: "2023-08-27",
         endAbsenceDate: "2023-08-27",
 
-        justification: "V",
+        justification: "MGE",
         startDates: {
             "2023-08-27": {
                 morning: { start: "07:00" },
@@ -343,6 +352,9 @@ const demandesAbsences = [
             // },
         },
         authorisation: "Oui",
+        visaDemandeur: "Oui",
+        visaSuperviseur: "Oui",
+        visaAdmin: "Oui",
     },
     // Add more entries here with authorisation: "Encours"
 ];

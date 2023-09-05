@@ -615,38 +615,6 @@ export default {
                 this.justifications[date] = this.selectedJustification;
                 //checkrone must edit this to push to the table (backend)
             }
-
-            // const targetAbsence = this.absence.find((absenceObj) => {
-            //     console.log(absenceObj.employeeId, "absenceObjc");
-            //     console.log(this.beneficiaire().id, "beneficiaireId");
-            //     return absenceObj.employeeId == this.beneficiaire().id;
-            // });
-            // console.log("before targetabsence", targetAbsence);
-
-            // if (targetAbsence) {
-            //     const formattedStartDate = {
-            //         morning: {
-            //             start: this.getStartTime(this.startDate, "morning"),
-            //         },
-            //         afternoon: {
-            //             start: this.getStartTime(this.startDate, "afternoon"),
-            //         },
-            //     };
-
-            //     const formattedEndDate = {
-            //         morning: { end: this.getEndTime(this.endDate, "morning") },
-            //         afternoon: {
-            //             end: this.getEndTime(this.endDate, "afternoon"),
-            //         },
-            //     };
-
-            //     for (const date of this.selectedDates) {
-            //         targetAbsence.startDates[date] = formattedStartDate;
-            //         targetAbsence.endDates[date] = formattedEndDate;
-            //     }
-            // }
-            // console.log("target absence", targetAbsence);
-            // console.log("absences", this.absence);
             const newDemandeAbsence = {
                 id: this.demandesAbsences.length + 1,
                 demandeur: this.user.id,
@@ -657,6 +625,9 @@ export default {
                 authorisation: this.autorisation,
                 debutAbsenceDate: this.startDate,
                 endAbsenceDate: this.endDate,
+                visaDemandeur: this.visaDemandeur,
+                visaSuperviseur: this.visaSuperviseur,
+                visaAdmin: this.visaAdmin,
             };
             this.demandesAbsences.push(newDemandeAbsence);
             let message = "";

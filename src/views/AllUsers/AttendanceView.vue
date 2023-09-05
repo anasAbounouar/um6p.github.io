@@ -3,8 +3,11 @@
         <section id="attendance" class="vh-100 d-flex align-items-center">
             <div class="container">
                 <div class="row justify-content-center align-items-center">
-                    <div class="col-10 attendances-wrapper">
-                        <div>
+                    <div
+                        class="col-10 attendances-wrapper"
+                        data-aos="fade-down"
+                    >
+                        <div data-aos="fade-right">
                             <div
                                 class="attendance-wrapper"
                                 @click.prevent="goToPage('AttendanceJ')"
@@ -12,7 +15,7 @@
                                 <h5>Attendance de la journée</h5>
                             </div>
                         </div>
-                        <div>
+                        <div data-aos="fade-left">
                             <div
                                 class="attendance-wrapper"
                                 @click.prevent="goToPage('AttendanceM')"
@@ -20,7 +23,7 @@
                                 <h5>Attendance d’un mois</h5>
                             </div>
                         </div>
-                        <div>
+                        <div data-aos="fade-right">
                             <div
                                 class="attendance-wrapper"
                                 @click.prevent="goToPage('SyntheseM')"
@@ -28,7 +31,7 @@
                                 <h5>Synthèse du pointage du mois</h5>
                             </div>
                         </div>
-                        <div>
+                        <div data-aos="fade-left">
                             <div
                                 class="attendance-wrapper"
                                 @click.prevent="goToPage('SyntheseS')"

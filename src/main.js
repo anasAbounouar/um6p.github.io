@@ -10,14 +10,27 @@ import "./scss/framework.css";
 import "normalize.css";
 import "./scss/main.scss";
 import "./scss/all.min.css";
+import "aos/dist/aos.css"; // Import the AOS CSS
+import AOS from "aos";
 
 Vue.config.productionTip = false;
 
 Vue.use(Vuetify); // Use Vuetify
 
 new Vue({
+    created() {
+        AOS.init();
+    },
     router,
     store,
     vuetify: new Vuetify(), // Initialize Vuetify
     render: (h) => h(App),
 }).$mount("#app");
+Vue.use(
+    AOS.init({
+        duration: 800, // Duration of animations
+        easing: "ease-in-out", // Easing type
+        once: true, // Only trigger animations once
+        // More options...
+    })
+);

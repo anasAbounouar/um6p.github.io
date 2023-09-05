@@ -11,7 +11,7 @@
                     Dashboard
                 </h5>
             </div>
-            <div class="user-space-header">
+            <div class="user-space-header" @click="goToPage('myprofile-page')">
                 <!-- <div class="user-space-header" @click="toggleIcons"> -->
                 <h5 class="m-0" :class="{ active: isMyProfileActive }">
                     Mon espace
@@ -20,7 +20,10 @@
                 <i v-else class="fa fa-chevron-down"></i> -->
             </div>
             <div v-if="showIcons" class="user-space-icons">
-                <div class="user-space-icon" @click="goToPage('profile')">
+                <div
+                    class="user-space-icon"
+                    @click="goToPage('myprofile-page')"
+                >
                     <span :class="{ active: isProfilePageActive }"
                         >Mon profil</span
                     >
@@ -100,6 +103,7 @@
                         v-if="user.poste !== 'Technicien'"
                         class="m-0"
                         :class="{ active: isGestionRH }"
+                        @click="goToPage('RH-demandes-page')"
                     >
                         Gestion RH
                     </h5>
@@ -226,85 +230,123 @@ export default {
             // Prevent default link behavior
             event.preventDefault();
             const currentRouteName = this.$route.name;
-
-            if (page === "profile" && currentRouteName === "myprofile-page") {
-                // Already on the profile page, no need to navigate again
-                return;
-            } else if (
-                page === "mypassword-page" &&
-                currentRouteName === "mypassword-page"
-            ) {
-                // Already on the password page, no need to navigate again
-                return;
-            } else if (
-                page === "attendance-page" &&
-                currentRouteName === "attendance-page"
-            ) {
-                // Already on the attendance page, no need to navigate again
-                return;
-            } else if (
-                page === "hors-site-page" &&
-                currentRouteName === "hors-site-page"
-            ) {
-                // Already on the attendance page, no need to navigate again
-                return;
-            } else if (
-                page === "dashboard-page" &&
-                currentRouteName === "dashboard-page"
-            ) {
-                return;
-            } else if (
-                page === "bulletins-de-paie" &&
-                currentRouteName === "bulletins-de-paie"
-            ) {
+            // const redundant = [
+            //     "myprofile-page",
+            //     "mypassword-page",
+            //     "attendance-page",
+            //     "hors-site-page",
+            //     "dashboard-page",
+            //     "bulletins-de-paie",
+            //     "bulletin-de-paie-page",
+            //     "dossiers-mutuelles-page",
+            //     "demandes-page",
+            //     "pointage-page",
+            //     "planification-page",
+            //     "RH-demandes-page",
+            // ];
+            // for (const i of redundant) {
+            //     if (page === i && currentRouteName === i) {
+            //         return;
+            //     }
+            // }
+            if (page === currentRouteName) {
                 return;
             }
+
+            // if (page === "profile" && currentRouteName === "myprofile-page") {
+            //     // Already on the profile page, no need to navigate again
+            //     return;
+            // } else if (
+            //     page === "mypassword-page" &&
+            //     currentRouteName === "mypassword-page"
+            // ) {
+            //     // Already on the password page, no need to navigate again
+            //     return;
+            // } else if (
+            //     page === "attendance-page" &&
+            //     currentRouteName === "attendance-page"
+            // ) {
+            //     // Already on the attendance page, no need to navigate again
+            //     return;
+            // } else if (
+            //     page === "hors-site-page" &&
+            //     currentRouteName === "hors-site-page"
+            // ) {
+            //     // Already on the attendance page, no need to navigate again
+            //     return;
+            // } else if (
+            //     page === "dashboard-page" &&
+            //     currentRouteName === "dashboard-page"
+            // ) {
+            //     return;
+            // } else if (
+            //     page === "bulletins-de-paie" &&
+            //     currentRouteName === "bulletins-de-paie"
+            // ) {
+            //     return;
+            // } else if (
+            //     page === "bulletin-de-paie-page" &&
+            //     currentRouteName === "bulletin-de-paie-page"
+            // ) {
+            //     return;
+            // } else if (
+            //     page === "dossiers-mutuelles-page" &&
+            //     currentRouteName === "dossiers-mutuelles-page"
+            // ) {
+            //     return;
+            // } else if (
+            //     page === "demandes-page" &&
+            //     currentRouteName === "demandes-page"
+            // ) {
+            //     return;
+            // }
             // Add other checks for different pages if needed
+            this.$router.push({ name: page });
 
-            switch (page) {
-                case "dashboard-page":
-                    this.$router.push({ name: "dashboard-page" });
-                    break;
-                case "profile":
-                    this.$router.push({ name: "myprofile-page" });
-                    break;
-                case "mypassword-page":
-                    this.$router.push({ name: "mypassword-page" });
-                    break;
-                case "attendance-page":
-                    this.$router.push({ name: "attendance-page" });
-                    break;
-                // Add cases for other pages if needed
-                case "hors-site-page":
-                    this.$router.push({ name: "hors-site-page" });
-                    break;
-                case "bulletin-de-paie-page":
-                    this.$router.push({ name: "bulletin-de-paie-page" });
-                    break;
-                case "dossiers-mutuelles-page":
-                    this.$router.push({ name: "dossiers-mutuelles-page" });
-                    break;
-                case "demandes-page":
-                    this.$router.push({ name: "demandes-page" });
-                    break;
-                case "RH-employees-page":
-                    this.$router.push({ name: "RH-employees-page" });
-                    break;
-                case "pointage-page":
-                    this.$router.push({ name: "pointage-page" });
-                    break;
-                case "RH-employiiss-page":
-                    this.$router.push({ name: "RH-employiiss-page" });
-                    break;
-                case "planification-page":
-                    this.$router.push({ name: "planification-page" });
-                    break;
-                case "RH-demandes-page":
-                    this.$router.push({ name: "RH-demandes-page" });
-                    break;
-                default:
-                    console.warn(`Unknown page: ${page}`);
-            }
+            // switch (page) {
+            //     case "dashboard-page":
+            //         this.$router.push({ name: "dashboard-page" });
+            //         break;
+            //     case "myprofile-page":
+            //         this.$router.push({ name: "myprofile-page" });
+            //         break;
+            //     case "mypassword-page":
+            //         this.$router.push({ name: "mypassword-page" });
+            //         break;
+            //     case "attendance-page":
+            //         this.$router.push({ name: "attendance-page" });
+            //         break;
+            //     // Add cases for other pages if needed
+            //     case "hors-site-page":
+            //         this.$router.push({ name: "hors-site-page" });
+            //         break;
+            //     case "bulletin-de-paie-page":
+            //         this.$router.push({ name: "bulletin-de-paie-page" });
+            //         break;
+            //     case "dossiers-mutuelles-page":
+            //         this.$router.push({ name: "dossiers-mutuelles-page" });
+            //         break;
+            //     case "demandes-page":
+            //         this.$router.push({ name: "demandes-page" });
+            //         break;
+            //     case "RH-employees-page":
+            //         this.$router.push({ name: "RH-employees-page" });
+            //         break;
+            //     case "pointage-page":
+            //         this.$router.push({ name: "pointage-page" });
+            //         break;
+            //     case "RH-employiiss-page":
+            //         this.$router.push({ name: "RH-employiiss-page" });
+            //         break;
+            //     case "planification-page":
+            //         this.$router.push({ name: "planification-page" });
+            //         break;
+            //     case "RH-demandes-page":
+            //         this.$router.push({ name: "RH-demandes-page" });
+            //         break;
+            //     default:
+            //         console.warn(`Unknown page: ${page}`);
+            // }
         },
         signOut() {
             //clear  local storage

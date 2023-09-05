@@ -4,7 +4,7 @@
             <div class="container">
                 <div class="mt-3 row justify-content-center align-items-center">
                     <div class="col-10 demandes-wrapper">
-                        <div>
+                        <div data-aos="fade-right">
                             <div
                                 class="demande-wrapper"
                                 @click.prevent="goToPage('absence')"
@@ -12,7 +12,7 @@
                                 <h5>Autorisation d’absence</h5>
                             </div>
                         </div>
-                        <div>
+                        <div data-aos="fade-left">
                             <div
                                 class="demande-wrapper"
                                 @click.prevent="goToPage('presence')"

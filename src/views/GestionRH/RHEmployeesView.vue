@@ -38,7 +38,7 @@
                         </div>
                     </div>
                     <div class="col-12">
-                        <table>
+                        <table data-aos="fade-down">
                             <thead class="title">
                                 <th colspan="5">Liste des employees</th>
                                 <th

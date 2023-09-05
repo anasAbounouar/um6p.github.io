@@ -49,3 +49,6 @@ section  {
     // overflow: hidden; /* Hide any content that overflows the content area */
     padding-left: calc(var(--sidebar-width) + 25px);
 }
+body [data-aos]{
+    transition-duration: 99000ms;
+  }

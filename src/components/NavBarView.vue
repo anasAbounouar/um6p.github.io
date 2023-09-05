@@ -2,7 +2,10 @@
     <div>
         <nav class="navbar navbar-expand-lg bg-body-tertiary sticky-top">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#"
+                <a
+                    @click="goToPage('myprofile-page')"
+                    class="navbar-brand"
+                    href="#"
                     ><img src="@/assets/ferme2.png" alt="this is a logo"
                 /></a>
                 <button
@@ -17,21 +20,22 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav">
-                        <li class="nav-item me-3 notification">
+                    <ul class="navbar-nav" @click="goToPage('myprofile-page')">
+                        <!-- <li class="nav-item me-3 notification">
                             <a class="nav-link p-relative" href="#"
                                 ><i class="fa-regular fa-bell"></i
                             ></a>
-                        </li>
+                        </li> -->
                         <router-link
                             tag="li"
                             class="nav-item d-flex align-items-center"
                             to="/MyProfile"
                         >
                             <i class="fa-regular fa-user"></i>
-                            <a class="nav-link" href="#">{{
-                                user && user.nom
-                            }}</a>
+                            <a class="nav-link" href="#"
+                                >{{ user && user.nom }}
+                                {{ user && user.prenom }}</a
+                            >
                         </router-link>
                     </ul>
                 </div>
@@ -52,6 +56,16 @@ export default {
         if (user) {
             this.user = JSON.parse(user);
         }
+    },
+    methods: {
+        goToPage(page) {
+            const currentRouteName = this.$route.name;
+            // Prevent default link behavior
+            if (page === currentRouteName) {
+                return;
+            }
+            this.$router.push({ name: page });
+        },
     },
 };
 </script>

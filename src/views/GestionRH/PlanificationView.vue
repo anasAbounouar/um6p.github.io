@@ -249,7 +249,7 @@
                     <thead>
                         <tr>
                             <th rowspan="2">Name</th>
-                            <th :colspan="daysInMonth">
+                            <th scope="col" :colspan="daysInMonth">
                                 {{ months[selectedMonth - 1] }}
                             </th>
                         </tr>
@@ -757,9 +757,14 @@ export default {
             white-space: normal;
             word-wrap: break-word;
             overflow: hidden;
+            width: 36px; /* Set a fixed width for the square cells */
+            height: 36px; /* Set a fixed height for the square cells */
         }
 
         th[scope="row"] {
+            background-color: #f2f2f2;
+        }
+        th[scope="col"] {
             background-color: #f2f2f2;
         }
 

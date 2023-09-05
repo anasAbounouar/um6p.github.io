@@ -3,8 +3,11 @@
         <section id="RH-demandes" class="vh-100 d-flex align-items-center">
             <div class="container">
                 <div class="row justify-content-center align-items-center">
-                    <div class="col-10 RH-demandes-wrapper">
-                        <div>
+                    <div
+                        class="col-10 RH-demandes-wrapper"
+                        data-aos="fade-down"
+                    >
+                        <div data-aos="fade-down-right">
                             <div
                                 class="RH-demande-wrapper"
                                 @click.prevent="
@@ -14,33 +17,33 @@
                                 <h5>Demandes d'Absences</h5>
                             </div>
                         </div>
-                        <div>
+                        <div data-aos="fade-down-left">
                             <div class="RH-demande-wrapper" @click.prevent="">
                                 <h5>Demandes de Presence x</h5>
                             </div>
                         </div>
-                        <div>
+                        <div data-aos="fade-down-right">
                             <div class="RH-demande-wrapper" @click.prevent="">
                                 <h5>Demande de main d’oeuvre hors site x</h5>
                             </div>
                         </div>
-                        <div>
+                        <!-- <div>
                             <div class="RH-demande-wrapper" @click.prevent="">
                                 <h5>
                                     Demande hebdomadaire interne de la main
                                     d'œuvre x
                                 </h5>
                             </div>
-                        </div>
-                        <div>
+                        </div> -->
+                        <!-- <div>
                             <div class="RH-demande-wrapper" @click.prevent="">
                                 <h5>
                                     Informations pour la préparation d'ordre de
                                     mission x
                                 </h5>
                             </div>
-                        </div>
-                        <div>
+                        </div> -->
+                        <div data-aos="fade-down-left">
                             <div class="RH-demande-wrapper" @click.prevent="">
                                 <h5>Déplacements hors site x</h5>
                             </div>

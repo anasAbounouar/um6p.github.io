@@ -447,39 +447,109 @@ export default {
             ],
             attendanceJournée: [
                 {
-                    date: "2023-08-15",
+                    date: "2023-08-28",
                     JOEH: 8, // Jours ouvré en heures
                     HSUPP: 2,
                 },
                 {
-                    date: "2023-08-16",
-                    JOEH: 7,
-                    HSUPP: 3,
-                },
-                {
-                    date: "2023-08-17",
-                    JOEH: 8,
-                    HSUPP: 2,
-                },
-                {
-                    date: "2023-08-18",
-                    JOEH: 8,
-                    HSUPP: 2,
-                },
-                {
-                    date: "2023-08-19",
-                    JOEH: 7,
-                    HSUPP: 3,
-                },
-                {
-                    date: "2023-08-20",
-                    JOEH: 8,
-                    HSUPP: 2,
-                },
-                {
-                    date: "2023-08-21",
-                    JOEH: 2,
+                    date: "2023-08-29",
+                    JOEH: 6,
                     HSUPP: 0,
+                },
+                {
+                    date: "2023-08-30",
+                    JOEH: 8,
+                    HSUPP: 2,
+                },
+                {
+                    date: "2023-09-01",
+                    JOEH: 6,
+                    HSUPP: 0,
+                },
+                {
+                    date: "2023-09-02",
+                    JOEH: 7,
+                    HSUPP: 3,
+                },
+                {
+                    date: "2023-09-03",
+                    JOEH: 6,
+                    HSUPP: 0,
+                },
+                {
+                    date: "2023-09-04",
+                    JOEH: 8,
+                    HSUPP: 3,
+                },
+                {
+                    date: "2023-09-05",
+                    JOEH: 6,
+                    HSUPP: 0,
+                },
+                {
+                    date: "2023-09-06",
+                    JOEH: 8,
+                    HSUPP: 3,
+                },
+                {
+                    date: "2023-09-07",
+                    JOEH: 6,
+                    HSUPP: 0,
+                },
+                {
+                    date: "2023-09-08",
+                    JOEH: 8,
+                    HSUPP: 3,
+                },
+                {
+                    date: "2023-09-09",
+                    JOEH: 6,
+                    HSUPP: 0,
+                },
+                {
+                    date: "2023-09-10",
+                    JOEH: 8,
+                    HSUPP: 3,
+                },
+                {
+                    date: "2023-09-11",
+                    JOEH: 6,
+                    HSUPP: 0,
+                },
+                {
+                    date: "2023-09-12",
+                    JOEH: 8,
+                    HSUPP: 3,
+                },
+                {
+                    date: "2023-09-13",
+                    JOEH: 6,
+                    HSUPP: 0,
+                },
+                {
+                    date: "2023-09-14",
+                    JOEH: 8,
+                    HSUPP: 3,
+                },
+                {
+                    date: "2023-09-15",
+                    JOEH: 6,
+                    HSUPP: 0,
+                },
+                {
+                    date: "2023-09-16",
+                    JOEH: 8,
+                    HSUPP: 3,
+                },
+                {
+                    date: "2023-09-17",
+                    JOEH: 6,
+                    HSUPP: 0,
+                },
+                {
+                    date: "2023-09-18",
+                    JOEH: 8,
+                    HSUPP: 3,
                 },
             ],
             selectedDate: new Date().getDate(),
@@ -492,115 +562,112 @@ export default {
                 },
                 {
                     HS: 2,
-                    date: "2023-07-10",
-                },
-                {
-                    HS: 4,
-                    date: "2023-07-15",
-                },
-                {
-                    HS: 1,
-                    date: "2023-07-20",
-                },
-                {
-                    HS: 2,
-                    date: "2023-07-25",
-                },
-                {
-                    HS: 2,
-                    date: "2023-08-05",
-                },
-                {
-                    HS: 3,
                     date: "2023-08-10",
                 },
                 {
-                    HS: 1,
+                    HS: 4,
                     date: "2023-08-15",
                 },
                 {
-                    HS: 6,
-                    date: "2023-08-18",
-                },
-                {
-                    HS: 4,
+                    HS: 1,
                     date: "2023-08-20",
                 },
                 {
                     HS: 2,
                     date: "2023-08-25",
                 },
+                {
+                    HS: 2,
+                    date: "2023-09-05",
+                },
+                {
+                    HS: 3,
+                    date: "2023-09-10",
+                },
+                {
+                    HS: 1,
+                    date: "2023-09-15",
+                },
+                {
+                    HS: 6,
+                    date: "2023-09-18",
+                },
+                {
+                    HS: 4,
+                    date: "2023-09-20",
+                },
+                {
+                    HS: 2,
+                    date: "2023-09-25",
+                },
             ],
             heuresPresence: [
+                { HS: 6, date: "2023-09-01" },
+                { HS: 8, date: "2023-09-02" },
+                { HS: 8, date: "2023-09-03" },
+                { HS: 6, date: "2023-09-04" },
+                { HS: 8, date: "2023-09-05" },
+                { HS: 8, date: "2023-09-07" },
+                { HS: 6, date: "2023-09-08" },
+                { HS: 6, date: "2023-09-09" },
+                { HS: 8, date: "2023-09-10" },
+                { HS: 6, date: "2023-09-11" },
+                { HS: 6, date: "2023-09-12" },
+                { HS: 6, date: "2023-09-14" },
+                { HS: 8, date: "2023-09-15" },
+                { HS: 6, date: "2023-09-16" },
+                { HS: 8, date: "2023-09-17" },
+                { HS: 8, date: "2023-09-19" },
+                { HS: 6, date: "2023-09-21" },
+                { HS: 6, date: "2023-09-22" },
+                { HS: 8, date: "2023-09-23" },
+                { HS: 6, date: "2023-09-24" },
+                { HS: 8, date: "2023-09-26" },
+                { HS: 8, date: "2023-09-28" },
+                { HS: 6, date: "2023-09-29" },
+                { HS: 6, date: "2023-09-30" },
+                { HS: 6, date: "2023-09-31" },
                 { HS: 6, date: "2023-08-01" },
-                { HS: 8, date: "2023-08-02" },
+                { HS: 7, date: "2023-08-02" },
                 { HS: 8, date: "2023-08-03" },
                 { HS: 6, date: "2023-08-04" },
-                { HS: 8, date: "2023-08-05" },
-                { HS: 8, date: "2023-08-07" },
+                { HS: 6, date: "2023-08-05" },
+                { HS: 6, date: "2023-08-06" },
+                { HS: 6, date: "2023-08-07" },
                 { HS: 6, date: "2023-08-08" },
                 { HS: 6, date: "2023-08-09" },
-                { HS: 8, date: "2023-08-10" },
+                { HS: 6, date: "2023-08-10" },
                 { HS: 6, date: "2023-08-11" },
                 { HS: 6, date: "2023-08-12" },
+                { HS: 6, date: "2023-08-13" },
                 { HS: 6, date: "2023-08-14" },
-                { HS: 8, date: "2023-08-15" },
                 { HS: 6, date: "2023-08-16" },
-                { HS: 8, date: "2023-08-17" },
-                { HS: 8, date: "2023-08-19" },
+                { HS: 6, date: "2023-08-17" },
+                { HS: 6, date: "2023-08-18" },
+                { HS: 6, date: "2023-08-19" },
+                { HS: 6, date: "2023-08-20" },
                 { HS: 6, date: "2023-08-21" },
                 { HS: 6, date: "2023-08-22" },
-                { HS: 8, date: "2023-08-23" },
+                { HS: 6, date: "2023-08-23" },
                 { HS: 6, date: "2023-08-24" },
-                { HS: 8, date: "2023-08-26" },
-                { HS: 8, date: "2023-08-28" },
+                { HS: 6, date: "2023-08-25" },
+                { HS: 6, date: "2023-08-26" },
+                { HS: 6, date: "2023-08-27" },
+                { HS: 6, date: "2023-08-28" },
                 { HS: 6, date: "2023-08-29" },
                 { HS: 6, date: "2023-08-30" },
                 { HS: 6, date: "2023-08-31" },
-                { HS: 6, date: "2023-07-01" },
-                { HS: 7, date: "2023-07-02" },
-                { HS: 8, date: "2023-07-03" },
-                { HS: 6, date: "2023-07-04" },
-                { HS: 6, date: "2023-07-05" },
-                { HS: 6, date: "2023-07-06" },
-                { HS: 6, date: "2023-07-07" },
-                { HS: 6, date: "2023-07-08" },
-                { HS: 6, date: "2023-07-09" },
-                { HS: 6, date: "2023-07-10" },
-                { HS: 6, date: "2023-07-11" },
-                { HS: 6, date: "2023-07-12" },
-                { HS: 6, date: "2023-07-13" },
-                { HS: 6, date: "2023-08-14" },
-                { HS: 6, date: "2023-07-16" },
-                { HS: 6, date: "2023-07-17" },
-                { HS: 6, date: "2023-07-18" },
-                { HS: 6, date: "2023-07-19" },
-                { HS: 6, date: "2023-07-20" },
-                { HS: 6, date: "2023-07-21" },
-                { HS: 6, date: "2023-07-22" },
-                { HS: 6, date: "2023-07-23" },
-                { HS: 6, date: "2023-07-24" },
-                { HS: 6, date: "2023-07-25" },
-                { HS: 6, date: "2023-07-26" },
-                { HS: 6, date: "2023-07-27" },
-                { HS: 6, date: "2023-07-28" },
-                { HS: 6, date: "2023-07-29" },
-                { HS: 6, date: "2023-07-30" },
-                { HS: 6, date: "2023-07-31" },
-                { HS: 6, date: "2023-09-01" },
-                { HS: 7, date: "2023-09-02" },
-                { HS: 8, date: "2023-09-03" },
                 // ... continue for all days in September
                 { HS: 6, date: "2023-09-30" },
             ],
             ferieDays: [
                 {
-                    startDate: "2023-08-21",
-                    endDate: "2023-08-24",
+                    startDate: "2023-09-21",
+                    endDate: "2023-09-24",
                 },
                 {
-                    startDate: "2023-07-20",
-                    endDate: "2023-07-21",
+                    startDate: "2023-08-20",
+                    endDate: "2023-08-21",
                 },
             ],
             // selectedDate: new Date().toISOString().substr(0, 10),
@@ -887,24 +954,20 @@ section {
         border-radius: 4px;
     }
     .repos-cell {
-        background-color: var(--repos-color);
+        background-color: #dc3545;
         color: white;
     }
 
     .presence-cell {
-        background-color: var(
-            --presence-hour-color
-        ); /* Replace with your desired color for "Heures de présence" */
+        background-color: #28a745; /* Replace with your desired color for "Heures de présence" */
     }
 
     .supplementaires-cell {
-        background-color: var(
-            --heures-suplementaires-color
-        ); /* Replace with your desired color for "Heures supplémentaires" */
+        background-color: #007bff; /* Replace with your desired color for "Heures supplémentaires" */
     }
 
     .ferie {
-        background-color: var(--ferie-color) !important;
+        background-color: #9b59b6 !important;
     }
 }
 .legend {
@@ -927,29 +990,23 @@ section {
 
         /* Define colors for the legend */
         .presence {
-            background-color: var(
-                --presence-hour-color
-            ) !important; /* Replace with your desired color for "Heures de présence" */
+            background-color: #28a745 !important; /* Replace with your desired color for "Heures de présence" */
         }
 
         .WeekEnd {
-            background-color: var(
-                --WeekEnd-box-color
-            ) !important; /* Replace with your desired color for "Jour férié" */
+            background-color: #ffc107 !important; /* Replace with your desired color for "Jour férié" */
             color: white;
         }
 
         .supplementaires {
-            background-color: var(
-                --nature-color
-            ) !important; /* Replace with your desired color for "Heures supplémentaires" */
+            background-color: #007bff !important; /* Replace with your desired color for "Heures supplémentaires" */
         }
 
         .repos {
-            background-color: red; /* Replace with your desired color for "Repos" */
+            background-color: #dc3545; /* Replace with your desired color for "Repos" */
         }
         .ferie {
-            background-color: var(--ferie-color);
+            background-color: #9b59b6;
         }
     }
 }

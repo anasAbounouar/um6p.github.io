@@ -44,7 +44,7 @@
                             class="p-relative info-type"
                             :class="{ 'bg-l-h-c c-white': ParametresRH }"
                         >
-                            ParametresRH
+                            Parametres RH
                         </div>
 
                         <span v-if="ParametresRH">

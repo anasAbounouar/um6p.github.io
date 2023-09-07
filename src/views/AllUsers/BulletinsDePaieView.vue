@@ -3,7 +3,7 @@
         <section id="bulletins">
             <div class="container">
                 <h5>Bulletins de paie</h5>
-                <div class="mt-3">
+                <!-- <div class="mt-3">
                     <month-picker
                         @change="showDate"
                         :lang="fr"
@@ -13,7 +13,7 @@
                         :max-date="new Date()"
                         id="selectedMonth"
                     />
-                </div>
+                </div> -->
                 <div class="row mt-3">
                     <div class="col-12 d-flex align-items-center gap-10">
                         <div>Ajouter une demande</div>
@@ -108,14 +108,12 @@
     </div>
 </template>
 <script>
-import { MonthPicker } from "vue-month-picker";
+// import { MonthPicker } from "vue-month-picker";
 import bulletins from "@/Js/bulletins";
 import Swal from "sweetalert2";
 export default {
     name: "bulletin-de-paie-page",
-    components: {
-        MonthPicker,
-    },
+    components: {},
     data() {
         return {
             bulletins,

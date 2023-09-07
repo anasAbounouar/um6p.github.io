@@ -91,8 +91,13 @@
                     ></i>
                 </div>
                 <div class="user-space-icon" @click="goToPage('demandes-page')">
-                    <span>Demandes</span>
-                    <i class="fa fa-plus"></i>
+                    <span :class="{ active: isDemandesPageActive }"
+                        >Demandes</span
+                    >
+                    <i
+                        class="fa fa-plus"
+                        :class="{ active: isDemandesPageActive }"
+                    ></i>
                 </div>
             </div>
             <!-- Gestion RH -->
@@ -252,56 +257,7 @@ export default {
             if (page === currentRouteName) {
                 return;
             }
-
-            // if (page === "profile" && currentRouteName === "myprofile-page") {
-            //     // Already on the profile page, no need to navigate again
-            //     return;
-            // } else if (
-            //     page === "mypassword-page" &&
-            //     currentRouteName === "mypassword-page"
-            // ) {
-            //     // Already on the password page, no need to navigate again
-            //     return;
-            // } else if (
-            //     page === "attendance-page" &&
-            //     currentRouteName === "attendance-page"
-            // ) {
-            //     // Already on the attendance page, no need to navigate again
-            //     return;
-            // } else if (
-            //     page === "hors-site-page" &&
-            //     currentRouteName === "hors-site-page"
-            // ) {
-            //     // Already on the attendance page, no need to navigate again
-            //     return;
-            // } else if (
-            //     page === "dashboard-page" &&
-            //     currentRouteName === "dashboard-page"
-            // ) {
-            //     return;
-            // } else if (
-            //     page === "bulletins-de-paie" &&
-            //     currentRouteName === "bulletins-de-paie"
-            // ) {
-            //     return;
-            // } else if (
-            //     page === "bulletin-de-paie-page" &&
-            //     currentRouteName === "bulletin-de-paie-page"
-            // ) {
-            //     return;
-            // } else if (
-            //     page === "dossiers-mutuelles-page" &&
-            //     currentRouteName === "dossiers-mutuelles-page"
-            // ) {
-            //     return;
-            // } else if (
-            //     page === "demandes-page" &&
-            //     currentRouteName === "demandes-page"
-            // ) {
-            //     return;
-            // }
-            // Add other checks for different pages if needed
-            this.$router.push({ name: page });
+            this.$router.push({ name: page }) || "none";
 
             // switch (page) {
             //     case "dashboard-page":
@@ -395,14 +351,29 @@ export default {
         isDossiersMutuellesActive() {
             return this.$route.name === "dossiers-mutuelles-page";
         },
+        isDemandesPageActive() {
+            return (
+                this.$route.name === "demandes-page" ||
+                this.$route.name === "demande-details"
+            );
+        },
         isRHEmployees() {
-            return this.$route.name === "RH-employees-page";
+            return (
+                this.$route.name === "RH-employees-page" ||
+                this.$route.name === "RH-employees-details" ||
+                this.$route.name === "RH-employees-new"
+            );
         },
         isPointage() {
             return this.$route.name === "pointage-page";
         },
         isRHDemandes() {
-            return this.$route.name === "RH-demandes-page";
+            return (
+                this.$route.name === "RH-demandes-page" ||
+                this.$route.name === "RH-autorisation-absence" ||
+                this.$route.name === "RH-autorisation-absence-details" ||
+                this.$route.name === "demande-absence-page"
+            );
         },
         isPlanification() {
             return this.$route.name === "planification-page";

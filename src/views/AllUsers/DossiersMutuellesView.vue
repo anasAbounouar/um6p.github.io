@@ -3,7 +3,7 @@
     <div>
         <section id="dossiers-mutuelles">
             <h5>Bulletins de paie</h5>
-            <div class="my-3">
+            <!-- <div class="my-3">
                 <month-picker
                     @change="showDate"
                     :lang="fr"
@@ -13,7 +13,7 @@
                     :max-date="new Date()"
                     id="selectedMonth"
                 />
-            </div>
+            </div> -->
             <div class="dossiers-table">
                 <table class="w-full mt-3">
                     <thead>
@@ -41,12 +41,12 @@
     </div>
 </template>
 <script>
-import { MonthPicker } from "vue-month-picker";
+// import { MonthPicker } from "vue-month-picker";
 import dossiers from "@/Js/dossiers.js";
 export default {
     name: "dossiers-mutuelles-page",
     components: {
-        MonthPicker,
+        // MonthPicker,
     },
     data() {
         return {

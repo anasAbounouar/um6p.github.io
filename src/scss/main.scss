@@ -52,3 +52,42 @@ section  {
 body [data-aos]{
     transition-duration: 99000ms;
   }
+  .dropdown-content,
+  .dropdown-input {
+    width: 100%;
+    max-width: inherit!important;
+    // dyal di, autocomplete
+}
+.dropdown-input {
+        padding: 10px !important;
+        color: var(--bs-body-color) !important;
+    background-color: var(--bs-body-bg) !important;
+    background-clip: padding-box !important;
+    border: var(--bs-border-width) solid var(--bs-border-color) !important;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: border-color 0.2s ease-in-out;
+    &:focus {
+        outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25)
+    }
+
+
+
+}
+.dropdown-item {
+    font-size: unset!important;
+    line-height: 2em!important;
+    transition: background-color 0.2s;
+    &:hover {
+        background-color: #f0f0f0 !important;
+      }
+
+}
+.dropdown-content {
+    border: 1px solid #ccc !important;
+    border-top: none !important;
+    border-radius: 0 0 4px 4px !important;
+}

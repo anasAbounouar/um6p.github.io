@@ -48,7 +48,7 @@
                 class="custom-modal"
             >
                 <form @submit.prevent="addRepos" class="modal-form">
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <label for="employeeSearch"
                             >Sélectionnez un employé :</label
                         >
@@ -81,8 +81,23 @@
                                 {{ employee.prenom }} {{ employee.nom }}
                             </option>
                         </select>
-                    </div>
+                    </div> -->
 
+                    <div class="form-group">
+                        <div class="p-relative">
+                            <Dropdown
+                                :options="employeeIdWithName"
+                                v-model="selectedEmployee"
+                                v-on:selected="validateSelection"
+                                :disabled="false"
+                                name="zipcode"
+                                :maxItem="99"
+                                placeholder="Choisir un employé"
+                            >
+                            </Dropdown>
+                            <i class="fa-solid fa-caret-down"></i>
+                        </div>
+                    </div>
                     <div class="form-group">
                         <label for="startReposDate"
                             >Date de début du repos :</label
@@ -94,7 +109,6 @@
                             required
                         />
                     </div>
-
                     <div class="form-group">
                         <label for="endReposDate">Date de fin du repos :</label>
                         <input
@@ -126,38 +140,19 @@
             >
                 <form @submit.prevent="addCongé()" class="modal-form">
                     <div class="form-group">
-                        <label for="employeeSearch"
-                            >Sélectionnez un employé :</label
-                        >
-                        <input
-                            type="text"
-                            id="employeeSearch"
-                            v-model="searchText"
-                            class="form-control"
-                            placeholder="Rechercher un employé"
-                        />
-                    </div>
-
-                    <div class="form-group">
-                        <label for="selectedEmployee"
-                            >Employé sélectionné :</label
-                        >
-                        <select
-                            v-model="selectedEmployee"
-                            id="selectedEmployee"
-                            class="form-control"
-                        >
-                            <option value="" disabled selected hidden>
-                                Sélectionnez un employé
-                            </option>
-                            <option
-                                v-for="employee in filteredEmployees"
-                                :key="employee.id"
-                                :value="employee"
+                        <div class="p-relative">
+                            <Dropdown
+                                :options="employeeIdWithName"
+                                v-model="selectedEmployee"
+                                v-on:selected="validateSelection"
+                                :disabled="false"
+                                name="zipcode"
+                                :maxItem="99"
+                                placeholder="Choisir un employé"
                             >
-                                {{ employee.prenom }} {{ employee.nom }}
-                            </option>
-                        </select>
+                            </Dropdown>
+                            <i class="fa-solid fa-caret-down"></i>
+                        </div>
                     </div>
 
                     <div class="form-group">
@@ -361,16 +356,18 @@
 import employees from "@/Js/employees";
 import Swal from "sweetalert2";
 import absence from "@/Js/absence.js";
+import Dropdown from "vue-simple-search-dropdown";
 export default {
     name: "planification-page",
     components: {
         // VSelect, // Register the VSelect component
+        Dropdown,
     },
     data() {
         return {
             absence,
             searchText: "",
-            selectedEmployee: null,
+            selectedEmployee: "",
             dialogVisible: false,
             dialogVisibleFerie: false,
             dialogVisibleCongé: false,
@@ -395,33 +392,33 @@ export default {
             holidays: [
                 {
                     employeeId: 1,
-                    startDate: "2023-08-05",
-                    endDate: "2023-08-16",
+                    startDate: "2023-09-05",
+                    endDate: "2023-09-16",
                 }, // Example holiday data (employeeId and date range)
                 {
                     employeeId: 3,
-                    startDate: "2023-08-10",
-                    endDate: "2023-08-12",
+                    startDate: "2023-09-10",
+                    endDate: "2023-09-12",
                 },
                 // Add more holiday data as needed
             ],
             reposDays: [
                 {
                     employeeId: 1,
-                    startDate: "2023-08-29",
-                    endDate: "2023-08-29",
+                    startDate: "2023-09-29",
+                    endDate: "2023-09-29",
                 },
                 {
                     employeeId: 2,
-                    startDate: "2023-08-22",
-                    endDate: "2023-08-24",
+                    startDate: "2023-09-22",
+                    endDate: "2023-09-24",
                 },
                 // Add more repos days data as needed
             ],
             publicHolidays: [
                 {
-                    startDate: "2023-08-31",
-                    endDate: "2023-08-31",
+                    startDate: "2023-09-31",
+                    endDate: "2023-09-31",
                     name: "New Year's Day",
                 },
                 // Add more public holidays as needed
@@ -429,6 +426,19 @@ export default {
         };
     },
     computed: {
+        employeeIdWithName() {
+            let list = [];
+            for (const employee of this.employees) {
+                const myObj = {
+                    // wi will add 1 to id just to avoid the probleme of id==0 , because this dropdown doesnt like it !
+                    id: parseInt(employee.id + 1),
+                    name: `${employee.nom} ${employee.prenom}`,
+                };
+                list.push(myObj);
+            }
+            console.log(list);
+            return list;
+        },
         daysInMonth() {
             // Calculate the total number of days in the current month
             const year = this.selectedYear;
@@ -726,6 +736,25 @@ export default {
             // Close the dialog
             this.dialogVisibleFerie = false;
         },
+        validateSelection(selection) {
+            console.log("selection is ", selection);
+            const employeeId = parseInt(selection.id - 1);
+            // because before we added one . just some dropdown bullshit
+
+            this.selectedEmployee = this.getEmployeeById(employeeId);
+        },
+        getEmployeeById(employeeId) {
+            const selectedEmployee = this.employees.find((employee) => {
+                return employee.id === employeeId;
+            });
+
+            if (selectedEmployee) {
+                return selectedEmployee;
+            } else {
+                console.log("No employee found with the specified id.");
+                return null;
+            }
+        },
     },
 };
 </script>
@@ -820,6 +849,7 @@ export default {
         background-color: #bdc3c7; /* Grey color for Sundays */
     }
     b-modal {
+        box-shadow: 1px 1px 11px 0px grey;
         .custom-modal {
             max-width: 600px;
             width: 100%;
@@ -832,10 +862,17 @@ export default {
 
         .form-group {
             margin-bottom: 20px;
-            select {
+            dropdown {
                 margin-right: 0px;
                 width: 100%;
                 margin-left: 0px;
+                transition: 0.2s ease-in-out;
+            }
+            i {
+                position: absolute;
+                right: 10px;
+                top: 50%;
+                transform: translateY(-50%);
             }
         }
 
@@ -844,7 +881,7 @@ export default {
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 4px;
-            transition: border-color 0.2s ease-in-out;
+            transition: 0.2s ease-in-out;
         }
 
         .form-control:focus {
@@ -857,6 +894,9 @@ export default {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            button {
+                margin: 5px;
+            }
         }
 
         .btn {

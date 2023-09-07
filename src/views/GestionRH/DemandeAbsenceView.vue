@@ -31,52 +31,20 @@
                             </label>
                         </div>
                     </div>
-                    <div v-if="selectedTypeDemande === 'autre'" class="col-8">
+                    <div v-if="selectedTypeDemande === 'autre'" class="col-12">
                         <div>
-                            <form class="modal-form">
-                                <div class="form-group">
-                                    <label for="employeeSearch"
-                                        >Sélectionnez un employé :</label
-                                    >
-                                    <input
-                                        type="text"
-                                        id="employeeSearch"
-                                        v-model="searchText"
-                                        class="form-control"
-                                        placeholder="Rechercher un employé"
-                                    />
-                                </div>
-
-                                <div class="form-group p-relative">
-                                    <label for="selectedEmployee"
-                                        >Employé sélectionné :</label
-                                    >
-                                    <div class="p-relative">
-                                        <select
-                                            v-model="selectedEmployee"
-                                            id="selectedEmployee"
-                                            class="form-control"
-                                        >
-                                            <option
-                                                value=""
-                                                disabled
-                                                selected
-                                                hidden
-                                            >
-                                                Sélectionnez un employé
-                                            </option>
-                                            <option
-                                                v-for="employee in filteredEmployees"
-                                                :key="employee.id"
-                                                :value="employee"
-                                            >
-                                                {{ employee.prenom }}
-                                                {{ employee.nom }}
-                                            </option></select
-                                        ><i class="fa-solid fa-caret-down"></i>
-                                    </div>
-                                </div>
-                            </form>
+                            <div class="p-relative">
+                                <Dropdown
+                                    :options="employeeIdWithName"
+                                    v-on:selected="validateSelection"
+                                    :disabled="false"
+                                    name="zipcode"
+                                    :maxItem="99"
+                                    placeholder="Choisir un employé"
+                                >
+                                </Dropdown>
+                                <i class="fa-solid fa-caret-down"></i>
+                            </div>
                         </div>
                     </div>
                     <div
@@ -406,20 +374,6 @@
                             </form>
                         </div>
                     </div>
-                    <!-- <div>
-                        <v-autocomplete
-                            v-model="selectedEmployee"
-                            :items="this.autocompleteEmploye"
-                            item-text="prenomNom"
-                            item-value="id"
-                            placeholder="Sélectionnez un employé"
-                            clearable
-                            solo-inverted
-                            hide-no-data
-                            return-object
-                            @click="autocomplete()"
-                        ></v-autocomplete>
-                    </div> -->
                 </div>
             </div>
         </section>
@@ -431,21 +385,25 @@ import Swal from "sweetalert2";
 // import absence from "@/Js/absence";
 // import { VAutocomplete } from "vuetify/lib";
 import demandesAbsences from "@/Js/demandesAbsences";
+import Dropdown from "vue-simple-search-dropdown";
 
 import "vuetify/dist/vuetify.min.css"; // Ensure you import Vuetify's CSS
 export default {
     name: "demande-absence-page",
     components: {
         // VAutocomplete,
+        Dropdown,
     },
     data() {
         return {
+            selected: { name: null, id: null },
             demandesAbsences,
             user: null,
             employees,
             selectedTypeDemande: "autre",
             searchText: "",
             selectedEmployee: "",
+            // validateSelection: "",
             isEmployeeSelected: false,
             visas: ["Encours", "Non", "Oui"],
             typesJustifications: [
@@ -480,6 +438,8 @@ export default {
         };
     },
     computed: {
+        // selectedEmployee() {
+        // },
         filteredEmployees() {
             const filterText = this.searchText.toLowerCase();
             return this.employees.filter(
@@ -538,15 +498,42 @@ export default {
         prenomNom() {
             return (employee) => `${employee.prenom} ${employee.nom}`;
         },
+        employeeIdWithName() {
+            let list = [];
+            for (const employee of this.employees) {
+                if (this.user.id !== employee.id) {
+                    const myObj = {
+                        // wi will add 1 to id just to avoid the probleme of id==0 , because this dropdown doesnt like it !
+                        id: parseInt(employee.id + 1),
+                        name: `${employee.nom} ${employee.prenom}`,
+                    };
+                    list.push(myObj);
+                } else {
+                    continue;
+                }
+            }
+            console.log(list);
+            return list;
+        },
     },
     methods: {
-        autocomplete() {
-            let array = [];
-            this.employees.forEach((employee) => {
-                array.push(employee.nom + employee.prenom);
+        validateSelection(selection) {
+            const employeeId = parseInt(selection.id - 1);
+            // because before we added one
+
+            this.selectedEmployee = this.getEmployeeById(employeeId);
+        },
+        getEmployeeById(employeeId) {
+            const selectedEmployee = this.employees.find((employee) => {
+                return employee.id === employeeId;
             });
-            this.autocompleteEmploye = array;
-            return array;
+
+            if (selectedEmployee) {
+                return selectedEmployee;
+            } else {
+                console.log("No employee found with the specified id.");
+                return null;
+            }
         },
         beneficiaire() {
             if (this.selectedTypeDemande === "autre") {
@@ -720,16 +707,12 @@ export default {
 
     .form-group {
         margin-bottom: 20px;
-        select {
-            margin-right: 0px;
-            width: 100%;
-            margin-left: 0px;
-        }
     }
 
-    .form-control {
+    .form-control,
+    .dropdown {
         width: 100%;
-        padding: 10px;
+        // padding: 10px;
         border: 1px solid #ccc;
         border-radius: 4px;
         transition: border-color 0.2s ease-in-out;
@@ -840,7 +823,8 @@ export default {
         font-weight: bold;
         flex-shrink: 0;
     }
-    label {
+    label,
+    .dropdown {
         display: block;
         font-weight: bold;
         margin-bottom: 5px;

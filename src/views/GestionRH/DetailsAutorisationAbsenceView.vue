@@ -406,7 +406,7 @@ export default {
         };
     },
     methods: {
-        getEmployeeById(employeeId) {
+        getEmployeeByIdById(employeeId) {
             return this.employees.find((employee) => {
                 return employee.id === employeeId;
             });
@@ -487,7 +487,7 @@ export default {
                 return demande.id === this.demandeId;
             }).demandeur;
             console.log("hahiya demandeur Id ", demandeur);
-            return this.getEmployeeById(demandeur);
+            return this.getEmployeeByIdById(demandeur);
         },
         getBeneficiaire() {
             console.log(this.demandesAbsences);
@@ -495,7 +495,7 @@ export default {
                 return demande.id === this.demandeId;
             }).employeeId;
             console.log("hahiya demandeur Id ", employeeId);
-            return this.getEmployeeById(employeeId);
+            return this.getEmployeeByIdById(employeeId);
         },
         debutAbsenceDate() {
             const debutAbsenceDate = this.demandesAbsences.find((demande) => {

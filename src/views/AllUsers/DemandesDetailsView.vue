@@ -66,22 +66,26 @@
                                 </td>
                                 <td>
                                     {{
-                                        getEmployee(demandeAbsence.demandeur)
-                                            .prenom
+                                        getEmployeeById(
+                                            demandeAbsence.demandeur
+                                        ).prenom
                                     }}
                                     {{
-                                        getEmployee(demandeAbsence.demandeur)
-                                            .nom
+                                        getEmployeeById(
+                                            demandeAbsence.demandeur
+                                        ).nom
                                     }}
                                 </td>
                                 <td>
                                     {{
-                                        getEmployee(demandeAbsence.employeeId)
-                                            .prenom
+                                        getEmployeeById(
+                                            demandeAbsence.employeeId
+                                        ).prenom
                                     }}
                                     {{
-                                        getEmployee(demandeAbsence.employeeId)
-                                            .nom
+                                        getEmployeeById(
+                                            demandeAbsence.employeeId
+                                        ).nom
                                     }}
                                 </td>
                                 <td>
@@ -173,10 +177,11 @@ export default {
                 return this.demandesAbsences.filter((demandeAbsence) => {
                     return (
                         regex.test(
-                            this.getEmployee(demandeAbsence.demandeur).nom
+                            this.getEmployeeById(demandeAbsence.demandeur).nom
                         ) ||
                         regex.test(
-                            this.getEmployee(demandeAbsence.demandeur).prenom
+                            this.getEmployeeById(demandeAbsence.demandeur)
+                                .prenom
                         )
                     );
                 });
@@ -190,10 +195,11 @@ export default {
                 return this.demandesAbsences.filter((demandeAbsence) => {
                     return (
                         regex.test(
-                            this.getEmployee(demandeAbsence.employeeId).nom
+                            this.getEmployeeById(demandeAbsence.employeeId).nom
                         ) ||
                         regex.test(
-                            this.getEmployee(demandeAbsence.employeeId).prenom
+                            this.getEmployeeById(demandeAbsence.employeeId)
+                                .prenom
                         )
                     );
                 });
@@ -249,7 +255,7 @@ export default {
         },
     },
     methods: {
-        getEmployee(employeeId) {
+        getEmployeeById(employeeId) {
             return this.employees.find((employee) => {
                 return employee.id === employeeId;
             });

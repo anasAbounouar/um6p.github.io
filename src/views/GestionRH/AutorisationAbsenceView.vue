@@ -4,7 +4,7 @@
             <div class="container p-relative">
                 <div class="row">
                     <div class="col-12">
-                        <table>
+                        <table data-aos="fade-down">
                             <thead class="title">
                                 <th colspan="5">Liste des demandes</th>
                                 <th
@@ -74,24 +74,24 @@
                                     </td>
                                     <td>
                                         {{
-                                            getEmployee(
+                                            getEmployeeById(
                                                 demandeAbsence.demandeur
                                             ).prenom
                                         }}
                                         {{
-                                            getEmployee(
+                                            getEmployeeById(
                                                 demandeAbsence.demandeur
                                             ).nom
                                         }}
                                     </td>
                                     <td>
                                         {{
-                                            getEmployee(
+                                            getEmployeeById(
                                                 demandeAbsence.employeeId
                                             ).prenom
                                         }}
                                         {{
-                                            getEmployee(
+                                            getEmployeeById(
                                                 demandeAbsence.employeeId
                                             ).nom
                                         }}
@@ -133,7 +133,7 @@ export default {
         };
     },
     methods: {
-        getEmployee(employeeId) {
+        getEmployeeById(employeeId) {
             const selectedEmployee = this.employees.find((employee) => {
                 return employee.id === employeeId;
             });
@@ -186,10 +186,11 @@ export default {
                 return this.demandesAbsences.filter((demandeAbsence) => {
                     return (
                         regex.test(
-                            this.getEmployee(demandeAbsence.demandeur).nom
+                            this.getEmployeeById(demandeAbsence.demandeur).nom
                         ) ||
                         regex.test(
-                            this.getEmployee(demandeAbsence.demandeur).prenom
+                            this.getEmployeeById(demandeAbsence.demandeur)
+                                .prenom
                         )
                     );
                 });
@@ -203,10 +204,11 @@ export default {
                 return this.demandesAbsences.filter((demandeAbsence) => {
                     return (
                         regex.test(
-                            this.getEmployee(demandeAbsence.employeeId).nom
+                            this.getEmployeeById(demandeAbsence.employeeId).nom
                         ) ||
                         regex.test(
-                            this.getEmployee(demandeAbsence.employeeId).prenom
+                            this.getEmployeeById(demandeAbsence.employeeId)
+                                .prenom
                         )
                     );
                 });

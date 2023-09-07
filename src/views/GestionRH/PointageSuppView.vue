@@ -4,7 +4,7 @@
             <div class="container">
                 <h5 class="mx-3">
                     Ajout des heures supplementaires pour
-                    {{ getEmployee.prenom }} {{ getEmployee.nom }} le
+                    {{ getEmployeeById.prenom }} {{ getEmployeeById.nom }} le
                     {{ getselectedDate }}
                 </h5>
                 <div class="row align-items-center mt-3">
@@ -77,7 +77,7 @@ export default {
         };
     },
     computed: {
-        getEmployee() {
+        getEmployeeById() {
             const employeeId = this.$route.params.id;
             return this.employees.find((employee) => {
                 return employee.id === employeeId;
@@ -108,7 +108,7 @@ export default {
             }
         },
         validerHeuresSupp() {
-            const employeeId = this.getEmployee.id;
+            const employeeId = this.getEmployeeById.id;
             const selectedDate = this.getselectedDate;
             const heuresEntrée = this.suppEntrée;
             const heuresSortie = this.suppSortie;
@@ -151,7 +151,7 @@ export default {
             // Clear the input fields
             this.suppEntrée = "";
             this.suppSortie = "";
-            const employeeId = this.getEmployee.id;
+            const employeeId = this.getEmployeeById.id;
             const selectedDate = this.getselectedDate;
             const heuresEntrée = this.suppEntrée;
             const heuresSortie = this.suppSortie;

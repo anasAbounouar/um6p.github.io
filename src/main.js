@@ -28,8 +28,8 @@ new Vue({
 }).$mount("#app");
 Vue.use(
     AOS.init({
-        duration: 800, // Duration of animations
-        easing: "ease-in-out", // Easing type
+        duration: 200, // Duration of animations
+        easing: "ease", // Easing type
         once: true, // Only trigger animations once
         // More options...
     })

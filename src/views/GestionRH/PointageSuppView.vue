@@ -137,6 +137,7 @@ export default {
                 // // Clear the input fields after storing the data
                 // this.suppEntrée = "";
                 // this.suppSortie = "";
+                this.$router.push({ name: "pointage-page" });
             } else {
                 Swal.fire({
                     icon: "error",

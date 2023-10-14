@@ -403,12 +403,7 @@ export default {
 
 <style lang="scss" scoped>
 #sidebar {
-    // top: 87px;
-
-    // z-index: 99;
     width: var(--sidebar-width);
-    // min-height: 100%;
-    position: relative;
     z-index: 99;
     background-color: #f0f0f0;
     position: fixed;
